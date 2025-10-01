@@ -3,15 +3,15 @@ pub mod definition;
 pub mod mutexes;
 pub mod thread_parking;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         // Array Definition
-        definition::master(false);
+        definition::index(false);
 
         // Mutex in Practice
-        mutexes::master(false);
+        mutexes::index(false);
 
         // Thread Parking
-        thread_parking::master(false);
+        thread_parking::index(false);
     }
 }

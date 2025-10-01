@@ -18,7 +18,7 @@ fn greeting(name: &str) -> String {
     format!("Hello {name}")
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let large_rect = Rectangle {
             width: 10,
