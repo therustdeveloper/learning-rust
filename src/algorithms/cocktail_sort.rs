@@ -5,7 +5,7 @@ use crate::print_title;
 // inefficient for large lists and is generally not used in practice, with more efficient
 // sorting algorithms such as quicksort, merge sort, and heapsort being preferred.
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Cocktail Sort");
 

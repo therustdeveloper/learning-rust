@@ -45,7 +45,7 @@ pub fn index(show: bool) {
 
         iterator_next::index(false);
 
-        impl_iterator::master(false);
+        impl_iterator::index(false);
 
         mapping_and_filtering::master(false);
 

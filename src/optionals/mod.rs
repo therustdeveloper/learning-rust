@@ -3,7 +3,7 @@ pub mod activity;
 pub mod definition;
 pub mod unwrap_or_else;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Optionals");
 

@@ -6,7 +6,7 @@ pub fn master(show: bool) {
     if show {
         println!("\n-- While Loops");
 
-        definition::master(false);
+        definition::index(false);
 
         while_let::index(true);
     }

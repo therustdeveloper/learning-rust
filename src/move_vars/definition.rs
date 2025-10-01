@@ -20,7 +20,7 @@ fn display_light_with_borrow(light: &Light) {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Moving Variables");
 

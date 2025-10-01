@@ -1,12 +1,12 @@
 //! src/collections/mod.rs
 pub mod vectors;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         //common::print_title("COLLECTIONS");
         println!("\n-- Collections");
 
         // Vectors
-        vectors::master(false);
+        vectors::index(false);
     }
 }

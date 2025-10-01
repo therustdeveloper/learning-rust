@@ -1,5 +1,5 @@
 //! src/collections/vectors.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Vectors ---");
         let v = vec![1, 2, 3, 4, 5, 6, 7];

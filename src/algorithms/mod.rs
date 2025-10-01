@@ -7,27 +7,27 @@ pub mod merge_sort;
 pub mod quick_sort;
 pub mod selection_sort;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         // Quick Sort
-        quick_sort::master(false);
+        quick_sort::index(false);
 
         // Bubble Sort
-        bubble_sort::master(false);
+        bubble_sort::index(false);
 
         // Insertion Sort
-        insertion_sort::master(false);
+        insertion_sort::index(false);
 
         // Selection Sort
-        selection_sort::master(false);
+        selection_sort::index(false);
 
         // Merge Sort
-        merge_sort::master(false);
+        merge_sort::index(false);
 
         // Cocktail Sort
-        cocktail_sort::master(false);
+        cocktail_sort::index(false);
 
         // Comb Sort
-        comb_sort::master(false);
+        comb_sort::index(false);
     }
 }

@@ -1,5 +1,5 @@
 //! src/algorithms/insertion_sort.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Insertion Sort ---");
         println!("Sort numbers ascending");

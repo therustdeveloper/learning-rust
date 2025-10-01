@@ -24,9 +24,9 @@ pub fn index(show: bool) {
 
         compare_activity::index(false);
 
-        named_lifetime::master(false);
+        named_lifetime::index(false);
 
-        anonymous_lifetime::master(false);
+        anonymous_lifetime::index(false);
 
         multiple_lifetimes::index(false);
     }

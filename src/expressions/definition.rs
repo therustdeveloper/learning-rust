@@ -23,7 +23,7 @@ fn print_access_level(can_access_file: bool) {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Definition");
 

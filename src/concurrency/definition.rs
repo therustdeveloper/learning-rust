@@ -2,7 +2,7 @@
 use std::thread;
 use std::time::Duration;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Concurrency Definition");
 

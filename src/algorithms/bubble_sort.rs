@@ -1,5 +1,5 @@
 //! src/algorithms/bubble_sort.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Bubble Sort ---");
         println!("Sort numbers ascending");
