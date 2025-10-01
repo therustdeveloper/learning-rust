@@ -7,7 +7,7 @@ fn get_input() -> io::Result<String> {
     Ok(buffer.trim().to_owned())
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let mut all_input = vec![];
         let mut times_input = 0;

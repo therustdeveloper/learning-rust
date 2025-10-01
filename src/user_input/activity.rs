@@ -34,7 +34,7 @@ impl PowerState {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- User Input Activity");
 

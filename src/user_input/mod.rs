@@ -2,11 +2,11 @@
 pub mod activity;
 pub mod demo;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- User Input");
 
-        demo::master(false);
-        activity::master(true);
+        demo::index(false);
+        activity::index(true);
     }
 }
