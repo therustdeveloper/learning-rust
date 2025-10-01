@@ -1,6 +1,7 @@
 //! src/vectors/mod.rs
 pub mod create_vector;
 pub mod definition;
+pub mod sort_vector;
 
 pub fn index(show: bool) {
     if show {
@@ -9,5 +10,7 @@ pub fn index(show: bool) {
         definition::index(true);
 
         create_vector::index(false);
+
+        sort_vector::index(false);
     }
 }
