@@ -2,7 +2,7 @@
 use humantime::format_duration;
 use std::time::Duration;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- External Crates Demo");
 
