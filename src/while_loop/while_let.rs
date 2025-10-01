@@ -1,11 +1,13 @@
 //! src/while_loop/while_let.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- while let");
 
         simple_data();
 
         in_vector();
+
+        while_let_construct(false);
     }
 }
 
@@ -30,5 +32,15 @@ fn in_vector() {
     }*/
     for num in number_iter {
         println!("num: {:?}", num);
+    }
+}
+
+fn while_let_construct(show: bool) {
+    if show {
+        let mut sauces = vec!["Mayonaise", "Ketchup", "Ranch"];
+
+        while let Some(sauce) = sauces.pop() {
+            println!("The next sauce is: {}", sauce);
+        }
     }
 }

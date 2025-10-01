@@ -8,6 +8,6 @@ pub fn master(show: bool) {
 
         definition::master(false);
 
-        while_let::master(true);
+        while_let::index(true);
     }
 }
