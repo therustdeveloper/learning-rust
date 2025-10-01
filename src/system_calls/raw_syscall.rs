@@ -1,7 +1,7 @@
 //! src/system_calls/raw_syscall.rs
 //use std::arch::asm;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Raw Syscall");
 

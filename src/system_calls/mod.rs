@@ -2,10 +2,10 @@
 use crate::print_title;
 pub mod raw_syscall;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("System Calls");
 
-        raw_syscall::master(false);
+        raw_syscall::index(false);
     }
 }
