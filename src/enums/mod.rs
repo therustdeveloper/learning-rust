@@ -18,6 +18,7 @@ pub mod match_exact_value;
 pub mod matches;
 pub mod options;
 pub mod payment_method_type;
+pub mod result_enum;
 
 pub fn master(show: bool) {
     if show {
@@ -73,5 +74,8 @@ pub fn master(show: bool) {
 
         // Enum Emulator
         emulator::index(false);
+
+        // Result Enum
+        result_enum::index(false);
     }
 }
