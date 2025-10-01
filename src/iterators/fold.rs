@@ -5,7 +5,7 @@ struct CombinedEvents {
     data: Vec<String>,
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         fold_definition(false);
 

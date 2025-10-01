@@ -1,5 +1,5 @@
 //! src/iterators/activity.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Activity Using Iterators");
 

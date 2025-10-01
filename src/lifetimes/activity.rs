@@ -3,7 +3,7 @@ use crate::print_title;
 use std::fs::File;
 use std::io::{self, BufRead};
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Lifetimes Activity");
 

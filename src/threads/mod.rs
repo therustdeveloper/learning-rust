@@ -10,27 +10,27 @@ pub mod sending_multiple_values;
 pub mod sharing_data_between_threads;
 pub mod threads_in_array;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Threads");
 
-        definition::master(false);
+        definition::index(false);
 
-        preventing_race_condition::master(false);
+        preventing_race_condition::index(false);
 
-        mutexes::master(false);
+        mutexes::index(false);
 
-        sharing_data_between_threads::master(false);
+        sharing_data_between_threads::index(false);
 
-        message_passing_between_threads::master(false);
+        message_passing_between_threads::index(false);
 
-        move_data_between_threads::master(false);
+        move_data_between_threads::index(false);
 
-        threads_in_array::master(false);
+        threads_in_array::index(false);
 
-        scoped_threads::master(false);
+        scoped_threads::index(false);
 
-        sending_multiple_values::master(false);
+        sending_multiple_values::index(false);
 
         multithreading::index(false);
     }

@@ -42,7 +42,7 @@ impl Iterator for BookCollection {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Implementing iterator for your own types");
 

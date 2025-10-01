@@ -5,7 +5,7 @@ struct Shoe {
     style: String,
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- ITERATORS ---");
         creating_an_iterator();

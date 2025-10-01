@@ -28,6 +28,6 @@ pub fn index(show: bool) {
         hashmap_old_values::index(false);
 
         // HashMap Entry Method
-        hashmap_entry_method::master(false);
+        hashmap_entry_method::index(false);
     }
 }

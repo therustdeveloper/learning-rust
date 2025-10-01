@@ -1,7 +1,7 @@
 //! src/iterators/without_for.rs
 use std::vec;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Using functions");
 

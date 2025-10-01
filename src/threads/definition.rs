@@ -3,7 +3,7 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         definition(false);
         spawned_thread(false);

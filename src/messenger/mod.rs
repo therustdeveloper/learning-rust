@@ -2,10 +2,10 @@
 pub mod definition;
 pub mod mock_messenger;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Messenger");
 
-        definition::master(true);
+        definition::index(true);
     }
 }

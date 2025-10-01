@@ -25,25 +25,25 @@ pub fn index(show: bool) {
 
         definition::index(false);
 
-        demo::master(false);
+        demo::index(false);
 
-        activity::master(false);
+        activity::index(false);
 
-        partition::master(false);
+        partition::index(false);
 
-        iter_in_collections::master(false);
+        iter_in_collections::index(false);
 
-        extend::master(false);
+        extend::index(false);
 
-        scan_hash_table::master(false);
+        scan_hash_table::index(false);
 
-        nonfunctional_style::master(false);
+        nonfunctional_style::index(false);
 
-        functional_style::master(false);
+        functional_style::index(false);
 
-        without_for::master(false);
+        without_for::index(false);
 
-        iterator_next::master(false);
+        iterator_next::index(false);
 
         impl_iterator::master(false);
 

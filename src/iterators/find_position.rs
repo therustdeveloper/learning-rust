@@ -1,5 +1,5 @@
 //! src/iterators/find_position.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Iterators with find and position");
 

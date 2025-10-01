@@ -1,7 +1,7 @@
 //! src/iterators/iter_in_collections.rs
 use crate::print_title;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         // Most collection types provide iter and iter_mut methods that return the natural
         // iterators over the type, producing a shared or mutable reference to each item.

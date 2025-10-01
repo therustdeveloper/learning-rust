@@ -10,19 +10,19 @@ pub mod example;
 pub mod multiple_lifetimes;
 pub mod named_lifetime;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Lifetimes");
 
-        definition::master(false);
+        definition::index(false);
 
-        example::master(false);
+        example::index(false);
 
-        demo::master(false);
+        demo::index(false);
 
-        activity::master(false);
+        activity::index(false);
 
-        compare_activity::master(false);
+        compare_activity::index(false);
 
         named_lifetime::master(false);
 

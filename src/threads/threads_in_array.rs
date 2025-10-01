@@ -1,7 +1,7 @@
 //! src/threads/threads_in_array.rs
 use std::sync::{Arc, Mutex};
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("---Threads in array--");
 

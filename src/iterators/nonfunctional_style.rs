@@ -1,5 +1,5 @@
 //! src/iterators/nonfunctional_style.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Non-functional style");
 

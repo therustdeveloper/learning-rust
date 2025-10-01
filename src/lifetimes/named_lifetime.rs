@@ -5,7 +5,7 @@ struct City<'a> {
     date_founded: u32,
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Named Lifetime");
 
