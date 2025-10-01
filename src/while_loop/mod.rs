@@ -2,7 +2,7 @@
 pub mod definition;
 pub mod while_let;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- While Loops");
 
