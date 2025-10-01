@@ -1,5 +1,5 @@
 //! src/custom_smart_pointer/definition.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         definition();
     }

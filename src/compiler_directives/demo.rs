@@ -1,7 +1,7 @@
 //! src/compiler_directives/demo.rs
 #![allow(unused_variables)] // notice the exclamation mark
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("-- Compiler Directives - File Scope --");
 

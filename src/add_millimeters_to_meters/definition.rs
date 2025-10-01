@@ -15,7 +15,7 @@ impl Add<Meters> for Millimeters {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("-- Implementing the Add trait on Millimeters to add Millimeters and Meters");
 

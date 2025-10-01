@@ -13,7 +13,7 @@ pub fn index(show: bool) {
 
         show_message(false);
 
-        demo::master(false);
+        demo::index(false);
     }
 }
 

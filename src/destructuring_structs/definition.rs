@@ -1,5 +1,5 @@
 //! src/destructuring_structs/definition.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         definition();
         idiomatic_alternative();
