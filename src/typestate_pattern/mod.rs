@@ -4,12 +4,12 @@ use crate::print_title;
 pub mod activity;
 pub mod demo;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("TypeState Pattern");
 
-        demo::master(false);
+        demo::index(false);
 
-        activity::master(false);
+        activity::index(false);
     }
 }

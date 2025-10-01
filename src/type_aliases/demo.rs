@@ -11,7 +11,7 @@ type ContactName = String;
 type ContactIndex = HashMap<ContactName, Contact>;
 type Meters = i32;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Type Aliases Demo");
 

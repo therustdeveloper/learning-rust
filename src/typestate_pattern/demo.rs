@@ -55,7 +55,7 @@ impl Employee<Training> {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("TypeState Pattern Demo");
 

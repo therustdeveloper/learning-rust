@@ -3,12 +3,12 @@ use crate::print_title;
 pub mod demo;
 pub mod long_types;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Type Aliases");
 
-        demo::master(false);
+        demo::index(false);
 
-        long_types::master(false);
+        long_types::index(false);
     }
 }

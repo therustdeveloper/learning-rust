@@ -5,7 +5,7 @@ fn returns_some_chars(input: Vec<char>) -> SkipFourTakeFive {
     input.into_iter().skip(4).take(5)
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("---Long Types");
 
