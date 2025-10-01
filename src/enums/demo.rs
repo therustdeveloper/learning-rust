@@ -13,7 +13,7 @@ enum Status {
 }
 
 /// demo has three examples: [status, simple_demo, player_demo]
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Enum Demos");
 

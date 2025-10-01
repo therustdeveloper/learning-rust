@@ -20,36 +20,36 @@ pub mod options;
 pub mod payment_method_type;
 pub mod result_enum;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Enums");
 
         // Enum Demo
-        demo::master(false);
+        demo::index(false);
 
         // Enum Definition
-        definition::master(false);
+        definition::index(false);
 
         // Option Enums
         options::index(false);
 
         // Matches
-        matches::master(false);
+        matches::index(false);
 
         // Enum Multi Array
-        enum_multi_array::master(false);
+        enum_multi_array::index(false);
 
         // Enum with Match
-        enum_with_match::master(false);
+        enum_with_match::index(false);
 
         // Enum with Data
-        enum_with_data::master(false);
+        enum_with_data::index(false);
 
         // Event enum
-        event::master(false);
+        event::index(false);
 
         // Enum holding data
-        hold_data::master(false);
+        hold_data::index(false);
 
         // German Months
         german_months::index(false);

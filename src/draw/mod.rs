@@ -1,10 +1,10 @@
 //! src/draw/mod.rs
 pub mod definition;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Draw");
 
-        definition::master(true);
+        definition::index(true);
     }
 }

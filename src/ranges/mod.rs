@@ -1,10 +1,10 @@
 //! src/ranges/mod.rs
 pub mod demo;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Ranges");
 
-        demo::master(true);
+        demo::index(true);
     }
 }

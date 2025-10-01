@@ -94,7 +94,7 @@ where
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Complex Trait");
 

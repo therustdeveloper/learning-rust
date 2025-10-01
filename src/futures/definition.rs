@@ -13,7 +13,7 @@ async fn do_something(number: i8) -> i8 {
     2
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         option1();
 

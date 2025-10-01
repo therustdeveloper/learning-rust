@@ -1,5 +1,5 @@
 //! src/arrays/definition.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         definition(false);
 

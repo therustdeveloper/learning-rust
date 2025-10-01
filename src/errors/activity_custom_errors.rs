@@ -59,7 +59,7 @@ fn run(step: i32) -> Result<(), ProgramError> {
     Ok(())
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("{:?}", run(1));
         println!("{:?}", run(2));

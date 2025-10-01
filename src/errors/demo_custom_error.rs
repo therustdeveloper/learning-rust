@@ -48,7 +48,7 @@ fn use_pass(pass: &mut SubwayPass, cost: isize) -> Result<(), PassError> {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Demo Custom Error");
 

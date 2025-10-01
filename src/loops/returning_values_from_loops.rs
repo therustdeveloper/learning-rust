@@ -1,5 +1,5 @@
 //! src/loops/returning_values_from_loops.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Returning Values From Loops ---");
 

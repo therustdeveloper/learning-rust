@@ -17,7 +17,7 @@ impl Default for Package {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Default Trait");
 

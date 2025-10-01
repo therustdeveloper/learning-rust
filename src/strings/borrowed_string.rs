@@ -3,7 +3,7 @@ fn prints_str(my_str: &str) {
     println!("{my_str}");
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Borrowed String");
 

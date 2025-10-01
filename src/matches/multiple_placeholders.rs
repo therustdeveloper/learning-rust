@@ -1,5 +1,5 @@
 //! src/matches/multiple_placeholders.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Matches with several placeholders\n");
 

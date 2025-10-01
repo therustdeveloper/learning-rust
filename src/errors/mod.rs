@@ -8,20 +8,20 @@ pub mod demo_custom_error;
 pub mod error_handling;
 pub mod error_propagation;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Errors");
 
-        closures::master(false);
+        closures::index(false);
 
-        error_propagation::master(false);
+        error_propagation::index(false);
 
-        demo_custom_error::master(false);
+        demo_custom_error::index(false);
 
-        activity_custom_errors::master(false);
+        activity_custom_errors::index(false);
 
-        error_handling::master(false);
+        error_handling::index(false);
 
-        custom_errors::master(false);
+        custom_errors::index(false);
     }
 }

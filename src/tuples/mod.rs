@@ -2,12 +2,12 @@
 pub mod definition;
 pub mod single_tuple;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Tuples");
 
-        definition::master(false);
+        definition::index(false);
 
-        single_tuple::master(false);
+        single_tuple::index(false);
     }
 }

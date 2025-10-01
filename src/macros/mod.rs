@@ -2,11 +2,11 @@
 pub mod create_vector;
 pub mod definition;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Macros");
 
-        definition::master(false);
-        create_vector::master(false);
+        definition::index(false);
+        create_vector::index(false);
     }
 }

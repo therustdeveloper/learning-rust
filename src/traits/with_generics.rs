@@ -2,7 +2,7 @@
 use crate::print_title;
 use std::io::Write;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Traits with Generics");
 

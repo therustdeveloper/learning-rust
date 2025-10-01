@@ -12,7 +12,7 @@ enum Coin {
     Quarter(UsState),
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         value_in_cents(Coin::Penny);
         value_in_cents(Coin::Nickel);

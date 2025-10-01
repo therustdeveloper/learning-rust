@@ -1,5 +1,5 @@
 //! src/strings/concatenation.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let s1 = String::from("Hello, ");
         let s2 = String::from("world!");

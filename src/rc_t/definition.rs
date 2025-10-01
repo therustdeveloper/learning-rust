@@ -3,7 +3,7 @@ use crate::rc_t::definition::List::Cons;
 use crate::rc_t::definition::List::Nil;
 use std::rc::Rc;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("-- Working with Rc<T>");
         definition();

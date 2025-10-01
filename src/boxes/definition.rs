@@ -1,7 +1,7 @@
 //! src/boxes/definition.rs
 use crate::boxes::dereference::box_dereference;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("-- Using Box to Store Data on Heap");
         store_i32_on_heap();

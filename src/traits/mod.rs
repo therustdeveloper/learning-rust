@@ -17,53 +17,53 @@ pub mod returning_traits_with_dyn;
 pub mod simple_trait;
 pub mod with_generics;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Traits");
 
         // Trait Demo
-        demo::master(false);
+        demo::index(false);
 
         // Trait Activity
-        activity::master(false);
+        activity::index(false);
 
         // Trait Definition
-        definition::master(false);
+        definition::index(false);
 
         // Default Trait
-        default_trait::master(false);
+        default_trait::index(false);
 
         // Trait using Derive Attribute
-        derives::master(false);
+        derives::index(false);
 
         // Returning Traits with dyn
-        returning_traits_with_dyn::master(false);
+        returning_traits_with_dyn::index(false);
 
         // Media Aggregator
-        media_aggregator::master(false);
+        media_aggregator::index(false);
 
         // Demo Trait Objects
-        demo_trait_objets::master(false);
+        demo_trait_objets::index(false);
 
         // Activity Trait Objects
-        activity_trait_objects::master(false);
+        activity_trait_objects::index(false);
 
         // From Trait
-        from_trait::master(false);
+        from_trait::index(false);
 
         // With Generics
-        with_generics::master(false);
+        with_generics::index(false);
 
         // Simple Trait Example
-        simple_trait::master(false);
+        simple_trait::index(false);
 
         // Implement Display Trait
-        impl_display::master(false);
+        impl_display::index(false);
 
         // Implement Complex Trait
-        complex_trait::master(false);
+        complex_trait::index(false);
 
         // Copy Trait
-        copy_trait::master(false);
+        copy_trait::index(false);
     }
 }

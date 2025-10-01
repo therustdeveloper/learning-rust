@@ -35,7 +35,7 @@ impl File {
 
 use crate::print_title;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Open Files");
 

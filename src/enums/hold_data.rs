@@ -18,7 +18,7 @@ fn check_sky_state(state: &ThingsInTheSky) {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Enum holding data\n");
 

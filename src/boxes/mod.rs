@@ -2,10 +2,10 @@
 pub mod definition;
 pub mod dereference;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Boxes");
 
-        definition::master(true);
+        definition::index(true);
     }
 }

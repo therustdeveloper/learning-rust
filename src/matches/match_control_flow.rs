@@ -16,7 +16,7 @@ fn value_in_cents(coin: Coin) -> u8 {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Match Control Flow");
 

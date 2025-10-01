@@ -24,7 +24,7 @@ fn fall(thing: impl Fall) {
     thing.hit_ground();
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Trait Demo");
 

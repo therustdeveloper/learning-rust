@@ -30,7 +30,7 @@ fn print_perimeter(shape: impl Perimeter) {
     println!("Perimeter: {:?}", perimeter);
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Traits Activity");
 

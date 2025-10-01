@@ -7,7 +7,7 @@ fn one_two_three() -> (i32, i32, i32) {
     (1, 2, 3)
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Definition");
 

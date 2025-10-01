@@ -22,7 +22,7 @@ macro_rules! my_vector {
     )
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("---Create Vector");
 

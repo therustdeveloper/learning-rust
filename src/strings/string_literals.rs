@@ -1,5 +1,5 @@
 //! src/strings/string_literals.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("String Literals");
 

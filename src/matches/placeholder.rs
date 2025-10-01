@@ -1,5 +1,5 @@
 //! src/matches/placeholder.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Match with Placeholder");
 

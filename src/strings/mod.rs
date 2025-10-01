@@ -7,27 +7,27 @@ pub mod string_functions;
 pub mod string_is_encoded;
 pub mod string_literals;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         // String Definition
-        definition::master(false);
+        definition::index(false);
 
         // String Concatenation
-        concatenation::master(false);
+        concatenation::index(false);
 
         // Methods for Iterating Over Strings
-        iterate::master(false);
+        iterate::index(false);
 
         // String Functions
-        string_functions::master(false);
+        string_functions::index(false);
 
         // &str and String are encoded with UTF-8
-        string_is_encoded::master(false);
+        string_is_encoded::index(false);
 
         // String Literals
-        string_literals::master(false);
+        string_literals::index(false);
 
         // Borrowed String
-        borrowed_string::master(false);
+        borrowed_string::index(false);
     }
 }

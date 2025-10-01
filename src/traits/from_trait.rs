@@ -17,7 +17,7 @@ impl From<&str> for Uppercase {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("From Trait");
 

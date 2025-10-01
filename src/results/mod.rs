@@ -3,14 +3,14 @@ pub mod activity;
 pub mod definition;
 pub mod question_mark_operator;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Results");
 
-        definition::master(false);
+        definition::index(false);
 
-        activity::master(false);
+        activity::index(false);
 
-        question_mark_operator::master(true);
+        question_mark_operator::index(true);
     }
 }

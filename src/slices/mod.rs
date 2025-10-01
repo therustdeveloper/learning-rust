@@ -6,14 +6,14 @@ pub mod definition;
 pub mod mutable_slice;
 pub mod reference_array;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Slices");
 
         activity::slices_activity(false);
-        definition::master(false);
-        array_slices::master(false);
-        reference_array::master(false);
-        mutable_slice::master(false);
+        definition::index(false);
+        array_slices::index(false);
+        reference_array::index(false);
+        mutable_slice::index(false);
     }
 }

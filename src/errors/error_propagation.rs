@@ -3,7 +3,7 @@ use crate::print_title;
 use std::fs;
 use std::io;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Return Errors");
 

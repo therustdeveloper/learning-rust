@@ -4,7 +4,7 @@ enum SomeValue {
     IntValue(i32),
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Enums Multi Arrays");
         let multi_array: [SomeValue; 4] = [

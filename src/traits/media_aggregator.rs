@@ -1,5 +1,5 @@
 //! src/traits/media_aggregator.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Media Aggregator ---");
 

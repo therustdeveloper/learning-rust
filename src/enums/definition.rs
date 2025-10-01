@@ -7,7 +7,7 @@ enum IpAddr {
 }
 
 /// definition shows how to consume an enum
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let home = IpAddr::V4(String::from("127.0.0.1"));
         println!("The value of home is: {:?}", home);

@@ -4,7 +4,7 @@ pub mod comparing_numbers;
 pub mod complex_numbers;
 pub mod try_into_method;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("-- Numbers");
 

@@ -1,4 +1,4 @@
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let action_hero = String::from("Arnold Schwarzenegger");
         let first_name = &action_hero[0..6];

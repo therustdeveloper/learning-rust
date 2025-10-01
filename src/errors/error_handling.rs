@@ -1,7 +1,7 @@
 //! src/errors/error_handling.rs
 use std::fs::File;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Error Handling");
 

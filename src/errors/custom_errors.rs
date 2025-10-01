@@ -31,7 +31,7 @@ fn returns_errors(input: u8) -> Result<String, Box<dyn Error>> {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let vec_of_u8s = vec![0_u8, 1, 80];
 

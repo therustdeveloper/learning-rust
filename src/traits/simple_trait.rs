@@ -25,7 +25,7 @@ impl DogLike for Parrot {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Simple Trait Example");
 

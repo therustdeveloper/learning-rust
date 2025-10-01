@@ -41,7 +41,7 @@ enum RoughTime {
     InTheFuture(TimeUnit, u32),
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Enums with Data");
 

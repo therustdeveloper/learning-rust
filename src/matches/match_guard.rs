@@ -79,7 +79,7 @@ fn print_tile(tile: Tile) {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Match Guard");
 

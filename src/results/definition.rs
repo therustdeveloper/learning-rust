@@ -30,7 +30,7 @@ fn pick_choice(input: &str) -> Result<(), String> {
     Ok(())
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Results Definition");
 

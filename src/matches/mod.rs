@@ -10,27 +10,27 @@ pub mod pattern_match;
 pub mod placeholder;
 pub mod while_let;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Match Expression");
 
         definition::index(false);
 
-        if_let::master(false);
+        if_let::index(false);
 
-        match_guard::master(false);
+        match_guard::index(false);
 
-        catch_all::master(false);
+        catch_all::index(false);
 
-        placeholder::master(false);
+        placeholder::index(false);
 
-        multiple_placeholders::master(false);
+        multiple_placeholders::index(false);
 
-        match_vector::master(false);
+        match_vector::index(false);
 
-        while_let::master(false);
+        while_let::index(false);
 
-        match_control_flow::master(false);
+        match_control_flow::index(false);
 
         pattern_match::index(false);
     }

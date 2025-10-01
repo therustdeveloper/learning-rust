@@ -44,7 +44,7 @@ fn total_cost(material: &[Box<dyn Material>]) -> f64 {
     material.iter().map(|mat| mat.total_cost()).sum()
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Activity Trait Objects");
 

@@ -22,7 +22,7 @@ fn print_adult(adult: &Result<Adult, &str>) {
     println!("adult: {:?}", adult);
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Result Activity");
 

@@ -1,4 +1,4 @@
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let time = 2025;
         let year = time;

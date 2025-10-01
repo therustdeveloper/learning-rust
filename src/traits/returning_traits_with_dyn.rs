@@ -2,7 +2,7 @@
 struct Sheep {}
 struct Cow {}
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Returning Traits with Dyn ---");
         let random_number = 0.234;

@@ -17,7 +17,7 @@ fn print_excitedly(input: String) {
     println!("{input}!!!!!");
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Implement Display Trait");
 
