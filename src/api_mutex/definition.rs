@@ -1,7 +1,7 @@
 //! src/api_mutex/definition.rs
 use std::sync::Mutex;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("-- The API of Mutex<T>");
         definition();
