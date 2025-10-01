@@ -16,7 +16,7 @@ fn find_user(name: &str) -> Option<i32> {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Map Combinator");
 

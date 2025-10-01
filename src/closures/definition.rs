@@ -1,7 +1,7 @@
 //! src/closures/definition.rs
 use std::thread;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- CLOSURES ---");
         let store = Inventory {

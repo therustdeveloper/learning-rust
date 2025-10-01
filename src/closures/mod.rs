@@ -6,20 +6,20 @@ pub mod map_collect;
 pub mod map_combinator;
 pub mod process_closure_thread;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Closures");
 
-        definition::master(false);
+        definition::index(false);
 
-        process_closure_thread::master(false);
+        process_closure_thread::index(false);
 
-        demo::master(false);
+        demo::index(false);
 
-        map_combinator::master(true);
+        map_combinator::index(true);
 
-        closures_inside_methods::master(false);
+        closures_inside_methods::index(false);
 
-        map_collect::master(false);
+        map_collect::index(false);
     }
 }

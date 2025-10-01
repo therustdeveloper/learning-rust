@@ -1,5 +1,5 @@
 //! src/closures/closures_inside_methods.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Closures Inside Methods");
 

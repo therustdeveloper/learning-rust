@@ -4,7 +4,7 @@ use std::thread;
 
 use num::range;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Channels Definition\n");
 
