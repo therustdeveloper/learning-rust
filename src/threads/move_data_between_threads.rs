@@ -1,7 +1,7 @@
 //! src/threads/move_data_between_threads.rs
 use std::sync::{Arc, Mutex};
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("---Move data between threads---");
 
