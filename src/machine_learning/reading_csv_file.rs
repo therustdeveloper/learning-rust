@@ -1,17 +1,19 @@
 //! src/machine_learning/reading_csv_file.rs
-use std::fs::File;
 extern crate polars;
 use polars::prelude::*;
 
-pub fn master(show: bool) -> Result<()> {
+pub fn index(show: bool) -> Result<(), PolarsError> {
     if show {
         println!("--- Reading CSV File\n");
 
-        let file = File::open("./files/machine_learning/heart_attack_prediction_dataset.csv")?;
+        let options = CsvReadOptions::default()
+            .with_has_header(true)
+            .with_infer_schema_length(Some(100));
 
-        let df = CsvReader::new(file)
-            .infer_schema(Some(100))
-            .has_header(true)
+        let df = options
+            .try_into_reader_with_file_path(Some(
+                "./files/machine_learning/heart_attack_prediction_dataset.csv".into(),
+            ))?
             .finish()?;
 
         println!("DataFrame: {:?}", df.shape());
