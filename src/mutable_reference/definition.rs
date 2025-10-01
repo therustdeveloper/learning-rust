@@ -23,7 +23,7 @@ pub fn replace_with_84(s: &mut Box<i32>) {
     assert_ne!(*r, 84);
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         mut_definition(false);
 
