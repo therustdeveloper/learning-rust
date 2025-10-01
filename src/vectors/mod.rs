@@ -1,4 +1,5 @@
 //! src/vectors/mod.rs
+pub mod create_vector;
 pub mod definition;
 
 pub fn index(show: bool) {
@@ -6,5 +7,7 @@ pub fn index(show: bool) {
         println!("\n-- Vectors");
 
         definition::index(true);
+
+        create_vector::index(false);
     }
 }
