@@ -1,7 +1,7 @@
 //! src/unsafe_code/definition.rs
 use std::slice;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("-- Unsafe Code");
 
