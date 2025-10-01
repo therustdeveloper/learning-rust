@@ -8,7 +8,7 @@ pub fn index(show: bool) {
     if show {
         print_title("Variables and Mutability");
 
-        vars::master(false);
-        constants::master(false);
+        vars::index(false);
+        constants::index(false);
     }
 }

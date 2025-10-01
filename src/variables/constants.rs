@@ -1,7 +1,7 @@
 //! src/variables/constants.rs
 const TAX_RATE: f64 = 7.7;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Constants ---");
 
