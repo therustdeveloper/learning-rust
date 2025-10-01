@@ -1,5 +1,5 @@
 //! src/static_variable/definition.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("-- Accessing or Modifying a Mutable Static Variable");
 

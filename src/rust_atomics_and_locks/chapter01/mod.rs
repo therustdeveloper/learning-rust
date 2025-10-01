@@ -6,15 +6,15 @@ pub mod thread_leaking;
 pub mod thread_result;
 pub mod thread_scoped;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("---Chapter 01");
 
-        thread_basics::master(false);
-        thread_join::master(false);
-        thread_closure::master(false);
-        thread_result::master(false);
-        thread_scoped::master(false);
-        thread_leaking::master(true);
+        thread_basics::index(false);
+        thread_join::index(false);
+        thread_closure::index(false);
+        thread_result::index(false);
+        thread_scoped::index(false);
+        thread_leaking::index(true);
     }
 }

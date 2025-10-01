@@ -1,7 +1,7 @@
 //! src/rust_atomics_and_locks/chapter01/thread_scoped.rs
 use std::thread;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Scoped Thread");
 
