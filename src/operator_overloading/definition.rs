@@ -1,7 +1,7 @@
 //! src/operator_overloading/definition.rs
 use std::ops::Add;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         definition();
     }
