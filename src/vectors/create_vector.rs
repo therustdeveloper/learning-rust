@@ -4,7 +4,11 @@ pub fn index(show: bool) {
         println!("pizza diameters: {:?}", pizza_diameters);
 
         // If I know the data to store in the vector
-        let pizza_diameters = vec![8, 10, 12, 14];
+        let mut pizza_diameters = vec![8, 10, 12, 14];
+        println!("pizza diameters: {:?}", pizza_diameters);
+
+        // remove all the elements of a vector
+        pizza_diameters.clear();
         println!("pizza diameters: {:?}", pizza_diameters);
 
         let pastas: Vec<&str> = Vec::new();
