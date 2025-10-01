@@ -9,7 +9,11 @@ pub fn index(show: bool) {
         println!("Result Enum: {:?}", text_as_number);
 
         let result = divide(7.7, 7.7);
-        println!("Divide result: {:?}", result);
+
+        match result {
+            Ok(calculation) => println!("calculation result: {}", calculation),
+            Err(message) => println!("calculation error: {:?}", message),
+        }
     }
 }
 
