@@ -2,7 +2,7 @@
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("-- Tree Data Structure: A Node with Child Nodes");
         definition();
