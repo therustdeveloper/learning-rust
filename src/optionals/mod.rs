@@ -7,10 +7,10 @@ pub fn index(show: bool) {
     if show {
         println!("\n-- Optionals");
 
-        definition::master(false);
+        definition::index(false);
 
-        activity::master(false);
+        activity::index(false);
 
-        unwrap_or_else::master(false);
+        unwrap_or_else::index(false);
     }
 }

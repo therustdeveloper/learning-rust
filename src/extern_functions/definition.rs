@@ -1,5 +1,5 @@
 //! src/extern_functions/definition.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Using Extern Functions to Call External Code");
 

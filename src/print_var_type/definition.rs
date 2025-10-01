@@ -5,7 +5,7 @@ fn type_of<T>(_: &T) -> &'static str {
     type_name::<T>()
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Print variable type");
 

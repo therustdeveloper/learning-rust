@@ -27,7 +27,7 @@ fn comb_sort<T: std::cmp::PartialOrd>(arr: &mut [T]) {
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Comb Sort");
 

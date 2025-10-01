@@ -4,16 +4,16 @@ pub mod definition;
 pub mod mut_reference;
 pub mod ref_of_references;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- References");
 
-        definition::master(false);
+        definition::index(false);
 
-        ref_of_references::master(false);
+        ref_of_references::index(false);
 
-        basic_reference::master(false);
+        basic_reference::index(false);
 
-        mut_reference::master(false);
+        mut_reference::index(false);
     }
 }

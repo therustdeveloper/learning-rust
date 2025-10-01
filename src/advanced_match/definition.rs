@@ -5,7 +5,7 @@ enum Ticket {
     Vip(f64, String),
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Enum and Vectors");
 

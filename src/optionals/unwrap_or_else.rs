@@ -1,5 +1,5 @@
 //! src/optionals/unwrap_or_else.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Using unwrap_or_else to deal with None");
 

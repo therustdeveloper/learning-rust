@@ -1,7 +1,7 @@
 //! src/external_crates/activity.rs
 use chrono::prelude::*;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Activity External Crates");
 

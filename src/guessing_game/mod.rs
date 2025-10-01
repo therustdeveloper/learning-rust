@@ -3,6 +3,6 @@ pub mod guessing;
 
 pub fn index(show: bool) {
     if show {
-        guessing::master(false);
+        guessing::index(false);
     }
 }

@@ -2,7 +2,7 @@
 use crate::print_title;
 pub mod reading_csv_file;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Machine Learning");
 

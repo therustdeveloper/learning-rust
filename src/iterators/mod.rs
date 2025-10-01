@@ -47,18 +47,18 @@ pub fn index(show: bool) {
 
         impl_iterator::index(false);
 
-        mapping_and_filtering::master(false);
+        mapping_and_filtering::index(false);
 
-        filter_map::master(false);
+        filter_map::index(false);
 
-        result_option_ok::master(false);
+        result_option_ok::index(false);
 
-        rev::master(false);
+        rev::index(false);
 
-        find_position::master(false);
+        find_position::index(false);
 
-        fold::master(false);
+        fold::index(false);
 
-        skip::master(false);
+        skip::index(false);
     }
 }

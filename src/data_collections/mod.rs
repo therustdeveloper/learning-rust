@@ -2,12 +2,12 @@
 pub mod definition;
 pub mod shipping_box;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Data Collections");
 
-        definition::master(false);
+        definition::index(false);
 
-        shipping_box::master(false);
+        shipping_box::index(false);
     }
 }

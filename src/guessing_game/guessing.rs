@@ -3,7 +3,7 @@ use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("Guess the number!");
 
