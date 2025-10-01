@@ -1,5 +1,5 @@
 //! src/exercises/ex03/fah_to_cel.rs
-pub fn master() {
+pub fn index() {
     println!("--- Convert Fahrenheit-Celsius ---");
 
     let f = 26.0;

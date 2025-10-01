@@ -1,7 +1,7 @@
 //! src/exercises/ex08/vector.rs
 use std::collections::HashMap;
 
-pub fn master() {
+pub fn index() {
     println!("--- Vector and show the average, median and mode ---");
 
     let mut v = vec![

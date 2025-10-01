@@ -4,14 +4,14 @@ pub mod activity;
 pub mod definition;
 pub mod demo;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("New Type Pattern");
 
-        demo::master(false);
+        demo::index(false);
 
-        activity::master(false);
+        activity::index(false);
 
-        definition::master(false);
+        definition::index(false);
     }
 }

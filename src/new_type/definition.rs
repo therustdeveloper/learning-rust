@@ -8,7 +8,7 @@ fn connect(hostname: Hostname) {
     println!("connected to {}", hostname.0);
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("--- newtype Pattern");
 

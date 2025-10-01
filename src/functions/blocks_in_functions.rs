@@ -1,6 +1,6 @@
 //! src/functions/blocks_in_functions.rs
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let multiplier = 7;
 

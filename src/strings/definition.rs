@@ -1,5 +1,5 @@
 //! src/strings/definition.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- String Definition ---");
         let data = "This is a first string literal";

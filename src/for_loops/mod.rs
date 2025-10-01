@@ -2,7 +2,7 @@
 use crate::print_title;
 pub mod demo;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("For Loops");
 

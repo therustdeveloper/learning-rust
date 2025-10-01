@@ -1,7 +1,7 @@
 //! src/hashmaps/hashmap_entry_method.rs
 use std::collections::HashMap;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- HashMap Entry Method\n");
 

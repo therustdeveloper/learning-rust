@@ -1,5 +1,5 @@
 //! src/exercises/ex03/christmas_carol.rs
-pub fn master() {
+pub fn index() {
     println!("--- Lyrics to the Christmas Carol ---");
     christmas_carol();
 }

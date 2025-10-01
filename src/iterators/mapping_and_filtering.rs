@@ -1,5 +1,5 @@
 //! src/iterators/mapping_and_filtering.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Mapping and Filtering");
 

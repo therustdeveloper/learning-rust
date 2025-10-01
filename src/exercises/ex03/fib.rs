@@ -1,5 +1,5 @@
 //! src/exercises/ex03/fib.rs
-pub fn master() {
+pub fn index() {
     println!("--- Fibonacci Number ---");
     println!("Fibonacci 1st = {}", fib(1));
     println!("Fibonacci 2nd = {}", fib(2));

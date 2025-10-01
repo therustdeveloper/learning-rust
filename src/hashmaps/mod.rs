@@ -19,13 +19,13 @@ pub fn index(show: bool) {
         furniture::index(false);
 
         // HashMap in for
-        hashmap_loop::master(false);
+        hashmap_loop::index(false);
 
         // HashMap Get Method
-        hashmap_get::master(false);
+        hashmap_get::index(false);
 
         // HashMap Old Values
-        hashmap_old_values::master(false);
+        hashmap_old_values::index(false);
 
         // HashMap Entry Method
         hashmap_entry_method::master(false);

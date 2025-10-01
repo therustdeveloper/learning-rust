@@ -3,14 +3,14 @@ pub mod departments;
 pub mod pig_latin;
 pub mod vector;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n--- Chapter 08");
 
-        vector::master();
+        vector::index();
 
-        pig_latin::master();
+        pig_latin::index();
 
-        departments::master();
+        departments::index();
     }
 }

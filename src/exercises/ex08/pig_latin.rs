@@ -1,5 +1,5 @@
 //! src/exercises/ex08/pig_latin.rs
-pub fn master() {
+pub fn index() {
     println!("-- Convert strings to pig latin ---");
 
     let word = String::from("orange");

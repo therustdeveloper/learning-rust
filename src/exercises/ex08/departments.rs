@@ -26,7 +26,7 @@ impl Command {
     }
 }
 
-pub fn master() {
+pub fn index() {
     println!("--- Employee Departments ---");
 
     let mut employees: HashMap<String, Vec<String>> = HashMap::new();

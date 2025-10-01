@@ -19,7 +19,7 @@ fn divide(a: i32, b: NeverZero) -> i32 {
     a / b
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("New Type Pattern Demo");
 

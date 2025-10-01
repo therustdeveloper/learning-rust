@@ -3,7 +3,7 @@ fn add(a: i32, b: i32) -> i32 {
     a + b
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("function definition");
 

@@ -6,7 +6,7 @@ struct City {
     population: HashMap<i32, i32>,
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Hashmap in a for loop\n");
 

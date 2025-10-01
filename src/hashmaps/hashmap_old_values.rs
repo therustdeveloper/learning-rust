@@ -1,7 +1,7 @@
 //! src/hashmaps/hashmap_old_values.rs
 use std::collections::HashMap;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- HashMap Old Values");
 

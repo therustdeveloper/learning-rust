@@ -1,5 +1,5 @@
 //! src/iterators/extend.rs
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Iterating over Option");
 

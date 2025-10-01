@@ -19,11 +19,11 @@ pub mod scan_hash_table;
 pub mod skip;
 pub mod without_for;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("\n-- Iterators");
 
-        definition::master(false);
+        definition::index(false);
 
         demo::master(false);
 

@@ -33,19 +33,19 @@ pub fn index(show: bool) {
 
         vehicle::index(false);
 
-        generic_functions::master(false);
+        generic_functions::index(false);
 
         generic_enums::index(false);
 
-        generic_structs::master(false);
+        generic_structs::index(false);
 
-        question_operator::master(false);
+        question_operator::index(false);
 
-        generic_add::master(false);
+        generic_add::index(false);
 
-        generic_implementation::master(false);
+        generic_implementation::index(false);
 
-        generic_with_where::master(false);
+        generic_with_where::index(false);
 
         introduction::index(false);
 
