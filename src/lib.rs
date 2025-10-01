@@ -35,6 +35,7 @@ pub mod extern_functions;
 pub mod external_crates;
 pub mod files;
 pub mod for_loops;
+pub mod formatted_print;
 pub mod functions;
 pub mod futures;
 pub mod generics;

@@ -91,6 +91,7 @@ fn main() {
     common::deconstructing_float::index(false);
     common::zero_cost_abstraction::index(false);
     common::open_file::index(false);
+    common::formatted_print::index(false);
 }
 
 fn local_function(show: bool) {
