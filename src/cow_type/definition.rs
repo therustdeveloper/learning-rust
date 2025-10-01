@@ -24,7 +24,7 @@ fn generate_message(message: &'static str, error_info: Option<ErrorInfo>) -> Cow
     }
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("---Cow Definition");
 

@@ -17,21 +17,21 @@ pub mod multiple_generics;
 pub mod question_operator;
 pub mod vehicle;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Generics");
 
-        definition::master(false);
+        definition::index(false);
 
-        demo::master(false);
+        demo::index(false);
 
-        activity::master(false);
+        activity::index(false);
 
-        generic_structures::master(false);
+        generic_structures::index(false);
 
-        conveyor_belt::master(false);
+        conveyor_belt::index(false);
 
-        vehicle::master(false);
+        vehicle::index(false);
 
         generic_functions::master(false);
 

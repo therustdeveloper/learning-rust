@@ -33,7 +33,7 @@ impl Color for Red {}
 struct Blue;
 impl Color for Blue {}
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Vehicle With Generic Structures");
 

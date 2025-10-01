@@ -8,7 +8,7 @@ fn parse_i32_bytes(b: &[u8]) -> GenericResult<i32> {
     Ok(std::str::from_utf8(b)?.parse::<i32>()?)
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Question Operator");
 

@@ -40,7 +40,7 @@ fn print_guest_priority<T: Priority + std::fmt::Debug>(guest: T) {
     println!("{:?} is {:?} priority", guest, guest.get_priority());
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let guest = Guest {};
         let vip = ImportantGuest {};

@@ -1,7 +1,7 @@
 //! src/generics/definition.rs
 //use std::cmp;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Generic Function Definition ---");
         generic_function();

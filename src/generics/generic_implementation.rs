@@ -11,7 +11,7 @@ fn print_item<T: Debug>(item: T) {
     println!("Here is your item: {item:?}");
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Generic Implementation\n");
 

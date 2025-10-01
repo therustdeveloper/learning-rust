@@ -28,11 +28,11 @@ fn main() {
     common::messenger::index(false);
     common::tree_data_structure::index(false);
     common::threads::index(false);
-    common::joinhandle::master(false);
-    common::message_passing::master(false);
-    common::api_mutex::master(false);
-    common::object_oriented::master(false);
-    common::draw::master(false);
+    common::joinhandle::index(false);
+    common::message_passing::index(false);
+    common::api_mutex::index(false);
+    common::object_oriented::index(false);
+    common::draw::index(false);
     common::post::master(false);
     common::patterns::master(false);
     common::destructuring_structs::master(false);

@@ -2,7 +2,7 @@
 use crate::print_title;
 use std::collections::HashMap;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("HashMap Furniture Activity");
 

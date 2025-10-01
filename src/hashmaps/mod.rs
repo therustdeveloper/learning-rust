@@ -7,16 +7,16 @@ pub mod hashmap_get;
 pub mod hashmap_loop;
 pub mod hashmap_old_values;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         // HashMap Definition
-        definition::master(false);
+        definition::index(false);
 
         // HashMap Activity
-        activity::master(false);
+        activity::index(false);
 
         // HashMap Furniture Activity
-        furniture::master(false);
+        furniture::index(false);
 
         // HashMap in for
         hashmap_loop::master(false);

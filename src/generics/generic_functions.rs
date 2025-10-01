@@ -1,7 +1,7 @@
 //! src/generics/generic_functions.rs
 use crate::print_title;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         generic_functions(false);
     }

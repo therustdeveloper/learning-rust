@@ -9,7 +9,7 @@ fn do_something(number: i8) -> i8 {
     2
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         let now = time::Instant::now();
         let thread_one: JoinHandle<i8> = thread::spawn(|| do_something(1));

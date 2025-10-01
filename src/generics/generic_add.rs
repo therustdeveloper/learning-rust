@@ -4,7 +4,7 @@ use crate::print_title;
 use std::ops::Add;
 use std::time::Duration;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Generic Add");
 

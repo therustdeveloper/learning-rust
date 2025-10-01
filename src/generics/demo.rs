@@ -45,7 +45,7 @@ fn process_item<T: CheckIn>(item: T) {
     item.process();
 }
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         print_title("Generics Demo");
 

@@ -2,7 +2,7 @@
 use std::cmp::PartialOrd;
 use std::fmt::Display;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Generic with where\n");
 
