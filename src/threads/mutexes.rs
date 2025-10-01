@@ -8,7 +8,7 @@ To access the data, a thread must first acquire the mutex's lock.
 use std::sync::{Arc, Mutex};
 use std::thread;
 
-pub fn master(show: bool) {
+pub fn index(show: bool) {
     if show {
         println!("--- Mutexes");
 
