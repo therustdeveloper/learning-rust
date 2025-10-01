@@ -1,6 +1,6 @@
 # Learning Rust
 
-Starting date with Rust: Feb 27, 2023
+Starting date with Rust: Aug 17, 2022
 
 Organizing the repo in my GitHub Organization.
 
