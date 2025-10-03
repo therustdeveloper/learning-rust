@@ -23,7 +23,7 @@ Organizing the repo in my GitHub Organization.
 - Zero to Production in Rust ${\color{orange}[Done]}$
 - Rust Web Programming ${\color{orange}[Done]}$
 - Command-Line Rust ${\color{orange}[Done]}$
-- Rust Atomics and Locks ${\color{green}[In Progress]}$
+- Rust Atomics and Locks
 - Rust for Rustaceans
 - Rust in Action
 - Black Hat Rust
