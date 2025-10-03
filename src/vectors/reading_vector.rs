@@ -14,7 +14,7 @@ pub fn index(show: bool) {
 
         // this create a copy because integer implements the copy trait
         let value = pizza_diameters[2];
-        println!("value: {value}");
+        println!("pizza diameter: {value}");
 
         // cannot move out of index, because does not implements the copy trait
         //let topping = pizza_toppings[2];
