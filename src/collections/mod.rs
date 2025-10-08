@@ -1,5 +1,6 @@
 //! src/collections/mod.rs
 pub mod vectors;
+pub mod hashmaps;
 
 pub fn index(show: bool) {
     if show {
@@ -8,5 +9,8 @@ pub fn index(show: bool) {
 
         // Vectors
         vectors::index(false);
+
+        // HashMaps
+        hashmaps::index(false);
     }
 }
