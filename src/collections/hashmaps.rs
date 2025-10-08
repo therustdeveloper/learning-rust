@@ -28,7 +28,6 @@ pub fn index(show: bool) {
             println!("Age: {}", age);
         }
         if let Some(CharacterValue::Items(items)) = profile.get("items") {
-            println!("Items:");
             for item in items {
                 println!("- {}", item);
             }
