@@ -1,6 +1,5 @@
 //! src/traits/mod.rs
 use crate::print_title;
-
 pub mod activity;
 pub mod activity_trait_objects;
 pub mod complex_trait;
@@ -16,6 +15,7 @@ pub mod media_aggregator;
 pub mod returning_traits_with_dyn;
 pub mod simple_trait;
 pub mod with_generics;
+mod verifying_with_traits;
 
 pub fn index(show: bool) {
     if show {
@@ -65,5 +65,8 @@ pub fn index(show: bool) {
 
         // Copy Trait
         copy_trait::index(false);
+
+        // Verifying with Traits
+        verifying_with_traits::index(false);
     }
 }
