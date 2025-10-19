@@ -6,7 +6,6 @@ Organizing the repo in my GitHub Organization.
 
 ## Operating Systems
 
-- macOS
 - Debian 13
 
 ## Debian Requirements
@@ -15,35 +14,49 @@ Organizing the repo in my GitHub Organization.
 - pkg-config
 - fd-find
 
-## Books - Outdated
+## Books
 
-- The Rust Programming Language 2nd Edition ${\color{orange}[Done]}$
-- Programming Rust 2nd Edition ${\color{orange}[Done]}$
-- Rust Web Development ${\color{orange}[Done]}$
-- Zero to Production in Rust ${\color{orange}[Done]}$
-- Rust Web Programming ${\color{orange}[Done]}$
-- Command-Line Rust ${\color{orange}[Done]}$
-- Rust Atomics and Locks
-- Rust for Rustaceans
-- Rust in Action
-- Black Hat Rust
-- Rust Intermediate Mastering Backend
-- Rust Advanced Mastering Backend
-- Learn Rust in a month of lunches
-- Machine Learning with Rust
-- Effective Rust
-- Write Powerful Rust Macros
-- Ultimate Rust for Systems Programming ${\color{gree}[In Progress]}$
-- The Rust Handbook
-- Mastering Rust Programming
-- Asynchronous Programming in Rust
-- Rust Game Development Essentials
-- Tonic for Rust-based gRPC
-- Rust for Blockchain Application Development
+| Name                                        | Months                           | Read |
+|---------------------------------------------| -------------------------------- |------|
+| The Rust Programming Language 2nd Edition   | 3                                | ✳️   |
+| Rust Web Development                        | 3                                | ✳️   |
+| Zero to Production in Rust                  | 3                                | ✳️   |
+| Rust Web Programming                        | 3                                | ✳️   |
+| Ultimate Rust for Systems Programming       | 3                                | ✴️   |
+| Programming Rust 2nd Edition                | 4                                |      |
+| Command-Line Rust                           | 2                                |      |
+| Rust Atomics and Locks                      | 3                                |      |
+| Rust for Rustaceans                         | 3                                |      |
+| Rust in Action                              | 3                                |      |
+| Black Hat Rust                              | 3                                |      |
+| Rust Intermediate Mastering Backend         | 3                                |      |
+| Rust Advanced Mastering Backend             | 3                                |      |
+| Learn Rust in a Month of Lunches            | 2                                |      |
+| Machine Learning with Rust                  | 3                                |      |
+| Effective Rust                              | 2                                |      |
+| Write Powerful Rust Macros                  | 2                                |      |
+| The Rust Handbook                           | 1                                |      |
+| Mastering Rust Programming                  | 3                                |      |
+| Asynchronous Programming in Rust            | 2                                |      |
+| Rust Game Development Essentials            | 3                                |      |
+| Tonic for Rust-based gRPC                   | 2                                |      |
+| Rust for Blockchain Application Development | 3                                |      |
+| Hands-On Microservices with Rust            | 3                                |      |
+| Rust for Network Programming and Automation | 3                                |      |
+| Network Programming with Rust               | 3                                |      |
+| Async Rust                                  | 2                                |      |
+| Rust Web Development with Axum              | 3                                |      |
+| Idiomatic Rust                              | 2                                |      |
+| **Total**                                   | **78 Months / 6 Years 6 Months** |      |
+
+
+## Oct 19, 2025
+
+- 4 years and 2 months to read them.
 
 ## Courses
 
-- Zero to Mastery ${\color{orange}[Done]}$
+- Zero to Mastery ✴️
 - Learn to Code with Rust ${\color{green}[In Progress]}$ ★
 - Rust Programming Master Class: From Beginner to Expert
 - The Complete Rust Programming Course
