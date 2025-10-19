@@ -49,17 +49,14 @@ Organizing the repo in my GitHub Organization.
 | Idiomatic Rust                              | 2                                |      |
 | **Total**                                   | **78 Months / 6 Years 6 Months** |      |
 
-
-## Oct 19, 2025
-
-- 4 years and 2 months to read them.
-
 ## Courses
 
-- Zero to Mastery ✴️
-- Learn to Code with Rust ${\color{green}[In Progress]}$ ★
-- Rust Programming Master Class: From Beginner to Expert
-- The Complete Rust Programming Course
+| Name                                                   | Read |
+|--------------------------------------------------------|------|
+| Zero to Mastery                                        | ✳️   |
+| Learn to Code with Rust                                | ✴️   |
+| Rust Programming Master Class: From Beginner to Expert |      |
+| The Complete Rust Programming Course                   |      |
 
 ## Free Resources
 
