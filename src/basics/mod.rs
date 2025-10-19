@@ -32,7 +32,7 @@ pub fn index(show: bool) {
         print_title("BASICS");
 
         // Variables
-        variables::index(false);
+        variables::index(true);
 
         // Constants
         constants::index(false);
