@@ -17,7 +17,7 @@ Organizing the repo in my GitHub Organization.
 ## Books
 
 | Name                                        | Months                           | Read |
-|---------------------------------------------| -------------------------------- |------|
+|---------------------------------------------|----------------------------------|------|
 | The Rust Programming Language 2nd Edition   | 3                                | ✳️   |
 | Rust Web Development                        | 3                                | ✳️   |
 | Zero to Production in Rust                  | 3                                | ✳️   |
