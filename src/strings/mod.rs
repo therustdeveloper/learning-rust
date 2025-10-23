@@ -6,6 +6,7 @@ pub mod iterate;
 pub mod string_functions;
 pub mod string_is_encoded;
 pub mod string_literals;
+pub mod matches;
 
 pub fn index(show: bool) {
     if show {
@@ -29,5 +30,8 @@ pub fn index(show: bool) {
 
         // Borrowed String
         borrowed_string::index(false);
+
+        // String Matches
+        matches::index(false);
     }
 }
