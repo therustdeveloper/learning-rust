@@ -51,11 +51,6 @@ Organizing the repo in my GitHub Organization.
 | Code like a Prod in Rust                     |                 2                  |        |   ✴️   |
 | **Total**                                    |  **80 Months / 6 Years 8 Months**  |        |        |
 
-## Oct 18, 2025
-
-- In 3 years and 6 months I will study the books marked
-- The plan is to finish them at Jun 2029
-
 ## Courses
 
 | Name                                                   | Read |
