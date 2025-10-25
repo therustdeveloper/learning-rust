@@ -13,6 +13,7 @@ Organizing the repo in my GitHub Organization.
 - libssl-dev
 - pkg-config
 - fd-find
+- zlib1g-dev
 
 ## Books
 
