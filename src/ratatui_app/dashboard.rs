@@ -353,7 +353,7 @@ fn render_module_list(f: &mut Frame, app: &mut App, area: Rect) {
     let list = List::new(items)
         .block(
             Block::default()
-                .title(" Modules ")
+                .title(format!(" Modules ({}) ", app.modules.len()))
                 .title_style(Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD))
                 .borders(Borders::ALL)
                 .border_style(Style::default().fg(Color::White))
