@@ -45,6 +45,12 @@ struct App {
     webserver_output_rx: Option<mpsc::Receiver<String>>,
     webserver_running: bool,
     webserver_output: String, // Keep webserver output separate
+    // Futures threading support
+    futures_thread: Option<JoinHandle<()>>,
+    futures_shutdown: Arc<AtomicBool>,
+    futures_output_rx: Option<mpsc::Receiver<String>>,
+    futures_running: bool,
+    futures_output: String, // Keep futures output separate
 }
 
 impl App {
@@ -69,6 +75,11 @@ impl App {
             webserver_output_rx: None,
             webserver_running: false,
             webserver_output: String::new(),
+            futures_thread: None,
+            futures_shutdown: Arc::new(AtomicBool::new(false)),
+            futures_output_rx: None,
+            futures_running: false,
+            futures_output: String::new(),
         }
     }
 
@@ -87,16 +98,20 @@ impl App {
         self.scroll_state = self.scroll_state.position(i);
         self.selected_module = self.modules.get(i).cloned();
 
-        // Handle webserver state when navigating
-        if self.webserver_running {
-            if let Some(module) = &self.selected_module {
-                if module.name == "webserver" {
-                    // Navigated back to webserver - show output
-                    self.module_output = Some(self.webserver_output.clone());
-                } else {
-                    // Navigated away from webserver - clear output but keep webserver running
-                    self.module_output = None;
-                }
+        // Handle long-running modules when navigating
+        if let Some(module) = &self.selected_module {
+            if self.webserver_running && module.name == "webserver" {
+                // Navigated back to webserver - show output
+                self.module_output = Some(self.webserver_output.clone());
+            } else if self.futures_running && module.name == "futures" {
+                // Navigated back to futures - show output
+                self.module_output = Some(self.futures_output.clone());
+            } else if !self.webserver_running && !self.futures_running {
+                // No background tasks, clear output
+                self.module_output = None;
+            } else {
+                // Navigated away from running module - clear output but keep module running
+                self.module_output = None;
             }
         } else {
             self.module_output = None;
@@ -119,16 +134,20 @@ impl App {
         self.scroll_state = self.scroll_state.position(i);
         self.selected_module = self.modules.get(i).cloned();
 
-        // Handle webserver state when navigating
-        if self.webserver_running {
-            if let Some(module) = &self.selected_module {
-                if module.name == "webserver" {
-                    // Navigated back to webserver - show output
-                    self.module_output = Some(self.webserver_output.clone());
-                } else {
-                    // Navigated away from webserver - clear output but keep webserver running
-                    self.module_output = None;
-                }
+        // Handle long-running modules when navigating
+        if let Some(module) = &self.selected_module {
+            if self.webserver_running && module.name == "webserver" {
+                // Navigated back to webserver - show output
+                self.module_output = Some(self.webserver_output.clone());
+            } else if self.futures_running && module.name == "futures" {
+                // Navigated back to futures - show output
+                self.module_output = Some(self.futures_output.clone());
+            } else if !self.webserver_running && !self.futures_running {
+                // No background tasks, clear output
+                self.module_output = None;
+            } else {
+                // Navigated away from running module - clear output but keep module running
+                self.module_output = None;
             }
         } else {
             self.module_output = None;
@@ -232,6 +251,95 @@ impl App {
         self.module_output = Some(self.webserver_output.clone());
     }
 
+    /// Check if futures has new output and update display
+    fn check_futures_output(&mut self) {
+        if let Some(rx) = &self.futures_output_rx {
+            // Collect all available messages without blocking
+            while let Ok(msg) = rx.try_recv() {
+                // Sanitize the message to prevent terminal corruption
+                let clean_msg = Self::sanitize_output(&msg);
+                if !clean_msg.is_empty() {
+                    self.futures_output.push_str(&clean_msg);
+                    if !clean_msg.ends_with('\n') {
+                        self.futures_output.push('\n');
+                    }
+                }
+            }
+        }
+
+        // Check if thread has finished
+        if self.futures_running {
+            if let Some(handle) = &self.futures_thread {
+                if handle.is_finished() {
+                    self.futures_running = false;
+                    // Take the handle to join it
+                    if let Some(handle) = self.futures_thread.take() {
+                        let _ = handle.join();
+                    }
+                    self.futures_output_rx = None;
+
+                    // Append completion message
+                    self.futures_output.push_str("\n[Futures examples completed]\n");
+                }
+            }
+        }
+
+        // Update module_output if we're viewing futures
+        if let Some(module) = &self.selected_module {
+            if module.name == "futures" && !self.futures_output.is_empty() {
+                self.module_output = Some(self.futures_output.clone());
+            }
+        }
+    }
+
+    /// Stop the running futures
+    fn stop_futures(&mut self) {
+        if self.futures_running {
+            // Signal shutdown
+            self.futures_shutdown.store(true, Ordering::Relaxed);
+
+            // Wait for thread to finish (with timeout to prevent hanging)
+            if let Some(handle) = self.futures_thread.take() {
+                let _ = handle.join();
+            }
+
+            self.futures_running = false;
+            self.futures_output_rx = None;
+
+            // Update output
+            self.futures_output.push_str("\n[Futures stopped by user]\n");
+
+            // Update module_output if we're viewing futures
+            if let Some(module) = &self.selected_module {
+                if module.name == "futures" {
+                    self.module_output = Some(self.futures_output.clone());
+                }
+            }
+
+            // Reset shutdown flag for next run
+            self.futures_shutdown.store(false, Ordering::Relaxed);
+        }
+    }
+
+    /// Start the futures in a background thread
+    fn start_futures(&mut self) {
+        // Clear previous futures output
+        self.futures_output.clear();
+        self.futures_output.push_str("[Starting futures examples...]\n");
+
+        let (tx, rx) = mpsc::channel();
+        let shutdown_signal = self.futures_shutdown.clone();
+
+        let handle = thread::spawn(move || {
+            crate::futures::definition::run_with_shutdown(tx, shutdown_signal);
+        });
+
+        self.futures_thread = Some(handle);
+        self.futures_output_rx = Some(rx);
+        self.futures_running = true;
+        self.module_output = Some(self.futures_output.clone());
+    }
+
     fn run_module(&mut self) {
         if let Some(module) = &self.selected_module {
             self.output_scroll = 0;
@@ -247,6 +355,21 @@ impl App {
                 } else {
                     // Start webserver in background thread
                     self.start_webserver();
+                    return;
+                }
+            }
+
+            // Special handling for futures module
+            if module.name == "futures" {
+                if self.futures_running {
+                    // Already running - refresh and show current output
+                    self.check_futures_output();
+                    // Ensure the output is displayed
+                    self.module_output = Some(self.futures_output.clone());
+                    return;
+                } else {
+                    // Start futures in background thread
+                    self.start_futures();
                     return;
                 }
             }
@@ -383,9 +506,12 @@ pub fn run_app() -> io::Result<()> {
     let result = loop {
         terminal.draw(|f| ui(f, &mut app))?;
 
-        // Check for webserver output updates
+        // Check for long-running module output updates
         if app.webserver_running {
             app.check_webserver_output();
+        }
+        if app.futures_running {
+            app.check_futures_output();
         }
 
         // Use a timeout for event polling to allow periodic updates
@@ -394,9 +520,12 @@ pub fn run_app() -> io::Result<()> {
                 if key.kind == KeyEventKind::Press {
                     match key.code {
                         KeyCode::Char('q') | KeyCode::Esc => {
-                            // Stop webserver if running before quitting
+                            // Stop long-running modules before quitting
                             if app.webserver_running {
                                 app.stop_webserver();
+                            }
+                            if app.futures_running {
+                                app.stop_futures();
                             }
                             break Ok(());
                         }
@@ -404,9 +533,17 @@ pub fn run_app() -> io::Result<()> {
                         KeyCode::Up | KeyCode::Char('k') => app.previous(),
                         KeyCode::Enter => app.run_module(),
                         KeyCode::Char('s') | KeyCode::Char('x') => {
-                            // Stop webserver if running
+                            // Stop long-running modules if running
+                            let mut stopped_something = false;
                             if app.webserver_running {
                                 app.stop_webserver();
+                                stopped_something = true;
+                            }
+                            if app.futures_running {
+                                app.stop_futures();
+                                stopped_something = true;
+                            }
+                            if stopped_something {
                                 // Force a redraw to ensure clean UI after stopping
                                 terminal.clear()?;
                             }
@@ -567,9 +704,11 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
             " Output ".to_string()
         };
 
-        // Add running indicator if webserver is running
+        // Add running indicator for long-running modules
         if app.webserver_running {
             title = format!(" Output: webserver [RUNNING] ");
+        } else if app.futures_running {
+            title = format!(" Output: futures [RUNNING] ");
         }
 
         (title, Paragraph::new(output.as_str()))
@@ -615,6 +754,10 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
                         " - webserver is running, press to view output"
                     } else if module.name == "webserver" {
                         " to start webserver in background"
+                    } else if module.name == "futures" && app.futures_running {
+                        " - futures is running, press to view output"
+                    } else if module.name == "futures" {
+                        " to start futures in background"
                     } else {
                         " to run this module"
                     },
@@ -623,15 +766,17 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
             ]),
         ]);
 
-        // Add stop instruction if webserver is running
+        // Add stop instruction if long-running modules are active
         let mut text_lines = text.lines.clone();
-        if module.name == "webserver" && app.webserver_running {
+        if (module.name == "webserver" && app.webserver_running) ||
+           (module.name == "futures" && app.futures_running) {
+            let module_name = if module.name == "webserver" { "webserver" } else { "futures" };
             text_lines.push(Line::from(vec![
                 Span::styled("Press ", Style::default().fg(Color::DarkGray)),
                 Span::styled("s", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
                 Span::styled(" or ", Style::default().fg(Color::DarkGray)),
                 Span::styled("x", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
-                Span::styled(" to stop the webserver", Style::default().fg(Color::DarkGray)),
+                Span::styled(format!(" to stop the {}", module_name), Style::default().fg(Color::DarkGray)),
             ]));
         }
 
@@ -661,8 +806,8 @@ fn render_footer(f: &mut Frame, area: Rect, app: &App) {
         Span::raw("Run  "),
     ];
 
-    // Add stop key if webserver is running
-    if app.webserver_running {
+    // Add stop key if any long-running module is active
+    if app.webserver_running || app.futures_running {
         help_spans.push(Span::styled("s/x ", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)));
         help_spans.push(Span::raw("Stop  "));
     }
