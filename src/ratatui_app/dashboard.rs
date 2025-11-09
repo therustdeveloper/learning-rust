@@ -933,11 +933,11 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
 
         // Add running indicator for long-running modules
         if app.webserver_running {
-            title = format!(" Output: webserver [RUNNING] ");
+            title = " Output: webserver [RUNNING] ".to_string();
         } else if app.futures_running {
-            title = format!(" Output: futures [RUNNING] ");
+            title = " Output: futures [RUNNING] ".to_string();
         } else if app.network_running {
-            title = format!(" Output: network [RUNNING] ");
+            title = " Output: network [RUNNING] ".to_string();
         }
 
         (title, Paragraph::new(output.as_str()))
