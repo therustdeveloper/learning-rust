@@ -51,6 +51,12 @@ struct App {
     futures_output_rx: Option<mpsc::Receiver<String>>,
     futures_running: bool,
     futures_output: String, // Keep futures output separate
+    // Network threading support
+    network_thread: Option<JoinHandle<()>>,
+    network_shutdown: Arc<AtomicBool>,
+    network_output_rx: Option<mpsc::Receiver<String>>,
+    network_running: bool,
+    network_output: String, // Keep network output separate
 }
 
 impl App {
@@ -80,6 +86,11 @@ impl App {
             futures_output_rx: None,
             futures_running: false,
             futures_output: String::new(),
+            network_thread: None,
+            network_shutdown: Arc::new(AtomicBool::new(false)),
+            network_output_rx: None,
+            network_running: false,
+            network_output: String::new(),
         }
     }
 
@@ -106,7 +117,10 @@ impl App {
             } else if self.futures_running && module.name == "futures" {
                 // Navigated back to futures - show output
                 self.module_output = Some(self.futures_output.clone());
-            } else if !self.webserver_running && !self.futures_running {
+            } else if self.network_running && module.name == "network" {
+                // Navigated back to network - show output
+                self.module_output = Some(self.network_output.clone());
+            } else if !self.webserver_running && !self.futures_running && !self.network_running {
                 // No background tasks, clear output
                 self.module_output = None;
             } else {
@@ -142,7 +156,10 @@ impl App {
             } else if self.futures_running && module.name == "futures" {
                 // Navigated back to futures - show output
                 self.module_output = Some(self.futures_output.clone());
-            } else if !self.webserver_running && !self.futures_running {
+            } else if self.network_running && module.name == "network" {
+                // Navigated back to network - show output
+                self.module_output = Some(self.network_output.clone());
+            } else if !self.webserver_running && !self.futures_running && !self.network_running {
                 // No background tasks, clear output
                 self.module_output = None;
             } else {
@@ -340,6 +357,95 @@ impl App {
         self.module_output = Some(self.futures_output.clone());
     }
 
+    /// Check if network has new output and update display
+    fn check_network_output(&mut self) {
+        if let Some(rx) = &self.network_output_rx {
+            // Collect all available messages without blocking
+            while let Ok(msg) = rx.try_recv() {
+                // Sanitize the message to prevent terminal corruption
+                let clean_msg = Self::sanitize_output(&msg);
+                if !clean_msg.is_empty() {
+                    self.network_output.push_str(&clean_msg);
+                    if !clean_msg.ends_with('\n') {
+                        self.network_output.push('\n');
+                    }
+                }
+            }
+        }
+
+        // Check if thread has finished
+        if self.network_running {
+            if let Some(handle) = &self.network_thread {
+                if handle.is_finished() {
+                    self.network_running = false;
+                    // Take the handle to join it
+                    if let Some(handle) = self.network_thread.take() {
+                        let _ = handle.join();
+                    }
+                    self.network_output_rx = None;
+
+                    // Append completion message
+                    self.network_output.push_str("\n[Network server stopped]\n");
+                }
+            }
+        }
+
+        // Update module_output if we're viewing network
+        if let Some(module) = &self.selected_module {
+            if module.name == "network" && !self.network_output.is_empty() {
+                self.module_output = Some(self.network_output.clone());
+            }
+        }
+    }
+
+    /// Stop the running network server
+    fn stop_network(&mut self) {
+        if self.network_running {
+            // Signal shutdown
+            self.network_shutdown.store(true, Ordering::Relaxed);
+
+            // Wait for thread to finish (with timeout to prevent hanging)
+            if let Some(handle) = self.network_thread.take() {
+                let _ = handle.join();
+            }
+
+            self.network_running = false;
+            self.network_output_rx = None;
+
+            // Update output
+            self.network_output.push_str("\n[Network server stopped by user]\n");
+
+            // Update module_output if we're viewing network
+            if let Some(module) = &self.selected_module {
+                if module.name == "network" {
+                    self.module_output = Some(self.network_output.clone());
+                }
+            }
+
+            // Reset shutdown flag for next run
+            self.network_shutdown.store(false, Ordering::Relaxed);
+        }
+    }
+
+    /// Start the network server in a background thread
+    fn start_network(&mut self) {
+        // Clear previous network output
+        self.network_output.clear();
+        self.network_output.push_str("[Starting network server...]\n");
+
+        let (tx, rx) = mpsc::channel();
+        let shutdown_signal = self.network_shutdown.clone();
+
+        let handle = thread::spawn(move || {
+            crate::network::run_with_shutdown(tx, shutdown_signal);
+        });
+
+        self.network_thread = Some(handle);
+        self.network_output_rx = Some(rx);
+        self.network_running = true;
+        self.module_output = Some(self.network_output.clone());
+    }
+
     fn run_module(&mut self) {
         if let Some(module) = &self.selected_module {
             self.output_scroll = 0;
@@ -370,6 +476,21 @@ impl App {
                 } else {
                     // Start futures in background thread
                     self.start_futures();
+                    return;
+                }
+            }
+
+            // Special handling for network module
+            if module.name == "network" {
+                if self.network_running {
+                    // Already running - refresh and show current output
+                    self.check_network_output();
+                    // Ensure the output is displayed
+                    self.module_output = Some(self.network_output.clone());
+                    return;
+                } else {
+                    // Start network in background thread
+                    self.start_network();
                     return;
                 }
             }
@@ -513,6 +634,9 @@ pub fn run_app() -> io::Result<()> {
         if app.futures_running {
             app.check_futures_output();
         }
+        if app.network_running {
+            app.check_network_output();
+        }
 
         // Use a timeout for event polling to allow periodic updates
         if event::poll(std::time::Duration::from_millis(100))? {
@@ -526,6 +650,9 @@ pub fn run_app() -> io::Result<()> {
                             }
                             if app.futures_running {
                                 app.stop_futures();
+                            }
+                            if app.network_running {
+                                app.stop_network();
                             }
                             break Ok(());
                         }
@@ -541,6 +668,10 @@ pub fn run_app() -> io::Result<()> {
                             }
                             if app.futures_running {
                                 app.stop_futures();
+                                stopped_something = true;
+                            }
+                            if app.network_running {
+                                app.stop_network();
                                 stopped_something = true;
                             }
                             if stopped_something {
@@ -709,6 +840,8 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
             title = format!(" Output: webserver [RUNNING] ");
         } else if app.futures_running {
             title = format!(" Output: futures [RUNNING] ");
+        } else if app.network_running {
+            title = format!(" Output: network [RUNNING] ");
         }
 
         (title, Paragraph::new(output.as_str()))
@@ -758,6 +891,10 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
                         " - futures is running, press to view output"
                     } else if module.name == "futures" {
                         " to start futures in background"
+                    } else if module.name == "network" && app.network_running {
+                        " - network server is running, press to view output"
+                    } else if module.name == "network" {
+                        " to start network server in background"
                     } else {
                         " to run this module"
                     },
@@ -769,8 +906,15 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
         // Add stop instruction if long-running modules are active
         let mut text_lines = text.lines.clone();
         if (module.name == "webserver" && app.webserver_running) ||
-           (module.name == "futures" && app.futures_running) {
-            let module_name = if module.name == "webserver" { "webserver" } else { "futures" };
+           (module.name == "futures" && app.futures_running) ||
+           (module.name == "network" && app.network_running) {
+            let module_name = if module.name == "webserver" {
+                "webserver"
+            } else if module.name == "futures" {
+                "futures"
+            } else {
+                "network"
+            };
             text_lines.push(Line::from(vec![
                 Span::styled("Press ", Style::default().fg(Color::DarkGray)),
                 Span::styled("s", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
@@ -807,7 +951,7 @@ fn render_footer(f: &mut Frame, area: Rect, app: &App) {
     ];
 
     // Add stop key if any long-running module is active
-    if app.webserver_running || app.futures_running {
+    if app.webserver_running || app.futures_running || app.network_running {
         help_spans.push(Span::styled("s/x ", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)));
         help_spans.push(Span::raw("Stop  "));
     }
