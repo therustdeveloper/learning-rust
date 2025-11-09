@@ -20,6 +20,8 @@ use ratatui::{
 };
 use gag::BufferRedirect;
 use std::io::{self, Read};
+use std::sync::{Arc, atomic::{AtomicBool, Ordering}, mpsc};
+use std::thread::{self, JoinHandle};
 
 /// Module information structure
 #[derive(Clone)]
@@ -37,6 +39,11 @@ struct App {
     selected_module: Option<Module>,
     module_output: Option<String>,
     output_scroll: u16,
+    // Webserver threading support
+    webserver_thread: Option<JoinHandle<()>>,
+    webserver_shutdown: Arc<AtomicBool>,
+    webserver_output_rx: Option<mpsc::Receiver<String>>,
+    webserver_running: bool,
 }
 
 impl App {
@@ -56,6 +63,10 @@ impl App {
             selected_module,
             module_output: None,
             output_scroll: 0,
+            webserver_thread: None,
+            webserver_shutdown: Arc::new(AtomicBool::new(false)),
+            webserver_output_rx: None,
+            webserver_running: false,
         }
     }
 
@@ -95,11 +106,106 @@ impl App {
         self.output_scroll = 0;
     }
 
+    /// Check if webserver has new output and update display
+    fn check_webserver_output(&mut self) {
+        if let Some(rx) = &self.webserver_output_rx {
+            // Collect all available messages without blocking
+            let mut new_output = String::new();
+            while let Ok(msg) = rx.try_recv() {
+                new_output.push_str(&msg);
+                new_output.push('\n');
+            }
+
+            if !new_output.is_empty() {
+                if let Some(existing) = &self.module_output {
+                    self.module_output = Some(format!("{}{}", existing, new_output));
+                } else {
+                    self.module_output = Some(new_output);
+                }
+            }
+        }
+
+        // Check if thread has finished
+        if self.webserver_running {
+            if let Some(handle) = &self.webserver_thread {
+                if handle.is_finished() {
+                    self.webserver_running = false;
+                    // Take the handle to join it
+                    if let Some(handle) = self.webserver_thread.take() {
+                        let _ = handle.join();
+                    }
+                    self.webserver_output_rx = None;
+
+                    // Append completion message
+                    if let Some(output) = &self.module_output {
+                        self.module_output = Some(format!("{}\n[Webserver stopped]", output));
+                    } else {
+                        self.module_output = Some("[Webserver stopped]".to_string());
+                    }
+                }
+            }
+        }
+    }
+
+    /// Stop the running webserver
+    fn stop_webserver(&mut self) {
+        if self.webserver_running {
+            // Signal shutdown
+            self.webserver_shutdown.store(true, Ordering::Relaxed);
+
+            // Wait for thread to finish
+            if let Some(handle) = self.webserver_thread.take() {
+                let _ = handle.join();
+            }
+
+            self.webserver_running = false;
+            self.webserver_output_rx = None;
+
+            // Update output
+            if let Some(output) = &self.module_output {
+                self.module_output = Some(format!("{}\n[Webserver stopped by user]", output));
+            } else {
+                self.module_output = Some("[Webserver stopped by user]".to_string());
+            }
+
+            // Reset shutdown flag for next run
+            self.webserver_shutdown.store(false, Ordering::Relaxed);
+        }
+    }
+
+    /// Start the webserver in a background thread
+    fn start_webserver(&mut self) {
+        let (tx, rx) = mpsc::channel();
+        let shutdown_signal = self.webserver_shutdown.clone();
+
+        let handle = thread::spawn(move || {
+            crate::webserver::web::run_with_shutdown(tx, shutdown_signal);
+        });
+
+        self.webserver_thread = Some(handle);
+        self.webserver_output_rx = Some(rx);
+        self.webserver_running = true;
+        self.module_output = Some("[Starting webserver...]\n".to_string());
+    }
+
     fn run_module(&mut self) {
         if let Some(module) = &self.selected_module {
             self.output_scroll = 0;
 
-            // Capture stdout
+            // Special handling for webserver module
+            if module.name == "webserver" {
+                if self.webserver_running {
+                    // Already running - show current output and option to stop
+                    self.check_webserver_output();
+                    return;
+                } else {
+                    // Start webserver in background thread
+                    self.start_webserver();
+                    return;
+                }
+            }
+
+            // Capture stdout for other modules
             let mut buf = BufferRedirect::stdout().unwrap();
 
             // Call the module's index function
@@ -231,25 +337,45 @@ pub fn run_app() -> io::Result<()> {
     let result = loop {
         terminal.draw(|f| ui(f, &mut app))?;
 
-        if let Event::Key(key) = event::read()? {
-            if key.kind == KeyEventKind::Press {
-                match key.code {
-                    KeyCode::Char('q') | KeyCode::Esc => break Ok(()),
-                    KeyCode::Down | KeyCode::Char('j') => app.next(),
-                    KeyCode::Up | KeyCode::Char('k') => app.previous(),
-                    KeyCode::Enter => app.run_module(),
-                    KeyCode::Home => {
-                        app.list_state.select(Some(0));
-                        app.scroll_state = app.scroll_state.position(0);
-                        app.selected_module = app.modules.first().cloned();
+        // Check for webserver output updates
+        if app.webserver_running {
+            app.check_webserver_output();
+        }
+
+        // Use a timeout for event polling to allow periodic updates
+        if event::poll(std::time::Duration::from_millis(100))? {
+            if let Event::Key(key) = event::read()? {
+                if key.kind == KeyEventKind::Press {
+                    match key.code {
+                        KeyCode::Char('q') | KeyCode::Esc => {
+                            // Stop webserver if running before quitting
+                            if app.webserver_running {
+                                app.stop_webserver();
+                            }
+                            break Ok(());
+                        }
+                        KeyCode::Down | KeyCode::Char('j') => app.next(),
+                        KeyCode::Up | KeyCode::Char('k') => app.previous(),
+                        KeyCode::Enter => app.run_module(),
+                        KeyCode::Char('s') | KeyCode::Char('x') => {
+                            // Stop webserver if running
+                            if app.webserver_running {
+                                app.stop_webserver();
+                            }
+                        }
+                        KeyCode::Home => {
+                            app.list_state.select(Some(0));
+                            app.scroll_state = app.scroll_state.position(0);
+                            app.selected_module = app.modules.first().cloned();
+                        }
+                        KeyCode::End => {
+                            let last = app.modules.len() - 1;
+                            app.list_state.select(Some(last));
+                            app.scroll_state = app.scroll_state.position(last);
+                            app.selected_module = app.modules.get(last).cloned();
+                        }
+                        _ => {}
                     }
-                    KeyCode::End => {
-                        let last = app.modules.len() - 1;
-                        app.list_state.select(Some(last));
-                        app.scroll_state = app.scroll_state.position(last);
-                        app.selected_module = app.modules.get(last).cloned();
-                    }
-                    _ => {}
                 }
             }
         }
@@ -300,7 +426,7 @@ fn ui(f: &mut Frame, app: &mut App) {
     render_details_panel(f, app, main_chunks[1]);
 
     // Footer
-    render_footer(f, chunks[2]);
+    render_footer(f, chunks[2], app);
 }
 
 /// Render the header section
@@ -387,11 +513,16 @@ fn render_module_list(f: &mut Frame, app: &mut App, area: Rect) {
 fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
     let (title, content) = if let Some(output) = &app.module_output {
         // Show module output
-        let title = if let Some(module) = &app.selected_module {
+        let mut title = if let Some(module) = &app.selected_module {
             format!(" Output: {} ", module.name)
         } else {
             " Output ".to_string()
         };
+
+        // Add running indicator if webserver is running
+        if app.webserver_running {
+            title = format!(" Output: webserver [RUNNING] ");
+        }
 
         (title, Paragraph::new(output.as_str()))
     } else if let Some(module) = &app.selected_module {
@@ -431,11 +562,32 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
             Line::from(vec![
                 Span::styled("Press ", Style::default().fg(Color::DarkGray)),
                 Span::styled("Enter", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
-                Span::styled(" to run this module", Style::default().fg(Color::DarkGray)),
+                Span::styled(
+                    if module.name == "webserver" && app.webserver_running {
+                        " - webserver is running, press to view output"
+                    } else if module.name == "webserver" {
+                        " to start webserver in background"
+                    } else {
+                        " to run this module"
+                    },
+                    Style::default().fg(Color::DarkGray)
+                ),
             ]),
         ]);
 
-        (" Details ".to_string(), Paragraph::new(text))
+        // Add stop instruction if webserver is running
+        let mut text_lines = text.lines.clone();
+        if module.name == "webserver" && app.webserver_running {
+            text_lines.push(Line::from(vec![
+                Span::styled("Press ", Style::default().fg(Color::DarkGray)),
+                Span::styled("s", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
+                Span::styled(" or ", Style::default().fg(Color::DarkGray)),
+                Span::styled("x", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
+                Span::styled(" to stop the webserver", Style::default().fg(Color::DarkGray)),
+            ]));
+        }
+
+        (" Details ".to_string(), Paragraph::new(Text::from(text_lines)))
     } else {
         (" Details ".to_string(), Paragraph::new("No module selected"))
     };
@@ -451,14 +603,23 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
 }
 
 /// Render the footer section
-fn render_footer(f: &mut Frame, area: Rect) {
-    let help_text = Line::from(vec![
+fn render_footer(f: &mut Frame, area: Rect, app: &App) {
+    let mut help_spans = vec![
         Span::styled(" ↑/k ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
         Span::raw("Up  "),
         Span::styled("↓/j ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
         Span::raw("Down  "),
         Span::styled("Enter ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
         Span::raw("Run  "),
+    ];
+
+    // Add stop key if webserver is running
+    if app.webserver_running {
+        help_spans.push(Span::styled("s/x ", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)));
+        help_spans.push(Span::raw("Stop  "));
+    }
+
+    help_spans.extend(vec![
         Span::styled("Home ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
         Span::raw("First  "),
         Span::styled("End ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
@@ -466,6 +627,8 @@ fn render_footer(f: &mut Frame, area: Rect) {
         Span::styled("q/ESC ", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
         Span::raw("Quit"),
     ]);
+
+    let help_text = Line::from(help_spans);
 
     let footer = Paragraph::new(help_text)
         .alignment(Alignment::Center)
