@@ -8,8 +8,7 @@ use std::{
     net::{TcpListener, TcpStream},
     sync::{
         atomic::{AtomicBool, Ordering},
-        mpsc,
-        Arc,
+        mpsc, Arc,
     },
     thread,
     time::{Duration, Instant},
@@ -48,7 +47,10 @@ pub fn index(show: bool) {
             match listener.accept() {
                 Ok((stream, addr)) => {
                     count += 1;
-                    println!("[{}/{}] Connection received from: {}", count, max_connections, addr);
+                    println!(
+                        "[{}/{}] Connection received from: {}",
+                        count, max_connections, addr
+                    );
 
                     pool.execute(move || {
                         handle_connection(stream);
@@ -112,9 +114,15 @@ fn handle_connection(mut stream: TcpStream) {
         Ok(c) => c,
         Err(_) => {
             println!("  -> File {} not found, using placeholder", filename);
-            format!("<html><body><h1>{}</h1><p>File: {}</p></body></html>",
-                    if filename == "404.html" { "404 Not Found" } else { "Hello!" },
-                    filename)
+            format!(
+                "<html><body><h1>{}</h1><p>File: {}</p></body></html>",
+                if filename == "404.html" {
+                    "404 Not Found"
+                } else {
+                    "Hello!"
+                },
+                filename
+            )
         }
     };
 
@@ -171,7 +179,10 @@ pub fn run_with_shutdown(tx: mpsc::Sender<String>, shutdown: Arc<AtomicBool>) {
         match listener.accept() {
             Ok((stream, addr)) => {
                 count += 1;
-                let msg = format!("[{}/{}] Connection received from: {}", count, max_connections, addr);
+                let msg = format!(
+                    "[{}/{}] Connection received from: {}",
+                    count, max_connections, addr
+                );
                 send_msg(msg);
 
                 // Clone tx for the thread
@@ -236,10 +247,19 @@ fn handle_connection_with_channel(mut stream: TcpStream, tx: mpsc::Sender<String
     let contents = match fs::read_to_string(filename) {
         Ok(c) => c,
         Err(_) => {
-            send_msg(format!("  -> File {} not found, using placeholder", filename));
-            format!("<html><body><h1>{}</h1><p>File: {}</p></body></html>",
-                    if filename == "404.html" { "404 Not Found" } else { "Hello!" },
-                    filename)
+            send_msg(format!(
+                "  -> File {} not found, using placeholder",
+                filename
+            ));
+            format!(
+                "<html><body><h1>{}</h1><p>File: {}</p></body></html>",
+                if filename == "404.html" {
+                    "404 Not Found"
+                } else {
+                    "Hello!"
+                },
+                filename
+            )
         }
     };
 

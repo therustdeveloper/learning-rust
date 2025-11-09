@@ -1,7 +1,7 @@
 //! src/system_calls/mod.rs
 use crate::print_title;
-pub mod raw_syscall;
 pub mod c_call;
+pub mod raw_syscall;
 
 pub fn index(show: bool) {
     if show {

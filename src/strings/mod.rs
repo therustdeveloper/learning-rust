@@ -3,10 +3,10 @@ pub mod borrowed_string;
 pub mod concatenation;
 pub mod definition;
 pub mod iterate;
+pub mod matches;
 pub mod string_functions;
 pub mod string_is_encoded;
 pub mod string_literals;
-pub mod matches;
 
 pub fn index(show: bool) {
     if show {

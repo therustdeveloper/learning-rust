@@ -2,7 +2,10 @@
 use crate::print_title;
 use std::io::prelude::*;
 use std::net::TcpListener;
-use std::sync::{Arc, atomic::{AtomicBool, Ordering}, mpsc};
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    mpsc, Arc,
+};
 use std::{thread, time::Duration};
 
 pub fn index(show: bool) {
@@ -118,7 +121,10 @@ fn is_valid_ip_with_channel(ip_address: &str, tx: &mpsc::Sender<String>) -> bool
     true
 }
 
-fn server_with_shutdown(tx: &mpsc::Sender<String>, shutdown: &Arc<AtomicBool>) -> std::io::Result<()> {
+fn server_with_shutdown(
+    tx: &mpsc::Sender<String>,
+    shutdown: &Arc<AtomicBool>,
+) -> std::io::Result<()> {
     let listener = match TcpListener::bind("127.0.0.1:9090") {
         Ok(l) => l,
         Err(e) => {
@@ -153,7 +159,10 @@ fn server_with_shutdown(tx: &mpsc::Sender<String>, shutdown: &Arc<AtomicBool>) -
         match listener.accept() {
             Ok((mut stream, addr)) => {
                 connection_count += 1;
-                let _ = tx.send(format!("[{}/{}] Connection received from: {}", connection_count, max_connections, addr));
+                let _ = tx.send(format!(
+                    "[{}/{}] Connection received from: {}",
+                    connection_count, max_connections, addr
+                ));
 
                 let mut buffer = [0; 1024];
 
@@ -177,7 +186,10 @@ fn server_with_shutdown(tx: &mpsc::Sender<String>, shutdown: &Arc<AtomicBool>) -
                             let message = String::from_utf8_lossy(&buffer[0..bytes_read]);
                             let _ = tx.send(format!("  -> Received message: {}", message.trim()));
                         }
-                        Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock || e.kind() == std::io::ErrorKind::TimedOut => {
+                        Err(ref e)
+                            if e.kind() == std::io::ErrorKind::WouldBlock
+                                || e.kind() == std::io::ErrorKind::TimedOut =>
+                        {
                             // Timeout or would block, continue
                             break;
                         }

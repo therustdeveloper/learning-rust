@@ -15,11 +15,14 @@ pub fn index(show: bool) {
 
         profile.insert("name", CharacterValue::Name(String::from("Maxwell")));
         profile.insert("age", CharacterValue::Age(37));
-        profile.insert("items", CharacterValue::Items(vec![
-            String::from("laptop"),
-            String::from("book"),
-            String::from("coat"),
-        ]));
+        profile.insert(
+            "items",
+            CharacterValue::Items(vec![
+                String::from("laptop"),
+                String::from("book"),
+                String::from("coat"),
+            ]),
+        );
 
         if let Some(CharacterValue::Name(name)) = profile.get("name") {
             println!("Name: {}", name);

@@ -53,7 +53,6 @@ pub fn zlib_uncompress(source: &[u8], original_size: usize) -> Vec<u8> {
     }
 }
 
-
 pub fn index(show: bool) {
     if show {
         println!("--- Working with libc");

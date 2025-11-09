@@ -14,8 +14,8 @@ pub mod impl_display;
 pub mod media_aggregator;
 pub mod returning_traits_with_dyn;
 pub mod simple_trait;
-pub mod with_generics;
 mod verifying_with_traits;
+pub mod with_generics;
 
 pub fn index(show: bool) {
     if show {

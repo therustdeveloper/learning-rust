@@ -1,6 +1,6 @@
 //! src/collections/mod.rs
-pub mod vectors;
 pub mod hashmaps;
+pub mod vectors;
 
 pub fn index(show: bool) {
     if show {

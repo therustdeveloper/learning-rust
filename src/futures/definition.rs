@@ -3,9 +3,12 @@ use async_std;
 use futures::executor::block_on;
 use futures::future::join_all;
 use futures::join;
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    mpsc, Arc,
+};
 use std::vec::Vec;
 use std::{thread, time};
-use std::sync::{Arc, atomic::{AtomicBool, Ordering}, mpsc};
 
 async fn do_something(number: i8) -> i8 {
     println!("number {} is running", number);
@@ -135,7 +138,11 @@ pub fn run_with_shutdown(tx: mpsc::Sender<String>, shutdown: Arc<AtomicBool>) {
     send_msg("All futures examples completed!".to_string());
 }
 
-async fn do_something_with_channel(number: i8, tx: &mpsc::Sender<String>, shutdown: &Arc<AtomicBool>) -> i8 {
+async fn do_something_with_channel(
+    number: i8,
+    tx: &mpsc::Sender<String>,
+    shutdown: &Arc<AtomicBool>,
+) -> i8 {
     let _ = tx.send(format!("number {} is running", number));
 
     // Sleep in smaller increments to check shutdown signal
@@ -154,9 +161,7 @@ fn option1_with_channel(tx: &mpsc::Sender<String>, shutdown: &Arc<AtomicBool>) {
 
     let tx_clone = tx.clone();
     let shutdown_clone = shutdown.clone();
-    let future_one = async move {
-        do_something_with_channel(1, &tx_clone, &shutdown_clone).await
-    };
+    let future_one = async move { do_something_with_channel(1, &tx_clone, &shutdown_clone).await };
 
     // Sleep in smaller increments to allow shutdown
     for _ in 0..20 {
@@ -191,7 +196,10 @@ fn using_futures_async_with_channel(tx: &mpsc::Sender<String>, shutdown: &Arc<At
     };
 
     let future_outcome = block_on(future_three);
-    let _ = tx.send(format!("Here is the outcome with async: {:?}", future_outcome));
+    let _ = tx.send(format!(
+        "Here is the outcome with async: {:?}",
+        future_outcome
+    ));
 }
 
 fn using_futures_join_with_channel(tx: &mpsc::Sender<String>, shutdown: &Arc<AtomicBool>) {
@@ -218,7 +226,10 @@ fn using_futures_join_with_channel(tx: &mpsc::Sender<String>, shutdown: &Arc<Ato
     let _ = tx.send(format!("here is the result: {:?}", result));
 }
 
-fn run_multiple_futures_at_once_with_channel(tx: &mpsc::Sender<String>, shutdown: &Arc<AtomicBool>) {
+fn run_multiple_futures_at_once_with_channel(
+    tx: &mpsc::Sender<String>,
+    shutdown: &Arc<AtomicBool>,
+) {
     let _ = tx.send("\n-- Running multiple futures at once".to_string());
 
     let tx_clone = tx.clone();
