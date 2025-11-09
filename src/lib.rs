@@ -146,7 +146,8 @@ impl Drop for ThreadPool {
         drop(self.sender.take());
 
         for worker in &mut self.workers {
-            println!("Shutting down worker {}", worker.id);
+            // Silently shutdown workers to avoid interfering with TUI
+            // println!("Shutting down worker {}", worker.id);
             if let Some(thread) = worker.thread.take() {
                 thread.join().unwrap();
             }
@@ -166,11 +167,13 @@ impl Worker {
 
             match message {
                 Ok(job) => {
-                    println!("Worker {id} got a job. Executing.");
+                    // Silently execute jobs to avoid interfering with TUI
+                    // println!("Worker {id} got a job. Executing.");
                     job();
                 }
                 Err(_) => {
-                    println!("Worker {id} shutting down.");
+                    // Silently shutdown to avoid interfering with TUI
+                    // println!("Worker {id} shutting down.");
                     break;
                 }
             }
