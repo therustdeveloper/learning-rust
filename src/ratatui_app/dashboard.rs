@@ -44,6 +44,7 @@ struct App {
     webserver_shutdown: Arc<AtomicBool>,
     webserver_output_rx: Option<mpsc::Receiver<String>>,
     webserver_running: bool,
+    webserver_output: String, // Keep webserver output separate
 }
 
 impl App {
@@ -67,6 +68,7 @@ impl App {
             webserver_shutdown: Arc::new(AtomicBool::new(false)),
             webserver_output_rx: None,
             webserver_running: false,
+            webserver_output: String::new(),
         }
     }
 
@@ -84,7 +86,21 @@ impl App {
         self.list_state.select(Some(i));
         self.scroll_state = self.scroll_state.position(i);
         self.selected_module = self.modules.get(i).cloned();
-        self.module_output = None;
+
+        // Handle webserver state when navigating
+        if self.webserver_running {
+            if let Some(module) = &self.selected_module {
+                if module.name == "webserver" {
+                    // Navigated back to webserver - show output
+                    self.module_output = Some(self.webserver_output.clone());
+                } else {
+                    // Navigated away from webserver - clear output but keep webserver running
+                    self.module_output = None;
+                }
+            }
+        } else {
+            self.module_output = None;
+        }
         self.output_scroll = 0;
     }
 
@@ -102,25 +118,43 @@ impl App {
         self.list_state.select(Some(i));
         self.scroll_state = self.scroll_state.position(i);
         self.selected_module = self.modules.get(i).cloned();
-        self.module_output = None;
+
+        // Handle webserver state when navigating
+        if self.webserver_running {
+            if let Some(module) = &self.selected_module {
+                if module.name == "webserver" {
+                    // Navigated back to webserver - show output
+                    self.module_output = Some(self.webserver_output.clone());
+                } else {
+                    // Navigated away from webserver - clear output but keep webserver running
+                    self.module_output = None;
+                }
+            }
+        } else {
+            self.module_output = None;
+        }
         self.output_scroll = 0;
+    }
+
+    /// Sanitize output by removing control characters that could interfere with TUI
+    fn sanitize_output(s: &str) -> String {
+        s.chars()
+            .filter(|c| !c.is_control() || *c == '\n' || *c == '\t')
+            .collect()
     }
 
     /// Check if webserver has new output and update display
     fn check_webserver_output(&mut self) {
         if let Some(rx) = &self.webserver_output_rx {
             // Collect all available messages without blocking
-            let mut new_output = String::new();
             while let Ok(msg) = rx.try_recv() {
-                new_output.push_str(&msg);
-                new_output.push('\n');
-            }
-
-            if !new_output.is_empty() {
-                if let Some(existing) = &self.module_output {
-                    self.module_output = Some(format!("{}{}", existing, new_output));
-                } else {
-                    self.module_output = Some(new_output);
+                // Sanitize the message to prevent terminal corruption
+                let clean_msg = Self::sanitize_output(&msg);
+                if !clean_msg.is_empty() {
+                    self.webserver_output.push_str(&clean_msg);
+                    if !clean_msg.ends_with('\n') {
+                        self.webserver_output.push('\n');
+                    }
                 }
             }
         }
@@ -137,12 +171,15 @@ impl App {
                     self.webserver_output_rx = None;
 
                     // Append completion message
-                    if let Some(output) = &self.module_output {
-                        self.module_output = Some(format!("{}\n[Webserver stopped]", output));
-                    } else {
-                        self.module_output = Some("[Webserver stopped]".to_string());
-                    }
+                    self.webserver_output.push_str("\n[Webserver stopped]\n");
                 }
+            }
+        }
+
+        // Update module_output if we're viewing webserver
+        if let Some(module) = &self.selected_module {
+            if module.name == "webserver" && !self.webserver_output.is_empty() {
+                self.module_output = Some(self.webserver_output.clone());
             }
         }
     }
@@ -153,7 +190,7 @@ impl App {
             // Signal shutdown
             self.webserver_shutdown.store(true, Ordering::Relaxed);
 
-            // Wait for thread to finish
+            // Wait for thread to finish (with timeout to prevent hanging)
             if let Some(handle) = self.webserver_thread.take() {
                 let _ = handle.join();
             }
@@ -162,10 +199,13 @@ impl App {
             self.webserver_output_rx = None;
 
             // Update output
-            if let Some(output) = &self.module_output {
-                self.module_output = Some(format!("{}\n[Webserver stopped by user]", output));
-            } else {
-                self.module_output = Some("[Webserver stopped by user]".to_string());
+            self.webserver_output.push_str("\n[Webserver stopped by user]\n");
+
+            // Update module_output if we're viewing webserver
+            if let Some(module) = &self.selected_module {
+                if module.name == "webserver" {
+                    self.module_output = Some(self.webserver_output.clone());
+                }
             }
 
             // Reset shutdown flag for next run
@@ -175,6 +215,10 @@ impl App {
 
     /// Start the webserver in a background thread
     fn start_webserver(&mut self) {
+        // Clear previous webserver output
+        self.webserver_output.clear();
+        self.webserver_output.push_str("[Starting webserver...]\n");
+
         let (tx, rx) = mpsc::channel();
         let shutdown_signal = self.webserver_shutdown.clone();
 
@@ -185,7 +229,7 @@ impl App {
         self.webserver_thread = Some(handle);
         self.webserver_output_rx = Some(rx);
         self.webserver_running = true;
-        self.module_output = Some("[Starting webserver...]\n".to_string());
+        self.module_output = Some(self.webserver_output.clone());
     }
 
     fn run_module(&mut self) {
@@ -195,8 +239,10 @@ impl App {
             // Special handling for webserver module
             if module.name == "webserver" {
                 if self.webserver_running {
-                    // Already running - show current output and option to stop
+                    // Already running - refresh and show current output
                     self.check_webserver_output();
+                    // Ensure the output is displayed
+                    self.module_output = Some(self.webserver_output.clone());
                     return;
                 } else {
                     // Start webserver in background thread
@@ -361,6 +407,8 @@ pub fn run_app() -> io::Result<()> {
                             // Stop webserver if running
                             if app.webserver_running {
                                 app.stop_webserver();
+                                // Force a redraw to ensure clean UI after stopping
+                                terminal.clear()?;
                             }
                         }
                         KeyCode::Home => {
