@@ -13,7 +13,7 @@ use ratatui::{
     style::{Color, Modifier, Style},
     text::{Line, Span, Text},
     widgets::{
-        Block, Borders, List, ListItem, ListState, Padding, Paragraph, Scrollbar,
+        Block, Borders, Clear, List, ListItem, ListState, Padding, Paragraph, Scrollbar,
         ScrollbarOrientation, ScrollbarState, Wrap,
     },
     Frame, Terminal,
@@ -57,6 +57,11 @@ struct App {
     network_output_rx: Option<mpsc::Receiver<String>>,
     network_running: bool,
     network_output: String, // Keep network output separate
+    // User input state
+    input_mode: bool,
+    input_buffer: String,
+    input_prompt: String,
+    user_input_result: String,
 }
 
 impl App {
@@ -91,6 +96,10 @@ impl App {
             network_output_rx: None,
             network_running: false,
             network_output: String::new(),
+            input_mode: false,
+            input_buffer: String::new(),
+            input_prompt: String::new(),
+            user_input_result: String::new(),
         }
     }
 
@@ -446,6 +455,62 @@ impl App {
         self.module_output = Some(self.network_output.clone());
     }
 
+    /// Start user input mode with a popup
+    fn start_user_input(&mut self, prompt: &str) {
+        self.input_mode = true;
+        self.input_buffer.clear();
+        self.input_prompt = prompt.to_string();
+    }
+
+    /// Handle character input in input mode
+    fn handle_input_char(&mut self, c: char) {
+        if self.input_mode {
+            self.input_buffer.push(c);
+        }
+    }
+
+    /// Handle backspace in input mode
+    fn handle_input_backspace(&mut self) {
+        if self.input_mode {
+            self.input_buffer.pop();
+        }
+    }
+
+    /// Process the user input when Enter is pressed
+    fn submit_user_input(&mut self) {
+        if self.input_mode {
+            let input = self.input_buffer.trim().to_lowercase();
+
+            // Process power state input
+            let result = match input.as_str() {
+                "off" => "turning off",
+                "sleep" => "sleeping",
+                "reboot" => "rebooting",
+                "shutdown" => "shutting down",
+                "hibernate" => "hibernating",
+                _ => "invalid power state",
+            };
+
+            self.user_input_result = format!(
+                "--- User Input Activity\n\nEnter new power state: {}\n\nResult: {}",
+                self.input_buffer.trim(),
+                result
+            );
+
+            self.module_output = Some(self.user_input_result.clone());
+            self.input_mode = false;
+            self.input_buffer.clear();
+        }
+    }
+
+    /// Cancel input mode
+    fn cancel_input(&mut self) {
+        self.input_mode = false;
+        self.input_buffer.clear();
+        self.user_input_result = "Input cancelled".to_string();
+        self.module_output = Some(self.user_input_result.clone());
+    }
+
     fn run_module(&mut self) {
         if let Some(module) = &self.selected_module {
             self.output_scroll = 0;
@@ -493,6 +558,12 @@ impl App {
                     self.start_network();
                     return;
                 }
+            }
+
+            // Special handling for user_input module - use popup instead of stdin
+            if module.name == "user_input" {
+                self.start_user_input("Enter new power state (off/sleep/reboot/shutdown/hibernate):");
+                return;
             }
 
             // Capture stdout for other modules
@@ -642,24 +713,43 @@ pub fn run_app() -> io::Result<()> {
         if event::poll(std::time::Duration::from_millis(100))? {
             if let Event::Key(key) = event::read()? {
                 if key.kind == KeyEventKind::Press {
-                    match key.code {
-                        KeyCode::Char('q') | KeyCode::Esc => {
-                            // Stop long-running modules before quitting
-                            if app.webserver_running {
-                                app.stop_webserver();
+                    // Handle input mode separately
+                    if app.input_mode {
+                        match key.code {
+                            KeyCode::Char(c) => {
+                                app.handle_input_char(c);
                             }
-                            if app.futures_running {
-                                app.stop_futures();
+                            KeyCode::Backspace => {
+                                app.handle_input_backspace();
                             }
-                            if app.network_running {
-                                app.stop_network();
+                            KeyCode::Enter => {
+                                app.submit_user_input();
                             }
-                            break Ok(());
+                            KeyCode::Esc => {
+                                app.cancel_input();
+                            }
+                            _ => {}
                         }
-                        KeyCode::Down | KeyCode::Char('j') => app.next(),
-                        KeyCode::Up | KeyCode::Char('k') => app.previous(),
-                        KeyCode::Enter => app.run_module(),
-                        KeyCode::Char('s') | KeyCode::Char('x') => {
+                    } else {
+                        // Normal mode key handling
+                        match key.code {
+                            KeyCode::Char('q') | KeyCode::Esc => {
+                                // Stop long-running modules before quitting
+                                if app.webserver_running {
+                                    app.stop_webserver();
+                                }
+                                if app.futures_running {
+                                    app.stop_futures();
+                                }
+                                if app.network_running {
+                                    app.stop_network();
+                                }
+                                break Ok(());
+                            }
+                            KeyCode::Down | KeyCode::Char('j') => app.next(),
+                            KeyCode::Up | KeyCode::Char('k') => app.previous(),
+                            KeyCode::Enter => app.run_module(),
+                            KeyCode::Char('s') | KeyCode::Char('x') => {
                             // Stop long-running modules if running
                             let mut stopped_something = false;
                             if app.webserver_running {
@@ -679,18 +769,19 @@ pub fn run_app() -> io::Result<()> {
                                 terminal.clear()?;
                             }
                         }
-                        KeyCode::Home => {
-                            app.list_state.select(Some(0));
-                            app.scroll_state = app.scroll_state.position(0);
-                            app.selected_module = app.modules.first().cloned();
+                            KeyCode::Home => {
+                                app.list_state.select(Some(0));
+                                app.scroll_state = app.scroll_state.position(0);
+                                app.selected_module = app.modules.first().cloned();
+                            }
+                            KeyCode::End => {
+                                let last = app.modules.len() - 1;
+                                app.list_state.select(Some(last));
+                                app.scroll_state = app.scroll_state.position(last);
+                                app.selected_module = app.modules.get(last).cloned();
+                            }
+                            _ => {}
                         }
-                        KeyCode::End => {
-                            let last = app.modules.len() - 1;
-                            app.list_state.select(Some(last));
-                            app.scroll_state = app.scroll_state.position(last);
-                            app.selected_module = app.modules.get(last).cloned();
-                        }
-                        _ => {}
                     }
                 }
             }
@@ -743,6 +834,11 @@ fn ui(f: &mut Frame, app: &mut App) {
 
     // Footer
     render_footer(f, chunks[2], app);
+
+    // Render input popup if in input mode
+    if app.input_mode {
+        render_input_popup(f, app);
+    }
 }
 
 /// Render the header section
@@ -976,6 +1072,56 @@ fn render_footer(f: &mut Frame, area: Rect, app: &App) {
                 .padding(Padding::horizontal(1)),
         );
     f.render_widget(footer, area);
+}
+
+/// Render input popup modal
+fn render_input_popup(f: &mut Frame, app: &App) {
+    let area = f.area();
+
+    // Calculate popup size (centered, 60% width, 30% height)
+    let popup_width = (area.width * 60) / 100;
+    let popup_height = 9; // Fixed height for the input box
+    let popup_x = (area.width - popup_width) / 2;
+    let popup_y = (area.height - popup_height) / 2;
+
+    let popup_area = Rect {
+        x: popup_x,
+        y: popup_y,
+        width: popup_width,
+        height: popup_height,
+    };
+
+    // Create the popup content
+    let text = Text::from(vec![
+        Line::from(""),
+        Line::from(Span::styled(&app.input_prompt, Style::default().fg(Color::Cyan))),
+        Line::from(""),
+        Line::from(vec![
+            Span::styled("> ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
+            Span::styled(&app.input_buffer, Style::default().fg(Color::White)),
+            Span::styled("_", Style::default().fg(Color::White).add_modifier(Modifier::SLOW_BLINK)),
+        ]),
+        Line::from(""),
+        Line::from(Span::styled(
+            "Press Enter to submit, ESC to cancel",
+            Style::default().fg(Color::DarkGray).add_modifier(Modifier::ITALIC),
+        )),
+    ]);
+
+    let popup = Paragraph::new(text)
+        .block(
+            Block::default()
+                .title(" User Input ")
+                .title_style(Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD))
+                .borders(Borders::ALL)
+                .border_style(Style::default().fg(Color::Yellow))
+                .padding(Padding::uniform(1))
+                .style(Style::default().bg(Color::Black)),
+        );
+
+    // Clear the popup area first to create a clean background
+    f.render_widget(Clear, popup_area);
+    f.render_widget(popup, popup_area);
 }
 
 /// Get all modules with their metadata
