@@ -18,7 +18,8 @@ use ratatui::{
     },
     Frame, Terminal,
 };
-use std::io;
+use gag::BufferRedirect;
+use std::io::{self, Read};
 
 /// Module information structure
 #[derive(Clone)]
@@ -34,6 +35,8 @@ struct App {
     list_state: ListState,
     scroll_state: ScrollbarState,
     selected_module: Option<Module>,
+    module_output: Option<String>,
+    output_scroll: u16,
 }
 
 impl App {
@@ -51,6 +54,8 @@ impl App {
             list_state,
             scroll_state: ScrollbarState::new(total_items),
             selected_module,
+            module_output: None,
+            output_scroll: 0,
         }
     }
 
@@ -68,6 +73,8 @@ impl App {
         self.list_state.select(Some(i));
         self.scroll_state = self.scroll_state.position(i);
         self.selected_module = self.modules.get(i).cloned();
+        self.module_output = None;
+        self.output_scroll = 0;
     }
 
     fn previous(&mut self) {
@@ -84,6 +91,127 @@ impl App {
         self.list_state.select(Some(i));
         self.scroll_state = self.scroll_state.position(i);
         self.selected_module = self.modules.get(i).cloned();
+        self.module_output = None;
+        self.output_scroll = 0;
+    }
+
+    fn run_module(&mut self) {
+        if let Some(module) = &self.selected_module {
+            self.output_scroll = 0;
+
+            // Capture stdout
+            let mut buf = BufferRedirect::stdout().unwrap();
+
+            // Call the module's index function
+            match module.name.as_str() {
+                "add_millimeters_to_meters" => crate::add_millimeters_to_meters::index(true),
+                "advanced_match" => crate::advanced_match::index(true),
+                "algorithms" => crate::algorithms::index(true),
+                "api_mutex" => crate::api_mutex::index(true),
+                "arrays" => crate::arrays::index(true),
+                "automatic_clean" => crate::automatic_clean::index(true),
+                "basics" => crate::basics::index(true),
+                "bit_patterns" => crate::bit_patterns::index(true),
+                "boxes" => crate::boxes::index(true),
+                "channels" => crate::channels::index(true),
+                "closures" => crate::closures::index(true),
+                "collections" => crate::collections::index(true),
+                "compiler_directives" => crate::compiler_directives::index(true),
+                "concurrency" => crate::concurrency::index(true),
+                "cow_type" => crate::cow_type::index(true),
+                "cubesats" => crate::cubesats::index(true),
+                "custom_smart_pointer" => crate::custom_smart_pointer::index(true),
+                "data_collections" => crate::data_collections::index(true),
+                "decisions" => crate::decisions::index(true),
+                "deconstructing_float" => crate::deconstructing_float::index(true),
+                "destructuring_structs" => crate::destructuring_structs::index(true),
+                "doc" => crate::doc::index(true),
+                "draw" => crate::draw::index(true),
+                "enums" => crate::enums::index(true),
+                "errors" => crate::errors::index(true),
+                "exercises" => crate::exercises::index(true),
+                "expressions" => crate::expressions::index(true),
+                "extern_functions" => crate::extern_functions::index(true),
+                "external_crates" => crate::external_crates::index(true),
+                "files" => crate::files::index(true),
+                "for_loops" => crate::for_loops::index(true),
+                "formatted_print" => crate::formatted_print::index(true),
+                "functions" => crate::functions::index(true),
+                "futures" => crate::futures::index(true),
+                "generics" => crate::generics::index(true),
+                "get_type" => crate::get_type::index(true),
+                "guessing_game" => crate::guessing_game::index(true),
+                "hashmaps" => crate::hashmaps::index(true),
+                "hello_world" => crate::hello_world::index(true),
+                "inspecting_endianness" => crate::inspecting_endianness::index(true),
+                "interior_mutability" => crate::interior_mutability::index(true),
+                "interpreting_float" => crate::interpreting_float::index(true),
+                "iterators" => crate::iterators::index(true),
+                "joinhandle" => crate::joinhandle::index(true),
+                "lifetimes" => crate::lifetimes::index(true),
+                "loops" => crate::loops::index(true),
+                "machine_learning" => crate::machine_learning::index(true),
+                "macros" => crate::macros::index(true),
+                "mandelbrot" => crate::mandelbrot::index(true),
+                "matches" => crate::matches::index(true),
+                "message_passing" => crate::message_passing::index(true),
+                "messenger" => crate::messenger::index(true),
+                "methods" => crate::methods::index(true),
+                "modules" => crate::modules::index(true),
+                "move_vars" => crate::move_vars::index(true),
+                "mutable_reference" => crate::mutable_reference::index(true),
+                "network" => crate::network::index(true),
+                "new_type" => crate::new_type::index(true),
+                "numbers" => crate::numbers::index(true),
+                "object_oriented" => crate::object_oriented::index(true),
+                "open_file" => crate::open_file::index(true),
+                "operator_overloading" => crate::operator_overloading::index(true),
+                "optionals" => crate::optionals::index(true),
+                "ownership" => crate::ownership::index(true),
+                "patterns" => crate::patterns::index(true),
+                "post" => crate::post::index(true),
+                "print_var_type" => crate::print_var_type::index(true),
+                "random_numbers" => crate::random_numbers::index(true),
+                "ranges" => crate::ranges::index(true),
+                "rc_t" => crate::rc_t::index(true),
+                "references" => crate::references::index(true),
+                "results" => crate::results::index(true),
+                "rust_atomics_and_locks" => crate::rust_atomics_and_locks::index(true),
+                "shadowing" => crate::shadowing::index(true),
+                "slices" => crate::slices::index(true),
+                "static_variable" => crate::static_variable::index(true),
+                "strings" => crate::strings::index(true),
+                "structs" => crate::structs::index(true),
+                "system_calls" => crate::system_calls::index(true),
+                "testing" => crate::testing::index(true),
+                "threads" => crate::threads::index(true),
+                "traits" => crate::traits::index(true),
+                "tree_data_structure" => crate::tree_data_structure::index(true),
+                "tuples" => crate::tuples::index(true),
+                "type_aliases" => crate::type_aliases::index(true),
+                "typestate_pattern" => crate::typestate_pattern::index(true),
+                "unsafe_code" => crate::unsafe_code::index(true),
+                "unsafe_trait" => crate::unsafe_trait::index(true),
+                "user_input" => crate::user_input::index(true),
+                "variables" => crate::variables::index(true),
+                "vectors" => crate::vectors::index(true),
+                "webserver" => crate::webserver::index(true),
+                "while_loop" => crate::while_loop::index(true),
+                "zero_cost_abstraction" => crate::zero_cost_abstraction::index(true),
+                _ => {}
+            }
+
+            // Get the captured output
+            let mut output = String::new();
+            buf.read_to_string(&mut output).unwrap();
+            drop(buf);
+
+            self.module_output = Some(if output.is_empty() {
+                "No output produced by this module.".to_string()
+            } else {
+                output
+            });
+        }
     }
 }
 
@@ -109,6 +237,7 @@ pub fn run_app() -> io::Result<()> {
                     KeyCode::Char('q') | KeyCode::Esc => break Ok(()),
                     KeyCode::Down | KeyCode::Char('j') => app.next(),
                     KeyCode::Up | KeyCode::Char('k') => app.previous(),
+                    KeyCode::Enter => app.run_module(),
                     KeyCode::Home => {
                         app.list_state.select(Some(0));
                         app.scroll_state = app.scroll_state.position(0);
@@ -256,7 +385,17 @@ fn render_module_list(f: &mut Frame, app: &mut App, area: Rect) {
 
 /// Render the details panel
 fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
-    let content = if let Some(module) = &app.selected_module {
+    let (title, content) = if let Some(output) = &app.module_output {
+        // Show module output
+        let title = if let Some(module) = &app.selected_module {
+            format!(" Output: {} ", module.name)
+        } else {
+            " Output ".to_string()
+        };
+
+        (title, Paragraph::new(output.as_str()))
+    } else if let Some(module) = &app.selected_module {
+        // Show module details
         let category_style = match module.category.as_str() {
             "Basics" => Style::default().fg(Color::Green),
             "Intermediate" => Style::default().fg(Color::Yellow),
@@ -288,15 +427,21 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
                     Style::default().fg(Color::Cyan).add_modifier(Modifier::ITALIC),
                 ),
             ]),
+            Line::from(""),
+            Line::from(vec![
+                Span::styled("Press ", Style::default().fg(Color::DarkGray)),
+                Span::styled("Enter", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
+                Span::styled(" to run this module", Style::default().fg(Color::DarkGray)),
+            ]),
         ]);
 
-        Paragraph::new(text)
+        (" Details ".to_string(), Paragraph::new(text))
     } else {
-        Paragraph::new("No module selected")
+        (" Details ".to_string(), Paragraph::new("No module selected"))
     };
 
     let block = Block::default()
-        .title(" Details ")
+        .title(title)
         .title_style(Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD))
         .borders(Borders::ALL)
         .border_style(Style::default().fg(Color::White))
@@ -312,6 +457,8 @@ fn render_footer(f: &mut Frame, area: Rect) {
         Span::raw("Up  "),
         Span::styled("↓/j ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
         Span::raw("Down  "),
+        Span::styled("Enter ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
+        Span::raw("Run  "),
         Span::styled("Home ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
         Span::raw("First  "),
         Span::styled("End ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
