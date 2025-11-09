@@ -122,8 +122,8 @@ impl ThreadPool {
 
         let mut workers = Vec::with_capacity(size);
 
-        for id in 0..size {
-            workers.push(Worker::new(id, Arc::clone(&receiver)));
+        for _id in 0..size {
+            workers.push(Worker::new(Arc::clone(&receiver)));
         }
 
         ThreadPool {
@@ -146,8 +146,6 @@ impl Drop for ThreadPool {
         drop(self.sender.take());
 
         for worker in &mut self.workers {
-            // Silently shutdown workers to avoid interfering with TUI
-            // println!("Shutting down worker {}", worker.id);
             if let Some(thread) = worker.thread.take() {
                 thread.join().unwrap();
             }
@@ -156,31 +154,27 @@ impl Drop for ThreadPool {
 }
 
 struct Worker {
-    id: usize,
+    //id: usize,
     thread: Option<thread::JoinHandle<()>>,
 }
 
 impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+    fn new(receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
         let thread = thread::spawn(move || loop {
             let message = receiver.lock().unwrap().recv();
 
             match message {
                 Ok(job) => {
-                    // Silently execute jobs to avoid interfering with TUI
-                    // println!("Worker {id} got a job. Executing.");
                     job();
                 }
                 Err(_) => {
-                    // Silently shutdown to avoid interfering with TUI
-                    // println!("Worker {id} shutting down.");
                     break;
                 }
             }
         });
 
         Worker {
-            id,
+            //id,
             thread: Some(thread),
         }
     }
