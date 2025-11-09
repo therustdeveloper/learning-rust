@@ -15,6 +15,10 @@ Organizing the repo in my GitHub Organization.
 - fd-find
 - zlib1g-dev
 
+## Exploring Claude
+
+I am exploring development with Claude assistance. 
+
 ## Books
 
 | Name                                         |               Months               |  Read  |  Mark  |
