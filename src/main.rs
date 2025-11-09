@@ -68,6 +68,7 @@ fn main() {
     common::print_var_type::index(false);
     common::random_numbers::index(false);
     common::ranges::index(false);
+    common::ratatui_app::index(true);
     common::rc_t::index(false);
     common::references::index(false);
     common::results::index(false);

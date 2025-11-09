@@ -73,6 +73,7 @@ pub mod post;
 pub mod print_var_type;
 pub mod random_numbers;
 pub mod ranges;
+pub mod ratatui_app;
 pub mod rc_t;
 pub mod references;
 pub mod results;
