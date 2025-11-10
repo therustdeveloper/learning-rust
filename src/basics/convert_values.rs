@@ -1,5 +1,5 @@
 //! src/basics/convert_values.rs
-pub fn convert_val(show: bool) {
+pub fn index(show: bool) {
     if show {
         let miles_away = 50;
         let miles_away_i8 = miles_away as i8;

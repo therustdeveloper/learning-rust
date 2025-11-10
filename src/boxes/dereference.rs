@@ -9,3 +9,9 @@ pub fn box_dereference() {
     assert_eq!(7, x);
     assert_eq!(7, *y);
 }
+
+pub fn index(show: bool) {
+    if show {
+        box_dereference();
+    }
+}

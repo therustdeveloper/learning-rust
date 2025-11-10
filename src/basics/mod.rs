@@ -92,7 +92,7 @@ pub fn index(show: bool) {
         underscores::index(false);
 
         // Convert values from one to another
-        convert_values::convert_val(false);
+        convert_values::index(false);
 
         // Match Statement
         match_statements::index(false);
