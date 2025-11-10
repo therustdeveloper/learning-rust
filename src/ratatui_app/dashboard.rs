@@ -26,12 +26,20 @@ use std::sync::{
 };
 use std::thread::{self, JoinHandle};
 
+/// Submodule information structure
+#[derive(Clone, Debug)]
+struct Submodule {
+    name: String,
+    description: String,
+}
+
 /// Module information structure
 #[derive(Clone)]
 struct Module {
     name: String,
     description: String,
     category: String,
+    submodules: Vec<Submodule>,
 }
 
 /// Application state
@@ -71,6 +79,11 @@ struct App {
     input_buffer: String,
     input_prompt: String,
     user_input_result: String,
+    // Submodule state
+    submodule_list_state: ListState,
+    selected_submodule_index: Option<usize>,
+    submodule_output: Option<String>,
+    submodule_scroll: u16,
 }
 
 impl App {
@@ -114,6 +127,65 @@ impl App {
             input_buffer: String::new(),
             input_prompt: String::new(),
             user_input_result: String::new(),
+            submodule_list_state: ListState::default(),
+            selected_submodule_index: None,
+            submodule_output: None,
+            submodule_scroll: 0,
+        }
+    }
+
+    fn select_first_submodule(&mut self) {
+        if let Some(module) = &self.selected_module {
+            if !module.submodules.is_empty() {
+                self.submodule_list_state.select(Some(0));
+                self.selected_submodule_index = Some(0);
+                self.submodule_output = None;
+                self.submodule_scroll = 0;
+            }
+        }
+    }
+
+    fn next_submodule(&mut self) {
+        if let Some(module) = &self.selected_module {
+            if module.submodules.is_empty() {
+                return;
+            }
+
+            let i = match self.submodule_list_state.selected() {
+                Some(i) => {
+                    if i >= module.submodules.len() - 1 {
+                        0
+                    } else {
+                        i + 1
+                    }
+                }
+                None => 0,
+            };
+            self.submodule_list_state.select(Some(i));
+            self.selected_submodule_index = Some(i);
+            self.submodule_scroll = 0;
+        }
+    }
+
+    fn previous_submodule(&mut self) {
+        if let Some(module) = &self.selected_module {
+            if module.submodules.is_empty() {
+                return;
+            }
+
+            let i = match self.submodule_list_state.selected() {
+                Some(i) => {
+                    if i == 0 {
+                        module.submodules.len() - 1
+                    } else {
+                        i - 1
+                    }
+                }
+                None => 0,
+            };
+            self.submodule_list_state.select(Some(i));
+            self.selected_submodule_index = Some(i);
+            self.submodule_scroll = 0;
         }
     }
 
@@ -131,6 +203,17 @@ impl App {
         self.list_state.select(Some(i));
         self.scroll_state = self.scroll_state.position(i);
         self.selected_module = self.modules.get(i).cloned();
+
+        // Reset submodule state and select first submodule if module has submodules
+        self.submodule_list_state.select(None);
+        self.selected_submodule_index = None;
+        self.submodule_output = None;
+        self.submodule_scroll = 0;
+        if let Some(module) = &self.selected_module {
+            if !module.submodules.is_empty() {
+                self.select_first_submodule();
+            }
+        }
 
         // Handle long-running modules when navigating
         if let Some(module) = &self.selected_module {
@@ -177,6 +260,17 @@ impl App {
         self.list_state.select(Some(i));
         self.scroll_state = self.scroll_state.position(i);
         self.selected_module = self.modules.get(i).cloned();
+
+        // Reset submodule state and select first submodule if module has submodules
+        self.submodule_list_state.select(None);
+        self.selected_submodule_index = None;
+        self.submodule_output = None;
+        self.submodule_scroll = 0;
+        if let Some(module) = &self.selected_module {
+            if !module.submodules.is_empty() {
+                self.select_first_submodule();
+            }
+        }
 
         // Handle long-running modules when navigating
         if let Some(module) = &self.selected_module {
@@ -824,6 +918,54 @@ impl App {
             });
         }
     }
+
+    fn run_submodule(&mut self) {
+        if let Some(module) = &self.selected_module {
+            if let Some(idx) = self.selected_submodule_index {
+                if idx < module.submodules.len() {
+                    self.submodule_scroll = 0;
+
+                    // Capture stdout for submodule
+                    let mut buf = BufferRedirect::stdout().unwrap();
+
+                    // Call the submodule's index function
+                    match (module.name.as_str(), module.submodules[idx].name.as_str()) {
+                        ("algorithms", "bubble_sort") => crate::algorithms::bubble_sort::index(true),
+                        ("algorithms", "cocktail_sort") => {
+                            crate::algorithms::cocktail_sort::index(true)
+                        }
+                        ("algorithms", "comb_sort") => crate::algorithms::comb_sort::index(true),
+                        ("algorithms", "insertion_sort") => {
+                            crate::algorithms::insertion_sort::index(true)
+                        }
+                        ("algorithms", "merge_sort") => crate::algorithms::merge_sort::index(true),
+                        ("algorithms", "quick_sort") => crate::algorithms::quick_sort::index(true),
+                        ("algorithms", "selection_sort") => {
+                            crate::algorithms::selection_sort::index(true)
+                        }
+                        ("exercises", "ex03") => crate::exercises::ex03::index(true),
+                        ("exercises", "ex08") => crate::exercises::ex08::index(true),
+                        ("testing", "activity") => crate::testing::activity::index(true),
+                        ("testing", "definition") => crate::testing::definition::index(true),
+                        ("testing", "demo") => crate::testing::demo::index(true),
+                        _ => {
+                            println!(
+                                "Submodule {} in {} not yet implemented",
+                                module.submodules[idx].name, module.name
+                            );
+                        }
+                    }
+
+                    // Get captured output
+                    let mut output = String::new();
+                    buf.read_to_string(&mut output).unwrap();
+
+                    // Store output
+                    self.submodule_output = Some(output);
+                }
+            }
+        }
+    }
 }
 
 /// Run the TUI application
@@ -896,9 +1038,48 @@ pub fn run_app() -> io::Result<()> {
                                 }
                                 break Ok(());
                             }
-                            KeyCode::Down | KeyCode::Char('j') => app.next(),
-                            KeyCode::Up | KeyCode::Char('k') => app.previous(),
-                            KeyCode::Enter => app.run_module(),
+                            KeyCode::Down | KeyCode::Char('j') => {
+                                // Check if current module has submodules
+                                let has_submodules = app
+                                    .selected_module
+                                    .as_ref()
+                                    .map(|m| !m.submodules.is_empty())
+                                    .unwrap_or(false);
+
+                                if has_submodules {
+                                    app.next_submodule();
+                                } else {
+                                    app.next();
+                                }
+                            }
+                            KeyCode::Up | KeyCode::Char('k') => {
+                                // Check if current module has submodules
+                                let has_submodules = app
+                                    .selected_module
+                                    .as_ref()
+                                    .map(|m| !m.submodules.is_empty())
+                                    .unwrap_or(false);
+
+                                if has_submodules {
+                                    app.previous_submodule();
+                                } else {
+                                    app.previous();
+                                }
+                            }
+                            KeyCode::Enter => {
+                                // Check if current module has submodules
+                                let has_submodules = app
+                                    .selected_module
+                                    .as_ref()
+                                    .map(|m| !m.submodules.is_empty())
+                                    .unwrap_or(false);
+
+                                if has_submodules {
+                                    app.run_submodule();
+                                } else {
+                                    app.run_module();
+                                }
+                            }
                             KeyCode::Char('s') | KeyCode::Char('x') => {
                                 // Stop long-running modules if running
                                 let mut stopped_something = false;
@@ -922,6 +1103,14 @@ pub fn run_app() -> io::Result<()> {
                                     // Force a redraw to ensure clean UI after stopping
                                     terminal.clear()?;
                                 }
+                            }
+                            KeyCode::Left | KeyCode::Char('h') => {
+                                // Always navigate between modules with left/right
+                                app.previous();
+                            }
+                            KeyCode::Right | KeyCode::Char('l') => {
+                                // Always navigate between modules with left/right
+                                app.next();
                             }
                             KeyCode::Home => {
                                 app.list_state.select(Some(0));
@@ -1079,8 +1268,111 @@ fn render_module_list(f: &mut Frame, app: &mut App, area: Rect) {
     );
 }
 
+/// Render details panel with submodules (split vertically)
+fn render_details_with_submodules(f: &mut Frame, app: &App, area: Rect, module: &Module) {
+    // Split the details area vertically
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Percentage(40), // Submodule list
+            Constraint::Percentage(60), // Submodule output
+        ])
+        .split(area);
+
+    // Render submodule list
+    let items: Vec<ListItem> = module
+        .submodules
+        .iter()
+        .enumerate()
+        .map(|(i, submodule)| {
+            let content = Line::from(vec![
+                Span::styled(
+                    format!("{:>2}. ", i + 1),
+                    Style::default().fg(Color::DarkGray),
+                ),
+                Span::styled(&submodule.name, Style::default().fg(Color::White)),
+            ]);
+            ListItem::new(content).style(Style::default())
+        })
+        .collect();
+
+    let submodule_list = List::new(items)
+        .block(
+            Block::default()
+                .title(format!(
+                    " {} Submodules ({}) ",
+                    module.name,
+                    module.submodules.len()
+                ))
+                .title_style(
+                    Style::default()
+                        .fg(Color::Cyan)
+                        .add_modifier(Modifier::BOLD),
+                )
+                .borders(Borders::ALL)
+                .border_style(Style::default().fg(Color::White))
+                .padding(Padding::horizontal(1)),
+        )
+        .highlight_style(
+            Style::default()
+                .fg(Color::Black)
+                .bg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
+        )
+        .highlight_symbol(">> ");
+
+    f.render_stateful_widget(submodule_list, chunks[0], &mut app.submodule_list_state.clone());
+
+    // Render submodule output or instructions
+    let (output_title, output_content) = if let Some(output) = &app.submodule_output {
+        let title = if let Some(idx) = app.selected_submodule_index {
+            format!(" Output: {} ", module.submodules[idx].name)
+        } else {
+            " Output ".to_string()
+        };
+        (title, output.clone())
+    } else {
+        let instructions = if let Some(idx) = app.selected_submodule_index {
+            format!(
+                "Submodule: {}\n\nDescription: {}\n\nPress Enter to run this submodule",
+                module.submodules[idx].name, module.submodules[idx].description
+            )
+        } else {
+            "Use ↑↓ arrows to navigate submodules\nPress Enter to run selected submodule".to_string()
+        };
+        (" Submodule Details ".to_string(), instructions)
+    };
+
+    let output_paragraph = Paragraph::new(output_content)
+        .block(
+            Block::default()
+                .title(output_title)
+                .title_style(
+                    Style::default()
+                        .fg(Color::Green)
+                        .add_modifier(Modifier::BOLD),
+                )
+                .borders(Borders::ALL)
+                .border_style(Style::default().fg(Color::White))
+                .padding(Padding::uniform(1)),
+        )
+        .wrap(Wrap { trim: false })
+        .scroll((app.submodule_scroll, 0));
+
+    f.render_widget(output_paragraph, chunks[1]);
+}
+
 /// Render the details panel
 fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
+    // Check if selected module has submodules
+    if let Some(module) = &app.selected_module {
+        if !module.submodules.is_empty() {
+            render_details_with_submodules(f, app, area, module);
+            return;
+        }
+    }
+
+    // Original rendering for modules without submodules
     let (title, content) = if let Some(output) = &app.module_output {
         // Show module output
         let mut title = if let Some(module) = &app.selected_module {
@@ -1379,471 +1671,594 @@ fn get_all_modules() -> Vec<Module> {
             description: "Unit conversion example demonstrating basic arithmetic operations"
                 .to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "advanced_match".to_string(),
             description: "Advanced pattern matching techniques and match guards".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "algorithms".to_string(),
             description: "Common algorithms implementation in Rust".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![
+                Submodule {
+                    name: "bubble_sort".to_string(),
+                    description: "Bubble sort algorithm implementation".to_string(),
+                },
+                Submodule {
+                    name: "cocktail_sort".to_string(),
+                    description: "Cocktail sort algorithm implementation".to_string(),
+                },
+                Submodule {
+                    name: "comb_sort".to_string(),
+                    description: "Comb sort algorithm implementation".to_string(),
+                },
+                Submodule {
+                    name: "insertion_sort".to_string(),
+                    description: "Insertion sort algorithm implementation".to_string(),
+                },
+                Submodule {
+                    name: "merge_sort".to_string(),
+                    description: "Merge sort algorithm implementation".to_string(),
+                },
+                Submodule {
+                    name: "quick_sort".to_string(),
+                    description: "Quick sort algorithm implementation".to_string(),
+                },
+                Submodule {
+                    name: "selection_sort".to_string(),
+                    description: "Selection sort algorithm implementation".to_string(),
+                },
+            ],
         },
         Module {
             name: "api_mutex".to_string(),
             description: "API examples using Mutex for safe concurrent access".to_string(),
             category: "Concurrency".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "arrays".to_string(),
             description: "Fixed-size array operations and manipulations".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "automatic_clean".to_string(),
             description: "Automatic resource cleanup using RAII pattern".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "basics".to_string(),
             description: "Fundamental Rust concepts and syntax".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "bit_patterns".to_string(),
             description: "Bit manipulation and binary patterns".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "boxes".to_string(),
             description: "Heap allocation with Box smart pointer".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "channels".to_string(),
             description: "Message passing between threads using channels".to_string(),
             category: "Concurrency".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "closures".to_string(),
             description: "Anonymous functions and closure captures".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "collections".to_string(),
             description: "Standard library collection types".to_string(),
             category: "Data Structures".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "compiler_directives".to_string(),
             description: "Conditional compilation and attributes".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "concurrency".to_string(),
             description: "Concurrent programming patterns".to_string(),
             category: "Concurrency".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "cow_type".to_string(),
             description: "Clone-on-Write smart pointer for efficient borrowing".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "cubesats".to_string(),
             description: "CubeSat simulation example".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "custom_smart_pointer".to_string(),
             description: "Building custom smart pointers with Deref and Drop".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "data_collections".to_string(),
             description: "Working with various data collection types".to_string(),
             category: "Data Structures".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "decisions".to_string(),
             description: "Decision making with if/else and pattern matching".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "deconstructing_float".to_string(),
             description: "IEEE 754 floating point representation analysis".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "destructuring_structs".to_string(),
             description: "Pattern matching on struct fields".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "doc".to_string(),
             description: "Documentation comments and rustdoc".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "draw".to_string(),
             description: "Drawing and graphics examples".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "enums".to_string(),
             description: "Enumeration types and pattern matching".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "errors".to_string(),
             description: "Error handling with Result and custom error types".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "exercises".to_string(),
             description: "Practice exercises and challenges".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "expressions".to_string(),
             description: "Expressions vs statements in Rust".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "extern_functions".to_string(),
             description: "Foreign Function Interface (FFI) examples".to_string(),
             category: "System".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "external_crates".to_string(),
             description: "Using external dependencies from crates.io".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "files".to_string(),
             description: "File I/O operations".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "for_loops".to_string(),
             description: "For loop iteration patterns".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "formatted_print".to_string(),
             description: "Formatted output with println! and format!".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "functions".to_string(),
             description: "Function definition and usage".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "futures".to_string(),
             description: "Asynchronous programming with futures".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "generics".to_string(),
             description: "Generic types and functions".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "get_type".to_string(),
             description: "Runtime type introspection".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "guessing_game".to_string(),
             description: "Classic guessing game tutorial".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "hashmaps".to_string(),
             description: "HashMap data structure and operations".to_string(),
             category: "Data Structures".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "hello_world".to_string(),
             description: "The classic first program".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "inspecting_endianness".to_string(),
             description: "Byte order and endianness detection".to_string(),
             category: "System".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "interior_mutability".to_string(),
             description: "Interior mutability patterns with Cell and RefCell".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "interpreting_float".to_string(),
             description: "Floating point number interpretation".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "iterators".to_string(),
             description: "Iterator trait and lazy evaluation".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "joinhandle".to_string(),
             description: "Thread join handles for synchronization".to_string(),
             category: "Concurrency".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "lifetimes".to_string(),
             description: "Lifetime annotations and borrow checker".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "loops".to_string(),
             description: "Loop constructs: loop, while, for".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "machine_learning".to_string(),
             description: "Machine learning examples with Polars".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "macros".to_string(),
             description: "Macro rules and procedural macros".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "mandelbrot".to_string(),
             description: "Mandelbrot set fractal generation".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "matches".to_string(),
             description: "Pattern matching fundamentals".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "message_passing".to_string(),
             description: "Inter-thread communication with message passing".to_string(),
             category: "Concurrency".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "messenger".to_string(),
             description: "Messaging patterns and implementations".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "methods".to_string(),
             description: "Struct methods and associated functions".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "modules".to_string(),
             description: "Module system and code organization".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "move_vars".to_string(),
             description: "Move semantics and ownership transfer".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "mutable_reference".to_string(),
             description: "Mutable references and borrowing rules".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "network".to_string(),
             description: "Network programming examples".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "new_type".to_string(),
             description: "Newtype pattern for type safety".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "numbers".to_string(),
             description: "Numeric types and operations".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "object_oriented".to_string(),
             description: "Object-oriented programming patterns in Rust".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "open_file".to_string(),
             description: "File opening and handling".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "operator_overloading".to_string(),
             description: "Implementing operator traits".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "optionals".to_string(),
             description: "Option type for null safety".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "ownership".to_string(),
             description: "Ownership system fundamentals".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "patterns".to_string(),
             description: "Pattern matching and destructuring".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "post".to_string(),
             description: "Blog post state machine example".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "print_var_type".to_string(),
             description: "Printing variable types".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "random_numbers".to_string(),
             description: "Random number generation with rand crate".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "ranges".to_string(),
             description: "Range expressions and iteration".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "rc_t".to_string(),
             description: "Reference counting with Rc and Arc".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "references".to_string(),
             description: "References and borrowing basics".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "results".to_string(),
             description: "Result type for error handling".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "rust_atomics_and_locks".to_string(),
             description: "Low-level concurrency with atomics and locks".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "shadowing".to_string(),
             description: "Variable shadowing and rebinding".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "slices".to_string(),
             description: "Slice types and references".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "static_variable".to_string(),
             description: "Static variables and lifetimes".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "strings".to_string(),
             description: "String and &str types".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "structs".to_string(),
             description: "Struct definitions and usage".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "system_calls".to_string(),
             description: "System call interface with libc".to_string(),
             category: "System".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "testing".to_string(),
             description: "Unit testing and integration tests".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "threads".to_string(),
             description: "Thread creation and management".to_string(),
             category: "Concurrency".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "traits".to_string(),
             description: "Trait definitions and implementations".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "tree_data_structure".to_string(),
             description: "Tree data structure implementations".to_string(),
             category: "Data Structures".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "tuples".to_string(),
             description: "Tuple types and destructuring".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "type_aliases".to_string(),
             description: "Type aliases for code clarity".to_string(),
             category: "Intermediate".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "typestate_pattern".to_string(),
             description: "Compile-time state machine pattern".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "unsafe_code".to_string(),
             description: "Unsafe Rust and raw pointers".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "unsafe_trait".to_string(),
             description: "Unsafe trait implementations".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "user_input".to_string(),
             description: "Reading and processing user input".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "variables".to_string(),
             description: "Variable declaration and mutability".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "vectors".to_string(),
             description: "Dynamic array Vec type".to_string(),
             category: "Data Structures".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "webserver".to_string(),
             description: "HTTP web server implementation".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "while_loop".to_string(),
             description: "While loop patterns".to_string(),
             category: "Basics".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "zero_cost_abstraction".to_string(),
             description: "Zero-cost abstractions in Rust".to_string(),
             category: "Advanced".to_string(),
+            submodules: vec![],
         },
     ]
 }
