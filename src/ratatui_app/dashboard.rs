@@ -930,31 +930,257 @@ impl App {
 
                     // Call the submodule's index function
                     match (module.name.as_str(), module.submodules[idx].name.as_str()) {
-                        ("algorithms", "bubble_sort") => {
-                            crate::algorithms::bubble_sort::index(true)
-                        }
-                        ("algorithms", "cocktail_sort") => {
-                            crate::algorithms::cocktail_sort::index(true)
-                        }
+                        ("algorithms", "bubble_sort") => crate::algorithms::bubble_sort::index(true),
+                        ("algorithms", "cocktail_sort") => crate::algorithms::cocktail_sort::index(true),
                         ("algorithms", "comb_sort") => crate::algorithms::comb_sort::index(true),
-                        ("algorithms", "insertion_sort") => {
-                            crate::algorithms::insertion_sort::index(true)
-                        }
+                        ("algorithms", "insertion_sort") => crate::algorithms::insertion_sort::index(true),
                         ("algorithms", "merge_sort") => crate::algorithms::merge_sort::index(true),
                         ("algorithms", "quick_sort") => crate::algorithms::quick_sort::index(true),
-                        ("algorithms", "selection_sort") => {
-                            crate::algorithms::selection_sort::index(true)
+                        ("algorithms", "selection_sort") => crate::algorithms::selection_sort::index(true),
+                        ("api_mutex", "definition") => crate::api_mutex::definition::index(true),
+                        ("api_mutex", "mutexes") => crate::api_mutex::mutexes::index(true),
+                        ("api_mutex", "thread_parking") => crate::api_mutex::thread_parking::index(true),
+                        ("basics", "arrays") => crate::basics::arrays::index(true),
+                        ("basics", "booleans") => crate::basics::booleans::index(true),
+                        ("basics", "borrowing") => crate::basics::borrowing::index(true),
+                        ("basics", "branches") => crate::basics::branches::index(true),
+                        ("basics", "characters") => crate::basics::characters::index(true),
+                        ("basics", "clone") => crate::basics::clone::index(true),
+                        ("basics", "compounds") => crate::basics::compounds::index(true),
+                        ("basics", "constants") => crate::basics::constants::index(true),
+                        ("basics", "control_flow") => crate::basics::control_flow::index(true),
+                        ("basics", "floats") => crate::basics::floats::index(true),
+                        ("basics", "functions") => crate::basics::functions::index(true),
+                        ("basics", "if_let") => crate::basics::if_let::index(true),
+                        ("basics", "integers") => crate::basics::integers::index(true),
+                        ("basics", "loops") => crate::basics::loops::index(true),
+                        ("basics", "match_statements") => crate::basics::match_statements::index(true),
+                        ("basics", "num_operations") => crate::basics::num_operations::index(true),
+                        ("basics", "recursion") => crate::basics::recursion::index(true),
+                        ("basics", "scalars") => crate::basics::scalars::index(true),
+                        ("basics", "scopes") => crate::basics::scopes::index(true),
+                        ("basics", "shadowing") => crate::basics::shadowing::index(true),
+                        ("basics", "slices") => crate::basics::slices::index(true),
+                        ("basics", "type_casting") => crate::basics::type_casting::index(true),
+                        ("basics", "underscores") => crate::basics::underscores::index(true),
+                        ("basics", "variables") => crate::basics::variables::index(true),
+                        ("boxes", "definition") => crate::boxes::definition::index(true),
+                        ("closures", "closures_inside_methods") => crate::closures::closures_inside_methods::index(true),
+                        ("closures", "definition") => crate::closures::definition::index(true),
+                        ("closures", "demo") => crate::closures::demo::index(true),
+                        ("closures", "map_collect") => crate::closures::map_collect::index(true),
+                        ("closures", "map_combinator") => crate::closures::map_combinator::index(true),
+                        ("closures", "process_closure_thread") => crate::closures::process_closure_thread::index(true),
+                        ("collections", "hashmaps") => crate::collections::hashmaps::index(true),
+                        ("collections", "vectors") => crate::collections::vectors::index(true),
+                        ("concurrency", "definition") => crate::concurrency::definition::index(true),
+                        ("concurrency", "message_passing") => crate::concurrency::message_passing::index(true),
+                        ("concurrency", "scoped_threads") => crate::concurrency::scoped_threads::index(true),
+                        ("concurrency", "sharing_state_concurrently") => crate::concurrency::sharing_state_concurrently::index(true),
+                        ("data_collections", "definition") => crate::data_collections::definition::index(true),
+                        ("data_collections", "shipping_box") => crate::data_collections::shipping_box::index(true),
+                        ("enums", "cards") => crate::enums::cards::index(true),
+                        ("enums", "catching_multiple_values") => crate::enums::catching_multiple_values::index(true),
+                        ("enums", "definition") => crate::enums::definition::index(true),
+                        ("enums", "demo") => crate::enums::demo::index(true),
+                        ("enums", "emulator") => crate::enums::emulator::index(true),
+                        ("enums", "enum_multi_array") => crate::enums::enum_multi_array::index(true),
+                        ("enums", "enum_with_data") => crate::enums::enum_with_data::index(true),
+                        ("enums", "enum_with_match") => crate::enums::enum_with_match::index(true),
+                        ("enums", "enums_and_functions") => crate::enums::enums_and_functions::index(true),
+                        ("enums", "enums_with_enums") => crate::enums::enums_with_enums::index(true),
+                        ("enums", "event") => crate::enums::event::index(true),
+                        ("enums", "german_months") => crate::enums::german_months::index(true),
+                        ("enums", "hold_data") => crate::enums::hold_data::index(true),
+                        ("enums", "match_exact_value") => crate::enums::match_exact_value::index(true),
+                        ("enums", "matches") => crate::enums::matches::index(true),
+                        ("enums", "options") => crate::enums::options::index(true),
+                        ("enums", "payment_method_type") => crate::enums::payment_method_type::index(true),
+                        ("enums", "result_enum") => crate::enums::result_enum::index(true),
+                        ("errors", "activity_custom_errors") => {
+                            let _ = crate::errors::activity_custom_errors::index(true);
                         }
+                        ("errors", "closures") => crate::errors::closures::index(true),
+                        ("errors", "custom_errors") => {
+                            let _ = crate::errors::custom_errors::index(true);
+                        }
+                        ("errors", "demo_custom_error") => {
+                            let _ = crate::errors::demo_custom_error::index(true);
+                        }
+                        ("errors", "error_handling") => crate::errors::error_handling::index(true),
+                        ("errors", "error_propagation") => crate::errors::error_propagation::index(true),
                         ("exercises", "ex03") => crate::exercises::ex03::index(true),
                         ("exercises", "ex08") => crate::exercises::ex08::index(true),
+                        ("external_crates", "activity") => crate::external_crates::activity::index(true),
+                        ("external_crates", "demo") => crate::external_crates::demo::index(true),
+                        ("functions", "blocks_in_functions") => crate::functions::blocks_in_functions::index(true),
+                        ("functions", "definition") => crate::functions::definition::index(true),
+                        ("functions", "func_return_option") => crate::functions::func_return_option::index(true),
+                        ("generics", "activity") => crate::generics::activity::index(true),
+                        ("generics", "conveyor_belt") => crate::generics::conveyor_belt::index(true),
+                        ("generics", "definition") => crate::generics::definition::index(true),
+                        ("generics", "demo") => crate::generics::demo::index(true),
+                        ("generics", "generic_add") => crate::generics::generic_add::index(true),
+                        ("generics", "generic_enums") => crate::generics::generic_enums::index(true),
+                        ("generics", "generic_functions") => crate::generics::generic_functions::index(true),
+                        ("generics", "generic_implementation") => crate::generics::generic_implementation::index(true),
+                        ("generics", "generic_structs") => crate::generics::generic_structs::index(true),
+                        ("generics", "generic_structures") => crate::generics::generic_structures::index(true),
+                        ("generics", "generic_with_where") => crate::generics::generic_with_where::index(true),
+                        ("generics", "introduction") => crate::generics::introduction::index(true),
+                        ("generics", "multiple_generics") => crate::generics::multiple_generics::index(true),
+                        ("generics", "question_operator") => crate::generics::question_operator::index(true),
+                        ("generics", "vehicle") => crate::generics::vehicle::index(true),
+                        ("hashmaps", "activity") => crate::hashmaps::activity::index(true),
+                        ("hashmaps", "definition") => crate::hashmaps::definition::index(true),
+                        ("hashmaps", "furniture") => crate::hashmaps::furniture::index(true),
+                        ("hashmaps", "hashmap_entry_method") => crate::hashmaps::hashmap_entry_method::index(true),
+                        ("hashmaps", "hashmap_get") => crate::hashmaps::hashmap_get::index(true),
+                        ("hashmaps", "hashmap_loop") => crate::hashmaps::hashmap_loop::index(true),
+                        ("hashmaps", "hashmap_old_values") => crate::hashmaps::hashmap_old_values::index(true),
+                        ("iterators", "activity") => crate::iterators::activity::index(true),
+                        ("iterators", "definition") => crate::iterators::definition::index(true),
+                        ("iterators", "demo") => crate::iterators::demo::index(true),
+                        ("iterators", "extend") => crate::iterators::extend::index(true),
+                        ("iterators", "filter_map") => crate::iterators::filter_map::index(true),
+                        ("iterators", "find_position") => crate::iterators::find_position::index(true),
+                        ("iterators", "fold") => crate::iterators::fold::index(true),
+                        ("iterators", "functional_style") => crate::iterators::functional_style::index(true),
+                        ("iterators", "impl_iterator") => crate::iterators::impl_iterator::index(true),
+                        ("iterators", "iter_in_collections") => crate::iterators::iter_in_collections::index(true),
+                        ("iterators", "iterator_next") => crate::iterators::iterator_next::index(true),
+                        ("iterators", "mapping_and_filtering") => crate::iterators::mapping_and_filtering::index(true),
+                        ("iterators", "nonfunctional_style") => crate::iterators::nonfunctional_style::index(true),                        ("iterators", "partition") => crate::iterators::partition::index(true),
+                        ("iterators", "result_option_ok") => crate::iterators::result_option_ok::index(true),
+                        ("iterators", "rev") => crate::iterators::rev::index(true),
+                        ("iterators", "scan_hash_table") => crate::iterators::scan_hash_table::index(true),
+                        ("iterators", "skip") => crate::iterators::skip::index(true),
+                        ("iterators", "without_for") => crate::iterators::without_for::index(true),
+                        ("lifetimes", "activity") => crate::lifetimes::activity::index(true),
+                        ("lifetimes", "anonymous_lifetime") => crate::lifetimes::anonymous_lifetime::index(true),
+                        ("lifetimes", "compare_activity") => crate::lifetimes::compare_activity::index(true),
+                        ("lifetimes", "definition") => crate::lifetimes::definition::index(true),
+                        ("lifetimes", "demo") => crate::lifetimes::demo::index(true),
+                        ("lifetimes", "example") => crate::lifetimes::example::index(true),
+                        ("lifetimes", "multiple_lifetimes") => crate::lifetimes::multiple_lifetimes::index(true),
+                        ("lifetimes", "named_lifetime") => crate::lifetimes::named_lifetime::index(true),
+                        ("loops", "definition") => crate::loops::definition::index(true),
+                        ("loops", "returning_values_from_loops") => crate::loops::returning_values_from_loops::index(true),
+                        ("macros", "create_vector") => crate::macros::create_vector::index(true),
+                        ("macros", "definition") => crate::macros::definition::index(true),
+                        ("matches", "catch_all") => crate::matches::catch_all::index(true),
+                        ("matches", "definition") => crate::matches::definition::index(true),
+                        ("matches", "if_let") => crate::matches::if_let::index(true),
+                        ("matches", "match_control_flow") => crate::matches::match_control_flow::index(true),
+                        ("matches", "match_guard") => crate::matches::match_guard::index(true),
+                        ("matches", "match_vector") => crate::matches::match_vector::index(true),
+                        ("matches", "multiple_placeholders") => crate::matches::multiple_placeholders::index(true),
+                        ("matches", "pattern_match") => crate::matches::pattern_match::index(true),
+                        ("matches", "placeholder") => crate::matches::placeholder::index(true),
+                        ("matches", "while_let") => crate::matches::while_let::index(true),
+                        ("messenger", "definition") => crate::messenger::definition::index(true),                        ("methods", "associated_functions") => crate::methods::associated_functions::index(true),
+                        ("methods", "definition") => crate::methods::definition::index(true),
+                        ("methods", "multiple_impl_blocks") => crate::methods::multiple_impl_blocks::index(true),
+                        ("methods", "parameters") => crate::methods::parameters::index(true),
+                        ("modules", "inline_modules_activity") => crate::modules::inline_modules_activity::index(true),
+                        ("modules", "inline_modules_demo") => crate::modules::inline_modules_demo::index(true),
+                        ("modules", "mod_basics") => crate::modules::mod_basics::index(true),
+                        ("new_type", "activity") => crate::new_type::activity::index(true),
+                        ("new_type", "definition") => crate::new_type::definition::index(true),
+                        ("new_type", "demo") => crate::new_type::demo::index(true),                        ("optionals", "activity") => crate::optionals::activity::index(true),
+                        ("optionals", "definition") => crate::optionals::definition::index(true),
+                        ("optionals", "unwrap_or_else") => crate::optionals::unwrap_or_else::index(true),
+                        ("ownership", "borrowing") => crate::ownership::borrowing::index(true),
+                        ("ownership", "dereference_operator") => crate::ownership::dereference_operator::index(true),
+                        ("ownership", "functions") => crate::ownership::functions::index(true),
+                        ("ownership", "mutable_borrowing") => crate::ownership::mutable_borrowing::index(true),
+                        ("ownership", "mutable_references") => crate::ownership::mutable_references::index(true),
+                        ("ownership", "ownership_arrays") => crate::ownership::ownership_arrays::index(true),
+                        ("ownership", "references_borrowing") => crate::ownership::references_borrowing::index(true),
+                        ("ownership", "return_multiple_values") => crate::ownership::return_multiple_values::index(true),
+                        ("ownership", "return_values_and_scope") => crate::ownership::return_values_and_scope::index(true),
+                        ("ownership", "returning_ownership") => crate::ownership::returning_ownership::index(true),
+                        ("ownership", "string_clone_heap") => crate::ownership::string_clone_heap::index(true),
+                        ("ownership", "string_type") => crate::ownership::string_type::index(true),
+                        ("references", "basic_reference") => crate::references::basic_reference::index(true),
+                        ("references", "definition") => crate::references::definition::index(true),
+                        ("references", "mut_reference") => crate::references::mut_reference::index(true),
+                        ("references", "ref_of_references") => crate::references::ref_of_references::index(true),
+                        ("results", "activity") => crate::results::activity::index(true),
+                        ("results", "definition") => crate::results::definition::index(true),
+                        ("results", "question_mark_operator") => crate::results::question_mark_operator::index(true),                        ("slices", "array_slices") => crate::slices::array_slices::index(true),
+                        ("slices", "definition") => crate::slices::definition::index(true),
+                        ("slices", "mutable_slice") => crate::slices::mutable_slice::index(true),
+                        ("slices", "reference_array") => crate::slices::reference_array::index(true),
+                        ("strings", "borrowed_string") => crate::strings::borrowed_string::index(true),
+                        ("strings", "concatenation") => crate::strings::concatenation::index(true),
+                        ("strings", "definition") => crate::strings::definition::index(true),
+                        ("strings", "iterate") => crate::strings::iterate::index(true),
+                        ("strings", "matches") => crate::strings::matches::index(true),
+                        ("strings", "string_functions") => crate::strings::string_functions::index(true),
+                        ("strings", "string_is_encoded") => crate::strings::string_is_encoded::index(true),
+                        ("strings", "string_literals") => crate::strings::string_literals::index(true),
+                        ("structs", "builder_pattern") => crate::structs::builder_pattern::index(true),
+                        ("structs", "coffee") => crate::structs::coffee::index(true),
+                        ("structs", "definition") => crate::structs::definition::index(true),
+                        ("structs", "file") => crate::structs::file::index(true),
+                        ("structs", "human") => crate::structs::human::index(true),
+                        ("structs", "integrate_struct_enum_match") => crate::structs::integrate_struct_enum_match::index(true),
+                        ("structs", "methods") => crate::structs::methods::index(true),
+                        ("structs", "person") => crate::structs::person::index(true),
+                        ("structs", "queue") => crate::structs::queue::index(true),
+                        ("structs", "struct_update_syntax") => crate::structs::struct_update_syntax::index(true),
+                        ("structs", "structs_owned") => crate::structs::structs_owned::index(true),
+                        ("structs", "tuple_structs") => crate::structs::tuple_structs::index(true),
+                        ("structs", "unit_struct") => crate::structs::unit_struct::index(true),
+                        ("system_calls", "c_call") => crate::system_calls::c_call::index(true),
+                        ("system_calls", "raw_syscall") => crate::system_calls::raw_syscall::index(true),
                         ("testing", "activity") => crate::testing::activity::index(true),
                         ("testing", "definition") => crate::testing::definition::index(true),
                         ("testing", "demo") => crate::testing::demo::index(true),
-                        ("machine_learning", "reading_csv_file") => {
-                            let _ = crate::machine_learning::reading_csv_file::index(true);
-                        }
+                        ("threads", "definition") => crate::threads::definition::index(true),
+                        ("threads", "message_passing_between_threads") => crate::threads::message_passing_between_threads::index(true),
+                        ("threads", "move_data_between_threads") => crate::threads::move_data_between_threads::index(true),
+                        ("threads", "multithreading") => crate::threads::multithreading::index(true),
+                        ("threads", "mutexes") => crate::threads::mutexes::index(true),
+                        ("threads", "preventing_race_condition") => crate::threads::preventing_race_condition::index(true),
+                        ("threads", "scoped_threads") => crate::threads::scoped_threads::index(true),
+                        ("threads", "sending_multiple_values") => crate::threads::sending_multiple_values::index(true),
+                        ("threads", "sharing_data_between_threads") => crate::threads::sharing_data_between_threads::index(true),
+                        ("threads", "threads_in_array") => crate::threads::threads_in_array::index(true),
+                        ("traits", "activity") => crate::traits::activity::index(true),
+                        ("traits", "activity_trait_objects") => crate::traits::activity_trait_objects::index(true),
+                        ("traits", "complex_trait") => crate::traits::complex_trait::index(true),
+                        ("traits", "copy_trait") => crate::traits::copy_trait::index(true),
+                        ("traits", "default_trait") => crate::traits::default_trait::index(true),
+                        ("traits", "definition") => crate::traits::definition::index(true),
+                        ("traits", "demo") => crate::traits::demo::index(true),
+                        ("traits", "demo_trait_objets") => crate::traits::demo_trait_objets::index(true),
+                        ("traits", "derives") => crate::traits::derives::index(true),
+                        ("traits", "from_trait") => crate::traits::from_trait::index(true),
+                        ("traits", "impl_display") => crate::traits::impl_display::index(true),
+                        ("traits", "media_aggregator") => crate::traits::media_aggregator::index(true),
+                        ("traits", "returning_traits_with_dyn") => crate::traits::returning_traits_with_dyn::index(true),
+                        ("traits", "simple_trait") => crate::traits::simple_trait::index(true),                        ("traits", "with_generics") => crate::traits::with_generics::index(true),
+                        ("tuples", "definition") => crate::tuples::definition::index(true),
+                        ("tuples", "single_tuple") => crate::tuples::single_tuple::index(true),
+                        ("type_aliases", "demo") => crate::type_aliases::demo::index(true),
+                        ("type_aliases", "long_types") => crate::type_aliases::long_types::index(true),
+                        ("typestate_pattern", "activity") => crate::typestate_pattern::activity::index(true),
+                        ("typestate_pattern", "demo") => crate::typestate_pattern::demo::index(true),
                         ("user_input", "activity") => crate::user_input::activity::index(true),
                         ("user_input", "demo") => crate::user_input::demo::index(true),
+                        ("variables", "constants") => crate::variables::constants::index(true),
+                        ("variables", "vars") => crate::variables::vars::index(true),
+                        ("vectors", "add_remove") => crate::vectors::add_remove::index(true),
+                        ("vectors", "create_vector") => crate::vectors::create_vector::index(true),
+                        ("vectors", "definition") => crate::vectors::definition::index(true),
+                        ("vectors", "get_method") => crate::vectors::get_method::index(true),
+                        ("vectors", "reading_vector") => crate::vectors::reading_vector::index(true),
+                        ("vectors", "sort_vector") => crate::vectors::sort_vector::index(true),
+                        ("vectors", "vector_capacity") => crate::vectors::vector_capacity::index(true),
+                        ("while_loop", "definition") => crate::while_loop::definition::index(true),
+                        ("while_loop", "while_let") => crate::while_loop::while_let::index(true),
                         _ => {
                             println!(
                                 "Submodule {} in {} not yet implemented",
@@ -1801,13 +2027,55 @@ fn get_all_modules() -> Vec<Module> {
             name: "api_mutex".to_string(),
             description: "API examples using Mutex for safe concurrent access".to_string(),
             category: "Concurrency".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "mutexes".to_string(),
+                    description: "Mutexes".to_string(),
+                },
+                Submodule {
+                    name: "thread_parking".to_string(),
+                    description: "Thread Parking".to_string(),
+                },
+            ],
         },
         Module {
             name: "arrays".to_string(),
             description: "Fixed-size array operations and manipulations".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "bubble_sort".to_string(),
+                    description: "Bubble Sort".to_string(),
+                },
+                Submodule {
+                    name: "cocktail_sort".to_string(),
+                    description: "Cocktail Sort".to_string(),
+                },
+                Submodule {
+                    name: "comb_sort".to_string(),
+                    description: "Comb Sort".to_string(),
+                },
+                Submodule {
+                    name: "insertion_sort".to_string(),
+                    description: "Insertion Sort".to_string(),
+                },
+                Submodule {
+                    name: "merge_sort".to_string(),
+                    description: "Merge Sort".to_string(),
+                },
+                Submodule {
+                    name: "quick_sort".to_string(),
+                    description: "Quick Sort".to_string(),
+                },
+                Submodule {
+                    name: "selection_sort".to_string(),
+                    description: "Selection Sort".to_string(),
+                },
+            ],
         },
         Module {
             name: "automatic_clean".to_string(),
@@ -1819,19 +2087,138 @@ fn get_all_modules() -> Vec<Module> {
             name: "basics".to_string(),
             description: "Fundamental Rust concepts and syntax".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "arrays".to_string(),
+                    description: "Arrays".to_string(),
+                },
+                Submodule {
+                    name: "booleans".to_string(),
+                    description: "Booleans".to_string(),
+                },
+                Submodule {
+                    name: "borrowing".to_string(),
+                    description: "Borrowing".to_string(),
+                },
+                Submodule {
+                    name: "branches".to_string(),
+                    description: "Branches".to_string(),
+                },
+                Submodule {
+                    name: "characters".to_string(),
+                    description: "Characters".to_string(),
+                },
+                Submodule {
+                    name: "clone".to_string(),
+                    description: "Clone".to_string(),
+                },
+                Submodule {
+                    name: "compounds".to_string(),
+                    description: "Compounds".to_string(),
+                },
+                Submodule {
+                    name: "constants".to_string(),
+                    description: "Constants".to_string(),
+                },
+                Submodule {
+                    name: "control_flow".to_string(),
+                    description: "Control Flow".to_string(),
+                },
+                Submodule {
+                    name: "convert_values".to_string(),
+                    description: "Convert Values".to_string(),
+                },
+                Submodule {
+                    name: "floats".to_string(),
+                    description: "Floats".to_string(),
+                },
+                Submodule {
+                    name: "functions".to_string(),
+                    description: "Functions".to_string(),
+                },
+                Submodule {
+                    name: "if_let".to_string(),
+                    description: "If Let".to_string(),
+                },
+                Submodule {
+                    name: "integers".to_string(),
+                    description: "Integers".to_string(),
+                },
+                Submodule {
+                    name: "loops".to_string(),
+                    description: "Loops".to_string(),
+                },
+                Submodule {
+                    name: "match_statements".to_string(),
+                    description: "Match Statements".to_string(),
+                },
+                Submodule {
+                    name: "num_operations".to_string(),
+                    description: "Num Operations".to_string(),
+                },
+                Submodule {
+                    name: "recursion".to_string(),
+                    description: "Recursion".to_string(),
+                },
+                Submodule {
+                    name: "scalars".to_string(),
+                    description: "Scalars".to_string(),
+                },
+                Submodule {
+                    name: "scopes".to_string(),
+                    description: "Scopes".to_string(),
+                },
+                Submodule {
+                    name: "shadowing".to_string(),
+                    description: "Shadowing".to_string(),
+                },
+                Submodule {
+                    name: "slices".to_string(),
+                    description: "Slices".to_string(),
+                },
+                Submodule {
+                    name: "type_casting".to_string(),
+                    description: "Type Casting".to_string(),
+                },
+                Submodule {
+                    name: "underscores".to_string(),
+                    description: "Underscores".to_string(),
+                },
+                Submodule {
+                    name: "variables".to_string(),
+                    description: "Variables".to_string(),
+                },
+            ],
         },
         Module {
             name: "bit_patterns".to_string(),
             description: "Bit manipulation and binary patterns".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "constants".to_string(),
+                    description: "Constants".to_string(),
+                },
+                Submodule {
+                    name: "vars".to_string(),
+                    description: "Vars".to_string(),
+                },
+            ],
         },
         Module {
             name: "boxes".to_string(),
             description: "Heap allocation with Box smart pointer".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "dereference".to_string(),
+                    description: "Dereference".to_string(),
+                },
+            ],
         },
         Module {
             name: "channels".to_string(),
@@ -1843,31 +2230,144 @@ fn get_all_modules() -> Vec<Module> {
             name: "closures".to_string(),
             description: "Anonymous functions and closure captures".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "closures_inside_methods".to_string(),
+                    description: "Closures Inside Methods".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+                Submodule {
+                    name: "map_collect".to_string(),
+                    description: "Map Collect".to_string(),
+                },
+                Submodule {
+                    name: "map_combinator".to_string(),
+                    description: "Map Combinator".to_string(),
+                },
+                Submodule {
+                    name: "process_closure_thread".to_string(),
+                    description: "Process Closure Thread".to_string(),
+                },
+                Submodule {
+                    name: "simple_closure".to_string(),
+                    description: "Simple Closure".to_string(),
+                },
+                Submodule {
+                    name: "vars_outside_closure".to_string(),
+                    description: "Vars Outside Closure".to_string(),
+                },
+            ],
         },
         Module {
             name: "collections".to_string(),
             description: "Standard library collection types".to_string(),
             category: "Data Structures".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "hashmaps".to_string(),
+                    description: "Hashmaps".to_string(),
+                },
+                Submodule {
+                    name: "vectors".to_string(),
+                    description: "Vectors".to_string(),
+                },
+            ],
         },
         Module {
             name: "compiler_directives".to_string(),
             description: "Conditional compilation and attributes".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "furniture".to_string(),
+                    description: "Furniture".to_string(),
+                },
+                Submodule {
+                    name: "hashmap_entry_method".to_string(),
+                    description: "Hashmap Entry Method".to_string(),
+                },
+                Submodule {
+                    name: "hashmap_get".to_string(),
+                    description: "Hashmap Get".to_string(),
+                },
+                Submodule {
+                    name: "hashmap_loop".to_string(),
+                    description: "Hashmap Loop".to_string(),
+                },
+                Submodule {
+                    name: "hashmap_old_values".to_string(),
+                    description: "Hashmap Old Values".to_string(),
+                },
+            ],
         },
         Module {
             name: "concurrency".to_string(),
             description: "Concurrent programming patterns".to_string(),
             category: "Concurrency".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "message_passing".to_string(),
+                    description: "Message Passing".to_string(),
+                },
+                Submodule {
+                    name: "scoped_threads".to_string(),
+                    description: "Scoped Threads".to_string(),
+                },
+                Submodule {
+                    name: "sharing_state_concurrently".to_string(),
+                    description: "Sharing State Concurrently".to_string(),
+                },
+            ],
         },
         Module {
             name: "cow_type".to_string(),
             description: "Clone-on-Write smart pointer for efficient borrowing".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "add_remove".to_string(),
+                    description: "Add Remove".to_string(),
+                },
+                Submodule {
+                    name: "create_vector".to_string(),
+                    description: "Create Vector".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "get_method".to_string(),
+                    description: "Get Method".to_string(),
+                },
+                Submodule {
+                    name: "reading_vector".to_string(),
+                    description: "Reading Vector".to_string(),
+                },
+                Submodule {
+                    name: "sort_vector".to_string(),
+                    description: "Sort Vector".to_string(),
+                },
+                Submodule {
+                    name: "vector_capacity".to_string(),
+                    description: "Vector Capacity".to_string(),
+                },
+            ],
         },
         Module {
             name: "cubesats".to_string(),
@@ -1885,7 +2385,16 @@ fn get_all_modules() -> Vec<Module> {
             name: "data_collections".to_string(),
             description: "Working with various data collection types".to_string(),
             category: "Data Structures".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "shipping_box".to_string(),
+                    description: "Shipping Box".to_string(),
+                },
+            ],
         },
         Module {
             name: "decisions".to_string(),
@@ -1921,13 +2430,127 @@ fn get_all_modules() -> Vec<Module> {
             name: "enums".to_string(),
             description: "Enumeration types and pattern matching".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "cards".to_string(),
+                    description: "Cards".to_string(),
+                },
+                Submodule {
+                    name: "catching_multiple_values".to_string(),
+                    description: "Catching Multiple Values".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+                Submodule {
+                    name: "emulator".to_string(),
+                    description: "Emulator".to_string(),
+                },
+                Submodule {
+                    name: "enum_multi_array".to_string(),
+                    description: "Enum Multi Array".to_string(),
+                },
+                Submodule {
+                    name: "enum_with_data".to_string(),
+                    description: "Enum With Data".to_string(),
+                },
+                Submodule {
+                    name: "enum_with_match".to_string(),
+                    description: "Enum With Match".to_string(),
+                },
+                Submodule {
+                    name: "enums_and_functions".to_string(),
+                    description: "Enums And Functions".to_string(),
+                },
+                Submodule {
+                    name: "enums_with_enums".to_string(),
+                    description: "Enums With Enums".to_string(),
+                },
+                Submodule {
+                    name: "event".to_string(),
+                    description: "Event".to_string(),
+                },
+                Submodule {
+                    name: "german_months".to_string(),
+                    description: "German Months".to_string(),
+                },
+                Submodule {
+                    name: "hold_data".to_string(),
+                    description: "Hold Data".to_string(),
+                },
+                Submodule {
+                    name: "match_exact_value".to_string(),
+                    description: "Match Exact Value".to_string(),
+                },
+                Submodule {
+                    name: "matches".to_string(),
+                    description: "Matches".to_string(),
+                },
+                Submodule {
+                    name: "options".to_string(),
+                    description: "Options".to_string(),
+                },
+                Submodule {
+                    name: "payment_method_type".to_string(),
+                    description: "Payment Method Type".to_string(),
+                },
+                Submodule {
+                    name: "result_enum".to_string(),
+                    description: "Result Enum".to_string(),
+                },
+            ],
         },
         Module {
             name: "errors".to_string(),
             description: "Error handling with Result and custom error types".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "catch_all".to_string(),
+                    description: "Catch All".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "if_let".to_string(),
+                    description: "If Let".to_string(),
+                },
+                Submodule {
+                    name: "match_control_flow".to_string(),
+                    description: "Match Control Flow".to_string(),
+                },
+                Submodule {
+                    name: "match_guard".to_string(),
+                    description: "Match Guard".to_string(),
+                },
+                Submodule {
+                    name: "match_vector".to_string(),
+                    description: "Match Vector".to_string(),
+                },
+                Submodule {
+                    name: "multiple_placeholders".to_string(),
+                    description: "Multiple Placeholders".to_string(),
+                },
+                Submodule {
+                    name: "pattern_match".to_string(),
+                    description: "Pattern Match".to_string(),
+                },
+                Submodule {
+                    name: "placeholder".to_string(),
+                    description: "Placeholder".to_string(),
+                },
+                Submodule {
+                    name: "while_let".to_string(),
+                    description: "While Let".to_string(),
+                },
+            ],
         },
         Module {
             name: "exercises".to_string(),
@@ -1948,19 +2571,58 @@ fn get_all_modules() -> Vec<Module> {
             name: "expressions".to_string(),
             description: "Expressions vs statements in Rust".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "ex03".to_string(),
+                    description: "Ex03".to_string(),
+                },
+                Submodule {
+                    name: "ex08".to_string(),
+                    description: "Ex08".to_string(),
+                },
+            ],
         },
         Module {
             name: "extern_functions".to_string(),
             description: "Foreign Function Interface (FFI) examples".to_string(),
             category: "System".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "activity_custom_errors".to_string(),
+                    description: "Activity Custom Errors".to_string(),
+                },
+                Submodule {
+                    name: "closures".to_string(),
+                    description: "Closures".to_string(),
+                },
+                Submodule {
+                    name: "custom_errors".to_string(),
+                    description: "Custom Errors".to_string(),
+                },
+                Submodule {
+                    name: "demo_custom_error".to_string(),
+                    description: "Demo Custom Error".to_string(),
+                },
+                Submodule {
+                    name: "error_handling".to_string(),
+                    description: "Error Handling".to_string(),
+                },
+                Submodule {
+                    name: "error_propagation".to_string(),
+                    description: "Error Propagation".to_string(),
+                },
+            ],
         },
         Module {
             name: "external_crates".to_string(),
             description: "Using external dependencies from crates.io".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+            ],
         },
         Module {
             name: "files".to_string(),
@@ -1984,7 +2646,20 @@ fn get_all_modules() -> Vec<Module> {
             name: "functions".to_string(),
             description: "Function definition and usage".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "blocks_in_functions".to_string(),
+                    description: "Blocks In Functions".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "func_return_option".to_string(),
+                    description: "Func Return Option".to_string(),
+                },
+            ],
         },
         Module {
             name: "futures".to_string(),
@@ -1996,7 +2671,64 @@ fn get_all_modules() -> Vec<Module> {
             name: "generics".to_string(),
             description: "Generic types and functions".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "conveyor_belt".to_string(),
+                    description: "Conveyor Belt".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+                Submodule {
+                    name: "generic_add".to_string(),
+                    description: "Generic Add".to_string(),
+                },
+                Submodule {
+                    name: "generic_enums".to_string(),
+                    description: "Generic Enums".to_string(),
+                },
+                Submodule {
+                    name: "generic_functions".to_string(),
+                    description: "Generic Functions".to_string(),
+                },
+                Submodule {
+                    name: "generic_implementation".to_string(),
+                    description: "Generic Implementation".to_string(),
+                },
+                Submodule {
+                    name: "generic_structs".to_string(),
+                    description: "Generic Structs".to_string(),
+                },
+                Submodule {
+                    name: "generic_structures".to_string(),
+                    description: "Generic Structures".to_string(),
+                },
+                Submodule {
+                    name: "generic_with_where".to_string(),
+                    description: "Generic With Where".to_string(),
+                },
+                Submodule {
+                    name: "introduction".to_string(),
+                    description: "Introduction".to_string(),
+                },
+                Submodule {
+                    name: "multiple_generics".to_string(),
+                    description: "Multiple Generics".to_string(),
+                },
+                Submodule {
+                    name: "question_operator".to_string(),
+                    description: "Question Operator".to_string(),
+                },
+                Submodule {
+                    name: "vehicle".to_string(),
+                    description: "Vehicle".to_string(),
+                },
+            ],
         },
         Module {
             name: "get_type".to_string(),
@@ -2014,7 +2746,32 @@ fn get_all_modules() -> Vec<Module> {
             name: "hashmaps".to_string(),
             description: "HashMap data structure and operations".to_string(),
             category: "Data Structures".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "furniture".to_string(),
+                    description: "Furniture".to_string(),
+                },
+                Submodule {
+                    name: "hashmap_entry_method".to_string(),
+                    description: "Hashmap Entry Method".to_string(),
+                },
+                Submodule {
+                    name: "hashmap_get".to_string(),
+                    description: "Hashmap Get".to_string(),
+                },
+                Submodule {
+                    name: "hashmap_loop".to_string(),
+                    description: "Hashmap Loop".to_string(),
+                },
+                Submodule {
+                    name: "hashmap_old_values".to_string(),
+                    description: "Hashmap Old Values".to_string(),
+                },
+            ],
         },
         Module {
             name: "hello_world".to_string(),
@@ -2044,7 +2801,80 @@ fn get_all_modules() -> Vec<Module> {
             name: "iterators".to_string(),
             description: "Iterator trait and lazy evaluation".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+                Submodule {
+                    name: "extend".to_string(),
+                    description: "Extend".to_string(),
+                },
+                Submodule {
+                    name: "filter_map".to_string(),
+                    description: "Filter Map".to_string(),
+                },
+                Submodule {
+                    name: "find_position".to_string(),
+                    description: "Find Position".to_string(),
+                },
+                Submodule {
+                    name: "fold".to_string(),
+                    description: "Fold".to_string(),
+                },
+                Submodule {
+                    name: "functional_style".to_string(),
+                    description: "Functional Style".to_string(),
+                },
+                Submodule {
+                    name: "impl_iterator".to_string(),
+                    description: "Impl Iterator".to_string(),
+                },
+                Submodule {
+                    name: "iter_in_collections".to_string(),
+                    description: "Iter In Collections".to_string(),
+                },
+                Submodule {
+                    name: "iterator_next".to_string(),
+                    description: "Iterator Next".to_string(),
+                },
+                Submodule {
+                    name: "mapping_and_filtering".to_string(),
+                    description: "Mapping And Filtering".to_string(),
+                },
+                Submodule {
+                    name: "nonfunctional_style".to_string(),
+                    description: "Nonfunctional Style".to_string(),
+                },
+                                Submodule {
+                    name: "partition".to_string(),
+                    description: "Partition".to_string(),
+                },
+                Submodule {
+                    name: "result_option_ok".to_string(),
+                    description: "Result Option Ok".to_string(),
+                },
+                Submodule {
+                    name: "rev".to_string(),
+                    description: "Rev".to_string(),
+                },
+                Submodule {
+                    name: "scan_hash_table".to_string(),
+                    description: "Scan Hash Table".to_string(),
+                },
+                Submodule {
+                    name: "skip".to_string(),
+                    description: "Skip".to_string(),
+                },
+                Submodule {
+                    name: "without_for".to_string(),
+                    description: "Without For".to_string(),
+                },
+            ],
         },
         Module {
             name: "joinhandle".to_string(),
@@ -2056,13 +2886,51 @@ fn get_all_modules() -> Vec<Module> {
             name: "lifetimes".to_string(),
             description: "Lifetime annotations and borrow checker".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "anonymous_lifetime".to_string(),
+                    description: "Anonymous Lifetime".to_string(),
+                },
+                Submodule {
+                    name: "compare_activity".to_string(),
+                    description: "Compare Activity".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+                Submodule {
+                    name: "example".to_string(),
+                    description: "Example".to_string(),
+                },
+                Submodule {
+                    name: "multiple_lifetimes".to_string(),
+                    description: "Multiple Lifetimes".to_string(),
+                },
+                Submodule {
+                    name: "named_lifetime".to_string(),
+                    description: "Named Lifetime".to_string(),
+                },
+            ],
         },
         Module {
             name: "loops".to_string(),
             description: "Loop constructs: loop, while, for".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "returning_values_from_loops".to_string(),
+                    description: "Returning Values From Loops".to_string(),
+                },
+            ],
         },
         Module {
             name: "machine_learning".to_string(),
@@ -2077,7 +2945,16 @@ fn get_all_modules() -> Vec<Module> {
             name: "macros".to_string(),
             description: "Macro rules and procedural macros".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "create_vector".to_string(),
+                    description: "Create Vector".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+            ],
         },
         Module {
             name: "mandelbrot".to_string(),
@@ -2089,7 +2966,48 @@ fn get_all_modules() -> Vec<Module> {
             name: "matches".to_string(),
             description: "Pattern matching fundamentals".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "catch_all".to_string(),
+                    description: "Catch All".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "if_let".to_string(),
+                    description: "If Let".to_string(),
+                },
+                Submodule {
+                    name: "match_control_flow".to_string(),
+                    description: "Match Control Flow".to_string(),
+                },
+                Submodule {
+                    name: "match_guard".to_string(),
+                    description: "Match Guard".to_string(),
+                },
+                Submodule {
+                    name: "match_vector".to_string(),
+                    description: "Match Vector".to_string(),
+                },
+                Submodule {
+                    name: "multiple_placeholders".to_string(),
+                    description: "Multiple Placeholders".to_string(),
+                },
+                Submodule {
+                    name: "pattern_match".to_string(),
+                    description: "Pattern Match".to_string(),
+                },
+                Submodule {
+                    name: "placeholder".to_string(),
+                    description: "Placeholder".to_string(),
+                },
+                Submodule {
+                    name: "while_let".to_string(),
+                    description: "While Let".to_string(),
+                },
+            ],
         },
         Module {
             name: "message_passing".to_string(),
@@ -2101,19 +3019,54 @@ fn get_all_modules() -> Vec<Module> {
             name: "messenger".to_string(),
             description: "Messaging patterns and implementations".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                            ],
         },
         Module {
             name: "methods".to_string(),
             description: "Struct methods and associated functions".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "associated_functions".to_string(),
+                    description: "Associated Functions".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "multiple_impl_blocks".to_string(),
+                    description: "Multiple Impl Blocks".to_string(),
+                },
+                Submodule {
+                    name: "parameters".to_string(),
+                    description: "Parameters".to_string(),
+                },
+            ],
         },
         Module {
             name: "modules".to_string(),
             description: "Module system and code organization".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "inline_modules_activity".to_string(),
+                    description: "Inline Modules Activity".to_string(),
+                },
+                Submodule {
+                    name: "inline_modules_demo".to_string(),
+                    description: "Inline Modules Demo".to_string(),
+                },
+                Submodule {
+                    name: "mod_basics".to_string(),
+                    description: "Mod Basics".to_string(),
+                },
+            ],
         },
         Module {
             name: "move_vars".to_string(),
@@ -2137,13 +3090,23 @@ fn get_all_modules() -> Vec<Module> {
             name: "new_type".to_string(),
             description: "Newtype pattern for type safety".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+            ],
         },
         Module {
             name: "numbers".to_string(),
             description: "Numeric types and operations".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                                            ],
         },
         Module {
             name: "object_oriented".to_string(),
@@ -2167,13 +3130,71 @@ fn get_all_modules() -> Vec<Module> {
             name: "optionals".to_string(),
             description: "Option type for null safety".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "unwrap_or_else".to_string(),
+                    description: "Unwrap Or Else".to_string(),
+                },
+            ],
         },
         Module {
             name: "ownership".to_string(),
             description: "Ownership system fundamentals".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "borrowing".to_string(),
+                    description: "Borrowing".to_string(),
+                },
+                Submodule {
+                    name: "dereference_operator".to_string(),
+                    description: "Dereference Operator".to_string(),
+                },
+                Submodule {
+                    name: "functions".to_string(),
+                    description: "Functions".to_string(),
+                },
+                Submodule {
+                    name: "mutable_borrowing".to_string(),
+                    description: "Mutable Borrowing".to_string(),
+                },
+                Submodule {
+                    name: "mutable_references".to_string(),
+                    description: "Mutable References".to_string(),
+                },
+                Submodule {
+                    name: "ownership_arrays".to_string(),
+                    description: "Ownership Arrays".to_string(),
+                },
+                Submodule {
+                    name: "references_borrowing".to_string(),
+                    description: "References Borrowing".to_string(),
+                },
+                Submodule {
+                    name: "return_multiple_values".to_string(),
+                    description: "Return Multiple Values".to_string(),
+                },
+                Submodule {
+                    name: "return_values_and_scope".to_string(),
+                    description: "Return Values And Scope".to_string(),
+                },
+                Submodule {
+                    name: "returning_ownership".to_string(),
+                    description: "Returning Ownership".to_string(),
+                },
+                Submodule {
+                    name: "string_clone_heap".to_string(),
+                    description: "String Clone Heap".to_string(),
+                },
+                Submodule {
+                    name: "string_type".to_string(),
+                    description: "String Type".to_string(),
+                },
+            ],
         },
         Module {
             name: "patterns".to_string(),
@@ -2215,13 +3236,39 @@ fn get_all_modules() -> Vec<Module> {
             name: "references".to_string(),
             description: "References and borrowing basics".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "basic_reference".to_string(),
+                    description: "Basic Reference".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "mut_reference".to_string(),
+                    description: "Mut Reference".to_string(),
+                },
+                Submodule {
+                    name: "ref_of_references".to_string(),
+                    description: "Ref Of References".to_string(),
+                },
+            ],
         },
         Module {
             name: "results".to_string(),
             description: "Result type for error handling".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "question_mark_operator".to_string(),
+                    description: "Question Mark Operator".to_string(),
+                },
+            ],
         },
         Module {
             name: "rust_atomics_and_locks".to_string(),
@@ -2239,7 +3286,24 @@ fn get_all_modules() -> Vec<Module> {
             name: "slices".to_string(),
             description: "Slice types and references".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "array_slices".to_string(),
+                    description: "Array Slices".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "mutable_slice".to_string(),
+                    description: "Mutable Slice".to_string(),
+                },
+                Submodule {
+                    name: "reference_array".to_string(),
+                    description: "Reference Array".to_string(),
+                },
+            ],
         },
         Module {
             name: "static_variable".to_string(),
@@ -2251,30 +3315,121 @@ fn get_all_modules() -> Vec<Module> {
             name: "strings".to_string(),
             description: "String and &str types".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "borrowed_string".to_string(),
+                    description: "Borrowed String".to_string(),
+                },
+                Submodule {
+                    name: "concatenation".to_string(),
+                    description: "Concatenation".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "iterate".to_string(),
+                    description: "Iterate".to_string(),
+                },
+                Submodule {
+                    name: "matches".to_string(),
+                    description: "Matches".to_string(),
+                },
+                Submodule {
+                    name: "string_functions".to_string(),
+                    description: "String Functions".to_string(),
+                },
+                Submodule {
+                    name: "string_is_encoded".to_string(),
+                    description: "String Is Encoded".to_string(),
+                },
+                Submodule {
+                    name: "string_literals".to_string(),
+                    description: "String Literals".to_string(),
+                },
+            ],
         },
         Module {
             name: "structs".to_string(),
             description: "Struct definitions and usage".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "builder_pattern".to_string(),
+                    description: "Builder Pattern".to_string(),
+                },
+                Submodule {
+                    name: "coffee".to_string(),
+                    description: "Coffee".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "file".to_string(),
+                    description: "File".to_string(),
+                },
+                Submodule {
+                    name: "human".to_string(),
+                    description: "Human".to_string(),
+                },
+                Submodule {
+                    name: "integrate_struct_enum_match".to_string(),
+                    description: "Integrate Struct Enum Match".to_string(),
+                },
+                Submodule {
+                    name: "methods".to_string(),
+                    description: "Methods".to_string(),
+                },
+                Submodule {
+                    name: "person".to_string(),
+                    description: "Person".to_string(),
+                },
+                Submodule {
+                    name: "queue".to_string(),
+                    description: "Queue".to_string(),
+                },
+                Submodule {
+                    name: "struct_update_syntax".to_string(),
+                    description: "Struct Update Syntax".to_string(),
+                },
+                Submodule {
+                    name: "structs_owned".to_string(),
+                    description: "Structs Owned".to_string(),
+                },
+                Submodule {
+                    name: "tuple_structs".to_string(),
+                    description: "Tuple Structs".to_string(),
+                },
+                Submodule {
+                    name: "unit_struct".to_string(),
+                    description: "Unit Struct".to_string(),
+                },
+            ],
         },
         Module {
             name: "system_calls".to_string(),
             description: "System call interface with libc".to_string(),
             category: "System".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "c_call".to_string(),
+                    description: "C Call".to_string(),
+                },
+                Submodule {
+                    name: "raw_syscall".to_string(),
+                    description: "Raw Syscall".to_string(),
+                },
+            ],
         },
         Module {
             name: "testing".to_string(),
             description: "Unit testing and integration tests".to_string(),
             category: "Intermediate".to_string(),
             submodules: vec![
-                Submodule {
-                    name: "activity".to_string(),
-                    description: "Testing activity examples".to_string(),
-                },
-                Submodule {
+                                Submodule {
                     name: "definition".to_string(),
                     description: "Test definitions and structure".to_string(),
                 },
@@ -2288,43 +3443,214 @@ fn get_all_modules() -> Vec<Module> {
             name: "threads".to_string(),
             description: "Thread creation and management".to_string(),
             category: "Concurrency".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "message_passing_between_threads".to_string(),
+                    description: "Message Passing Between Threads".to_string(),
+                },
+                Submodule {
+                    name: "move_data_between_threads".to_string(),
+                    description: "Move Data Between Threads".to_string(),
+                },
+                Submodule {
+                    name: "multithreading".to_string(),
+                    description: "Multithreading".to_string(),
+                },
+                Submodule {
+                    name: "mutexes".to_string(),
+                    description: "Mutexes".to_string(),
+                },
+                Submodule {
+                    name: "preventing_race_condition".to_string(),
+                    description: "Preventing Race Condition".to_string(),
+                },
+                Submodule {
+                    name: "scoped_threads".to_string(),
+                    description: "Scoped Threads".to_string(),
+                },
+                Submodule {
+                    name: "sending_multiple_values".to_string(),
+                    description: "Sending Multiple Values".to_string(),
+                },
+                Submodule {
+                    name: "sharing_data_between_threads".to_string(),
+                    description: "Sharing Data Between Threads".to_string(),
+                },
+                Submodule {
+                    name: "threads_in_array".to_string(),
+                    description: "Threads In Array".to_string(),
+                },
+            ],
         },
         Module {
             name: "traits".to_string(),
             description: "Trait definitions and implementations".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "activity_trait_objects".to_string(),
+                    description: "Activity Trait Objects".to_string(),
+                },
+                Submodule {
+                    name: "complex_trait".to_string(),
+                    description: "Complex Trait".to_string(),
+                },
+                Submodule {
+                    name: "copy_trait".to_string(),
+                    description: "Copy Trait".to_string(),
+                },
+                Submodule {
+                    name: "default_trait".to_string(),
+                    description: "Default Trait".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+                Submodule {
+                    name: "demo_trait_objets".to_string(),
+                    description: "Demo Trait Objets".to_string(),
+                },
+                Submodule {
+                    name: "derives".to_string(),
+                    description: "Derives".to_string(),
+                },
+                Submodule {
+                    name: "from_trait".to_string(),
+                    description: "From Trait".to_string(),
+                },
+                Submodule {
+                    name: "impl_display".to_string(),
+                    description: "Impl Display".to_string(),
+                },
+                Submodule {
+                    name: "media_aggregator".to_string(),
+                    description: "Media Aggregator".to_string(),
+                },
+                Submodule {
+                    name: "returning_traits_with_dyn".to_string(),
+                    description: "Returning Traits With Dyn".to_string(),
+                },
+                Submodule {
+                    name: "simple_trait".to_string(),
+                    description: "Simple Trait".to_string(),
+                },
+                                Submodule {
+                    name: "with_generics".to_string(),
+                    description: "With Generics".to_string(),
+                },
+            ],
         },
         Module {
             name: "tree_data_structure".to_string(),
             description: "Tree data structure implementations".to_string(),
             category: "Data Structures".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "catch_all".to_string(),
+                    description: "Catch All".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "if_let".to_string(),
+                    description: "If Let".to_string(),
+                },
+                Submodule {
+                    name: "match_control_flow".to_string(),
+                    description: "Match Control Flow".to_string(),
+                },
+                Submodule {
+                    name: "match_guard".to_string(),
+                    description: "Match Guard".to_string(),
+                },
+                Submodule {
+                    name: "match_vector".to_string(),
+                    description: "Match Vector".to_string(),
+                },
+                Submodule {
+                    name: "multiple_placeholders".to_string(),
+                    description: "Multiple Placeholders".to_string(),
+                },
+                Submodule {
+                    name: "pattern_match".to_string(),
+                    description: "Pattern Match".to_string(),
+                },
+                Submodule {
+                    name: "placeholder".to_string(),
+                    description: "Placeholder".to_string(),
+                },
+                Submodule {
+                    name: "while_let".to_string(),
+                    description: "While Let".to_string(),
+                },
+            ],
         },
         Module {
             name: "tuples".to_string(),
             description: "Tuple types and destructuring".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "single_tuple".to_string(),
+                    description: "Single Tuple".to_string(),
+                },
+            ],
         },
         Module {
             name: "type_aliases".to_string(),
             description: "Type aliases for code clarity".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+                Submodule {
+                    name: "long_types".to_string(),
+                    description: "Long Types".to_string(),
+                },
+            ],
         },
         Module {
             name: "typestate_pattern".to_string(),
             description: "Compile-time state machine pattern".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+            ],
         },
         Module {
             name: "unsafe_code".to_string(),
             description: "Unsafe Rust and raw pointers".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+            ],
         },
         Module {
             name: "unsafe_trait".to_string(),
@@ -2337,11 +3663,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Reading and processing user input".to_string(),
             category: "Basics".to_string(),
             submodules: vec![
-                Submodule {
-                    name: "activity".to_string(),
-                    description: "User input activity example".to_string(),
-                },
-                Submodule {
+                                Submodule {
                     name: "demo".to_string(),
                     description: "User input demonstration".to_string(),
                 },
@@ -2351,25 +3673,77 @@ fn get_all_modules() -> Vec<Module> {
             name: "variables".to_string(),
             description: "Variable declaration and mutability".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "constants".to_string(),
+                    description: "Constants".to_string(),
+                },
+                Submodule {
+                    name: "vars".to_string(),
+                    description: "Vars".to_string(),
+                },
+            ],
         },
         Module {
             name: "vectors".to_string(),
             description: "Dynamic array Vec type".to_string(),
             category: "Data Structures".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "add_remove".to_string(),
+                    description: "Add Remove".to_string(),
+                },
+                Submodule {
+                    name: "create_vector".to_string(),
+                    description: "Create Vector".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "get_method".to_string(),
+                    description: "Get Method".to_string(),
+                },
+                Submodule {
+                    name: "reading_vector".to_string(),
+                    description: "Reading Vector".to_string(),
+                },
+                Submodule {
+                    name: "sort_vector".to_string(),
+                    description: "Sort Vector".to_string(),
+                },
+                Submodule {
+                    name: "vector_capacity".to_string(),
+                    description: "Vector Capacity".to_string(),
+                },
+            ],
         },
         Module {
             name: "webserver".to_string(),
             description: "HTTP web server implementation".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                                Submodule {
+                    name: "demo".to_string(),
+                    description: "Demo".to_string(),
+                },
+            ],
         },
         Module {
             name: "while_loop".to_string(),
             description: "While loop patterns".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "while_let".to_string(),
+                    description: "While Let".to_string(),
+                },
+            ],
         },
         Module {
             name: "zero_cost_abstraction".to_string(),
