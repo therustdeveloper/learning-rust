@@ -930,7 +930,9 @@ impl App {
 
                     // Call the submodule's index function
                     match (module.name.as_str(), module.submodules[idx].name.as_str()) {
-                        ("algorithms", "bubble_sort") => crate::algorithms::bubble_sort::index(true),
+                        ("algorithms", "bubble_sort") => {
+                            crate::algorithms::bubble_sort::index(true)
+                        }
                         ("algorithms", "cocktail_sort") => {
                             crate::algorithms::cocktail_sort::index(true)
                         }
@@ -948,6 +950,11 @@ impl App {
                         ("testing", "activity") => crate::testing::activity::index(true),
                         ("testing", "definition") => crate::testing::definition::index(true),
                         ("testing", "demo") => crate::testing::demo::index(true),
+                        ("machine_learning", "reading_csv_file") => {
+                            let _ = crate::machine_learning::reading_csv_file::index(true);
+                        }
+                        ("user_input", "activity") => crate::user_input::activity::index(true),
+                        ("user_input", "demo") => crate::user_input::demo::index(true),
                         _ => {
                             println!(
                                 "Submodule {} in {} not yet implemented",
@@ -1078,6 +1085,13 @@ pub fn run_app() -> io::Result<()> {
                                     app.run_submodule();
                                 } else {
                                     app.run_module();
+                                }
+                            }
+                            KeyCode::Char('c') | KeyCode::Backspace => {
+                                // Clear submodule output
+                                if app.submodule_output.is_some() {
+                                    app.submodule_output = None;
+                                    app.submodule_scroll = 0;
                                 }
                             }
                             KeyCode::Char('s') | KeyCode::Char('x') => {
@@ -1321,7 +1335,11 @@ fn render_details_with_submodules(f: &mut Frame, app: &App, area: Rect, module: 
         )
         .highlight_symbol(">> ");
 
-    f.render_stateful_widget(submodule_list, chunks[0], &mut app.submodule_list_state.clone());
+    f.render_stateful_widget(
+        submodule_list,
+        chunks[0],
+        &mut app.submodule_list_state.clone(),
+    );
 
     // Render submodule output or instructions
     let (output_title, output_content) = if let Some(output) = &app.submodule_output {
@@ -1338,7 +1356,8 @@ fn render_details_with_submodules(f: &mut Frame, app: &App, area: Rect, module: 
                 module.submodules[idx].name, module.submodules[idx].description
             )
         } else {
-            "Use ↑↓ arrows to navigate submodules\nPress Enter to run selected submodule".to_string()
+            "Use ↑↓ arrows to navigate submodules\nPress Enter to run selected submodule"
+                .to_string()
         };
         (" Submodule Details ".to_string(), instructions)
     };
@@ -1527,29 +1546,93 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
 
 /// Render the footer section
 fn render_footer(f: &mut Frame, area: Rect, app: &App) {
-    let mut help_spans = vec![
-        Span::styled(
-            " ↑/k ",
-            Style::default()
-                .fg(Color::Cyan)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::raw("Up  "),
-        Span::styled(
-            "↓/j ",
-            Style::default()
-                .fg(Color::Cyan)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::raw("Down  "),
-        Span::styled(
-            "Enter ",
-            Style::default()
-                .fg(Color::Green)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::raw("Run  "),
-    ];
+    // Check if current module has submodules
+    let has_submodules = app
+        .selected_module
+        .as_ref()
+        .map(|m| !m.submodules.is_empty())
+        .unwrap_or(false);
+
+    let mut help_spans = vec![];
+
+    if has_submodules {
+        // Show submodule navigation keys
+        help_spans.extend(vec![
+            Span::styled(
+                " ←/h ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::raw("Prev Module  "),
+            Span::styled(
+                "→/l ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::raw("Next Module  "),
+            Span::styled(
+                "↑/k ",
+                Style::default()
+                    .fg(Color::Yellow)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::raw("Prev Sub  "),
+            Span::styled(
+                "↓/j ",
+                Style::default()
+                    .fg(Color::Yellow)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::raw("Next Sub  "),
+            Span::styled(
+                "Enter ",
+                Style::default()
+                    .fg(Color::Green)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::raw("Run  "),
+        ]);
+
+        // Add clear key if there's submodule output
+        if app.submodule_output.is_some() {
+            help_spans.extend(vec![
+                Span::styled(
+                    "c/⌫ ",
+                    Style::default()
+                        .fg(Color::Magenta)
+                        .add_modifier(Modifier::BOLD),
+                ),
+                Span::raw("Clear  "),
+            ]);
+        }
+    } else {
+        // Show regular module navigation keys
+        help_spans.extend(vec![
+            Span::styled(
+                " ↑/k ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::raw("Up  "),
+            Span::styled(
+                "↓/j ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::raw("Down  "),
+            Span::styled(
+                "Enter ",
+                Style::default()
+                    .fg(Color::Green)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::raw("Run  "),
+        ]);
+    }
 
     // Add stop key if any long-running module is active
     if app.webserver_running || app.futures_running || app.network_running {
@@ -1850,7 +1933,16 @@ fn get_all_modules() -> Vec<Module> {
             name: "exercises".to_string(),
             description: "Practice exercises and challenges".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "ex03".to_string(),
+                    description: "Exercise 03".to_string(),
+                },
+                Submodule {
+                    name: "ex08".to_string(),
+                    description: "Exercise 08".to_string(),
+                },
+            ],
         },
         Module {
             name: "expressions".to_string(),
@@ -1976,7 +2068,10 @@ fn get_all_modules() -> Vec<Module> {
             name: "machine_learning".to_string(),
             description: "Machine learning examples with Polars".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![],
+            submodules: vec![Submodule {
+                name: "reading_csv_file".to_string(),
+                description: "Reading and processing CSV files with Polars".to_string(),
+            }],
         },
         Module {
             name: "macros".to_string(),
@@ -2174,7 +2269,20 @@ fn get_all_modules() -> Vec<Module> {
             name: "testing".to_string(),
             description: "Unit testing and integration tests".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "activity".to_string(),
+                    description: "Testing activity examples".to_string(),
+                },
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Test definitions and structure".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "Testing demonstration".to_string(),
+                },
+            ],
         },
         Module {
             name: "threads".to_string(),
@@ -2228,7 +2336,16 @@ fn get_all_modules() -> Vec<Module> {
             name: "user_input".to_string(),
             description: "Reading and processing user input".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![],
+            submodules: vec![
+                Submodule {
+                    name: "activity".to_string(),
+                    description: "User input activity example".to_string(),
+                },
+                Submodule {
+                    name: "demo".to_string(),
+                    description: "User input demonstration".to_string(),
+                },
+            ],
         },
         Module {
             name: "variables".to_string(),
