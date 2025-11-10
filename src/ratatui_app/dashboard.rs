@@ -60,6 +60,12 @@ struct App {
     network_output_rx: Option<mpsc::Receiver<String>>,
     network_running: bool,
     network_output: String, // Keep network output separate
+    // Message passing threading support
+    message_passing_thread: Option<JoinHandle<()>>,
+    message_passing_shutdown: Arc<AtomicBool>,
+    message_passing_output_rx: Option<mpsc::Receiver<String>>,
+    message_passing_running: bool,
+    message_passing_output: String, // Keep message_passing output separate
     // User input state
     input_mode: bool,
     input_buffer: String,
@@ -99,6 +105,11 @@ impl App {
             network_output_rx: None,
             network_running: false,
             network_output: String::new(),
+            message_passing_thread: None,
+            message_passing_shutdown: Arc::new(AtomicBool::new(false)),
+            message_passing_output_rx: None,
+            message_passing_running: false,
+            message_passing_output: String::new(),
             input_mode: false,
             input_buffer: String::new(),
             input_prompt: String::new(),
@@ -132,7 +143,14 @@ impl App {
             } else if self.network_running && module.name == "network" {
                 // Navigated back to network - show output
                 self.module_output = Some(self.network_output.clone());
-            } else if !self.webserver_running && !self.futures_running && !self.network_running {
+            } else if self.message_passing_running && module.name == "message_passing" {
+                // Navigated back to message_passing - show output
+                self.module_output = Some(self.message_passing_output.clone());
+            } else if !self.webserver_running
+                && !self.futures_running
+                && !self.network_running
+                && !self.message_passing_running
+            {
                 // No background tasks, clear output
                 self.module_output = None;
             } else {
@@ -171,7 +189,14 @@ impl App {
             } else if self.network_running && module.name == "network" {
                 // Navigated back to network - show output
                 self.module_output = Some(self.network_output.clone());
-            } else if !self.webserver_running && !self.futures_running && !self.network_running {
+            } else if self.message_passing_running && module.name == "message_passing" {
+                // Navigated back to message_passing - show output
+                self.module_output = Some(self.message_passing_output.clone());
+            } else if !self.webserver_running
+                && !self.futures_running
+                && !self.network_running
+                && !self.message_passing_running
+            {
                 // No background tasks, clear output
                 self.module_output = None;
             } else {
@@ -464,6 +489,99 @@ impl App {
         self.module_output = Some(self.network_output.clone());
     }
 
+    /// Check if message_passing has new output and update display
+    fn check_message_passing_output(&mut self) {
+        if let Some(rx) = &self.message_passing_output_rx {
+            // Collect all available messages without blocking
+            while let Ok(msg) = rx.try_recv() {
+                // Sanitize the message to prevent terminal corruption
+                let clean_msg = Self::sanitize_output(&msg);
+                if !clean_msg.is_empty() {
+                    self.message_passing_output.push_str(&clean_msg);
+                    if !clean_msg.ends_with('\n') {
+                        self.message_passing_output.push('\n');
+                    }
+                }
+            }
+        }
+
+        // Check if thread has finished
+        if self.message_passing_running {
+            if let Some(handle) = &self.message_passing_thread {
+                if handle.is_finished() {
+                    self.message_passing_running = false;
+                    // Take the handle to join it
+                    if let Some(handle) = self.message_passing_thread.take() {
+                        let _ = handle.join();
+                    }
+                    self.message_passing_output_rx = None;
+
+                    // Append completion message
+                    self.message_passing_output
+                        .push_str("\n[Message passing demo completed]\n");
+                }
+            }
+        }
+
+        // Update module_output if we're viewing message_passing
+        if let Some(module) = &self.selected_module {
+            if module.name == "message_passing" && !self.message_passing_output.is_empty() {
+                self.module_output = Some(self.message_passing_output.clone());
+            }
+        }
+    }
+
+    /// Stop the running message_passing demo
+    fn stop_message_passing(&mut self) {
+        if self.message_passing_running {
+            // Signal shutdown
+            self.message_passing_shutdown.store(true, Ordering::Relaxed);
+
+            // Wait for thread to finish (with timeout to prevent hanging)
+            if let Some(handle) = self.message_passing_thread.take() {
+                let _ = handle.join();
+            }
+
+            self.message_passing_running = false;
+            self.message_passing_output_rx = None;
+
+            // Update output
+            self.message_passing_output
+                .push_str("\n[Message passing stopped by user]\n");
+
+            // Update module_output if we're viewing message_passing
+            if let Some(module) = &self.selected_module {
+                if module.name == "message_passing" {
+                    self.module_output = Some(self.message_passing_output.clone());
+                }
+            }
+
+            // Reset shutdown flag for next run
+            self.message_passing_shutdown
+                .store(false, Ordering::Relaxed);
+        }
+    }
+
+    /// Start the message_passing demo in a background thread
+    fn start_message_passing(&mut self) {
+        // Clear previous message_passing output
+        self.message_passing_output.clear();
+        self.message_passing_output
+            .push_str("[Starting message passing demo...]\n");
+
+        let (tx, rx) = mpsc::channel();
+        let shutdown_signal = self.message_passing_shutdown.clone();
+
+        let handle = thread::spawn(move || {
+            crate::message_passing::definition::run_with_shutdown(tx, shutdown_signal);
+        });
+
+        self.message_passing_thread = Some(handle);
+        self.message_passing_output_rx = Some(rx);
+        self.message_passing_running = true;
+        self.module_output = Some(self.message_passing_output.clone());
+    }
+
     /// Start user input mode with a popup
     fn start_user_input(&mut self, prompt: &str) {
         self.input_mode = true;
@@ -565,6 +683,21 @@ impl App {
                 } else {
                     // Start network in background thread
                     self.start_network();
+                    return;
+                }
+            }
+
+            // Special handling for message_passing module
+            if module.name == "message_passing" {
+                if self.message_passing_running {
+                    // Already running - refresh and show current output
+                    self.check_message_passing_output();
+                    // Ensure the output is displayed
+                    self.module_output = Some(self.message_passing_output.clone());
+                    return;
+                } else {
+                    // Start message_passing in background thread
+                    self.start_message_passing();
                     return;
                 }
             }
@@ -719,6 +852,9 @@ pub fn run_app() -> io::Result<()> {
         if app.network_running {
             app.check_network_output();
         }
+        if app.message_passing_running {
+            app.check_message_passing_output();
+        }
 
         // Use a timeout for event polling to allow periodic updates
         if event::poll(std::time::Duration::from_millis(100))? {
@@ -755,6 +891,9 @@ pub fn run_app() -> io::Result<()> {
                                 if app.network_running {
                                     app.stop_network();
                                 }
+                                if app.message_passing_running {
+                                    app.stop_message_passing();
+                                }
                                 break Ok(());
                             }
                             KeyCode::Down | KeyCode::Char('j') => app.next(),
@@ -773,6 +912,10 @@ pub fn run_app() -> io::Result<()> {
                                 }
                                 if app.network_running {
                                     app.stop_network();
+                                    stopped_something = true;
+                                }
+                                if app.message_passing_running {
+                                    app.stop_message_passing();
                                     stopped_something = true;
                                 }
                                 if stopped_something {
@@ -953,6 +1096,8 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
             title = " Output: futures [RUNNING] ".to_string();
         } else if app.network_running {
             title = " Output: network [RUNNING] ".to_string();
+        } else if app.message_passing_running {
+            title = " Output: message_passing [RUNNING] ".to_string();
         }
 
         (title, Paragraph::new(output.as_str()))
