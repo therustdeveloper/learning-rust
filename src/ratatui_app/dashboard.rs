@@ -2,6 +2,11 @@
 //!
 //! Contains the terminal user interface implementation for browsing learning modules.
 
+// ToDo:
+// refactor this massive code into a modular strategy
+// each module must handle its own TUI configuration
+// I want that everything reacts as an injected code
+
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEventKind},
     execute,
@@ -930,16 +935,26 @@ impl App {
 
                     // Call the submodule's index function
                     match (module.name.as_str(), module.submodules[idx].name.as_str()) {
-                        ("algorithms", "bubble_sort") => crate::algorithms::bubble_sort::index(true),
-                        ("algorithms", "cocktail_sort") => crate::algorithms::cocktail_sort::index(true),
+                        ("algorithms", "bubble_sort") => {
+                            crate::algorithms::bubble_sort::index(true)
+                        }
+                        ("algorithms", "cocktail_sort") => {
+                            crate::algorithms::cocktail_sort::index(true)
+                        }
                         ("algorithms", "comb_sort") => crate::algorithms::comb_sort::index(true),
-                        ("algorithms", "insertion_sort") => crate::algorithms::insertion_sort::index(true),
+                        ("algorithms", "insertion_sort") => {
+                            crate::algorithms::insertion_sort::index(true)
+                        }
                         ("algorithms", "merge_sort") => crate::algorithms::merge_sort::index(true),
                         ("algorithms", "quick_sort") => crate::algorithms::quick_sort::index(true),
-                        ("algorithms", "selection_sort") => crate::algorithms::selection_sort::index(true),
+                        ("algorithms", "selection_sort") => {
+                            crate::algorithms::selection_sort::index(true)
+                        }
                         ("api_mutex", "definition") => crate::api_mutex::definition::index(true),
                         ("api_mutex", "mutexes") => crate::api_mutex::mutexes::index(true),
-                        ("api_mutex", "thread_parking") => crate::api_mutex::thread_parking::index(true),
+                        ("api_mutex", "thread_parking") => {
+                            crate::api_mutex::thread_parking::index(true)
+                        }
                         ("basics", "arrays") => crate::basics::arrays::index(true),
                         ("basics", "booleans") => crate::basics::booleans::index(true),
                         ("basics", "borrowing") => crate::basics::borrowing::index(true),
@@ -955,7 +970,9 @@ impl App {
                         ("basics", "if_let") => crate::basics::if_let::index(true),
                         ("basics", "integers") => crate::basics::integers::index(true),
                         ("basics", "loops") => crate::basics::loops::index(true),
-                        ("basics", "match_statements") => crate::basics::match_statements::index(true),
+                        ("basics", "match_statements") => {
+                            crate::basics::match_statements::index(true)
+                        }
                         ("basics", "num_operations") => crate::basics::num_operations::index(true),
                         ("basics", "recursion") => crate::basics::recursion::index(true),
                         ("basics", "scalars") => crate::basics::scalars::index(true),
@@ -967,39 +984,73 @@ impl App {
                         ("basics", "variables") => crate::basics::variables::index(true),
                         ("boxes", "definition") => crate::boxes::definition::index(true),
                         ("boxes", "dereference") => crate::boxes::dereference::index(true),
-                        ("closures", "closures_inside_methods") => crate::closures::closures_inside_methods::index(true),
+                        ("closures", "closures_inside_methods") => {
+                            crate::closures::closures_inside_methods::index(true)
+                        }
                         ("closures", "definition") => crate::closures::definition::index(true),
                         ("closures", "demo") => crate::closures::demo::index(true),
                         ("closures", "map_collect") => crate::closures::map_collect::index(true),
-                        ("closures", "map_combinator") => crate::closures::map_combinator::index(true),
-                        ("closures", "process_closure_thread") => crate::closures::process_closure_thread::index(true),
-                        ("closures", "simple_closure") => crate::closures::simple_closure::index(true),
-                        ("closures", "vars_outside_closure") => crate::closures::vars_outside_closure::index(true),
+                        ("closures", "map_combinator") => {
+                            crate::closures::map_combinator::index(true)
+                        }
+                        ("closures", "process_closure_thread") => {
+                            crate::closures::process_closure_thread::index(true)
+                        }
+                        ("closures", "simple_closure") => {
+                            crate::closures::simple_closure::index(true)
+                        }
+                        ("closures", "vars_outside_closure") => {
+                            crate::closures::vars_outside_closure::index(true)
+                        }
                         ("collections", "hashmaps") => crate::collections::hashmaps::index(true),
                         ("collections", "vectors") => crate::collections::vectors::index(true),
-                        ("concurrency", "definition") => crate::concurrency::definition::index(true),
-                        ("concurrency", "message_passing") => crate::concurrency::message_passing::index(true),
-                        ("concurrency", "scoped_threads") => crate::concurrency::scoped_threads::index(true),
-                        ("concurrency", "sharing_state_concurrently") => crate::concurrency::sharing_state_concurrently::index(true),
-                        ("data_collections", "definition") => crate::data_collections::definition::index(true),
-                        ("data_collections", "shipping_box") => crate::data_collections::shipping_box::index(true),
+                        ("concurrency", "definition") => {
+                            crate::concurrency::definition::index(true)
+                        }
+                        ("concurrency", "message_passing") => {
+                            crate::concurrency::message_passing::index(true)
+                        }
+                        ("concurrency", "scoped_threads") => {
+                            crate::concurrency::scoped_threads::index(true)
+                        }
+                        ("concurrency", "sharing_state_concurrently") => {
+                            crate::concurrency::sharing_state_concurrently::index(true)
+                        }
+                        ("data_collections", "definition") => {
+                            crate::data_collections::definition::index(true)
+                        }
+                        ("data_collections", "shipping_box") => {
+                            crate::data_collections::shipping_box::index(true)
+                        }
                         ("enums", "cards") => crate::enums::cards::index(true),
-                        ("enums", "catching_multiple_values") => crate::enums::catching_multiple_values::index(true),
+                        ("enums", "catching_multiple_values") => {
+                            crate::enums::catching_multiple_values::index(true)
+                        }
                         ("enums", "definition") => crate::enums::definition::index(true),
                         ("enums", "demo") => crate::enums::demo::index(true),
                         ("enums", "emulator") => crate::enums::emulator::index(true),
-                        ("enums", "enum_multi_array") => crate::enums::enum_multi_array::index(true),
+                        ("enums", "enum_multi_array") => {
+                            crate::enums::enum_multi_array::index(true)
+                        }
                         ("enums", "enum_with_data") => crate::enums::enum_with_data::index(true),
                         ("enums", "enum_with_match") => crate::enums::enum_with_match::index(true),
-                        ("enums", "enums_and_functions") => crate::enums::enums_and_functions::index(true),
-                        ("enums", "enums_with_enums") => crate::enums::enums_with_enums::index(true),
+                        ("enums", "enums_and_functions") => {
+                            crate::enums::enums_and_functions::index(true)
+                        }
+                        ("enums", "enums_with_enums") => {
+                            crate::enums::enums_with_enums::index(true)
+                        }
                         ("enums", "event") => crate::enums::event::index(true),
                         ("enums", "german_months") => crate::enums::german_months::index(true),
                         ("enums", "hold_data") => crate::enums::hold_data::index(true),
-                        ("enums", "match_exact_value") => crate::enums::match_exact_value::index(true),
+                        ("enums", "match_exact_value") => {
+                            crate::enums::match_exact_value::index(true)
+                        }
                         ("enums", "matches") => crate::enums::matches::index(true),
                         ("enums", "options") => crate::enums::options::index(true),
-                        ("enums", "payment_method_type") => crate::enums::payment_method_type::index(true),
+                        ("enums", "payment_method_type") => {
+                            crate::enums::payment_method_type::index(true)
+                        }
                         ("enums", "result_enum") => crate::enums::result_enum::index(true),
                         ("errors", "activity_custom_errors") => {
                             let _ = crate::errors::activity_custom_errors::index(true);
@@ -1012,64 +1063,123 @@ impl App {
                             let _ = crate::errors::demo_custom_error::index(true);
                         }
                         ("errors", "error_handling") => crate::errors::error_handling::index(true),
-                        ("errors", "error_propagation") => crate::errors::error_propagation::index(true),
+                        ("errors", "error_propagation") => {
+                            crate::errors::error_propagation::index(true)
+                        }
                         ("exercises", "ex03") => crate::exercises::ex03::index(true),
                         ("exercises", "ex08") => crate::exercises::ex08::index(true),
-                        ("external_crates", "activity") => crate::external_crates::activity::index(true),
+                        ("external_crates", "activity") => {
+                            crate::external_crates::activity::index(true)
+                        }
                         ("external_crates", "demo") => crate::external_crates::demo::index(true),
-                        ("functions", "blocks_in_functions") => crate::functions::blocks_in_functions::index(true),
+                        ("functions", "blocks_in_functions") => {
+                            crate::functions::blocks_in_functions::index(true)
+                        }
                         ("functions", "definition") => crate::functions::definition::index(true),
-                        ("functions", "func_return_option") => crate::functions::func_return_option::index(true),
+                        ("functions", "func_return_option") => {
+                            crate::functions::func_return_option::index(true)
+                        }
                         ("generics", "activity") => crate::generics::activity::index(true),
-                        ("generics", "conveyor_belt") => crate::generics::conveyor_belt::index(true),
+                        ("generics", "conveyor_belt") => {
+                            crate::generics::conveyor_belt::index(true)
+                        }
                         ("generics", "definition") => crate::generics::definition::index(true),
                         ("generics", "demo") => crate::generics::demo::index(true),
                         ("generics", "generic_add") => crate::generics::generic_add::index(true),
-                        ("generics", "generic_enums") => crate::generics::generic_enums::index(true),
-                        ("generics", "generic_functions") => crate::generics::generic_functions::index(true),
-                        ("generics", "generic_implementation") => crate::generics::generic_implementation::index(true),
-                        ("generics", "generic_structs") => crate::generics::generic_structs::index(true),
-                        ("generics", "generic_structures") => crate::generics::generic_structures::index(true),
-                        ("generics", "generic_with_where") => crate::generics::generic_with_where::index(true),
+                        ("generics", "generic_enums") => {
+                            crate::generics::generic_enums::index(true)
+                        }
+                        ("generics", "generic_functions") => {
+                            crate::generics::generic_functions::index(true)
+                        }
+                        ("generics", "generic_implementation") => {
+                            crate::generics::generic_implementation::index(true)
+                        }
+                        ("generics", "generic_structs") => {
+                            crate::generics::generic_structs::index(true)
+                        }
+                        ("generics", "generic_structures") => {
+                            crate::generics::generic_structures::index(true)
+                        }
+                        ("generics", "generic_with_where") => {
+                            crate::generics::generic_with_where::index(true)
+                        }
                         ("generics", "introduction") => crate::generics::introduction::index(true),
-                        ("generics", "multiple_generics") => crate::generics::multiple_generics::index(true),
-                        ("generics", "question_operator") => crate::generics::question_operator::index(true),
+                        ("generics", "multiple_generics") => {
+                            crate::generics::multiple_generics::index(true)
+                        }
+                        ("generics", "question_operator") => {
+                            crate::generics::question_operator::index(true)
+                        }
                         ("generics", "vehicle") => crate::generics::vehicle::index(true),
                         ("hashmaps", "activity") => crate::hashmaps::activity::index(true),
                         ("hashmaps", "definition") => crate::hashmaps::definition::index(true),
                         ("hashmaps", "furniture") => crate::hashmaps::furniture::index(true),
-                        ("hashmaps", "hashmap_entry_method") => crate::hashmaps::hashmap_entry_method::index(true),
+                        ("hashmaps", "hashmap_entry_method") => {
+                            crate::hashmaps::hashmap_entry_method::index(true)
+                        }
                         ("hashmaps", "hashmap_get") => crate::hashmaps::hashmap_get::index(true),
                         ("hashmaps", "hashmap_loop") => crate::hashmaps::hashmap_loop::index(true),
-                        ("hashmaps", "hashmap_old_values") => crate::hashmaps::hashmap_old_values::index(true),
+                        ("hashmaps", "hashmap_old_values") => {
+                            crate::hashmaps::hashmap_old_values::index(true)
+                        }
                         ("iterators", "activity") => crate::iterators::activity::index(true),
                         ("iterators", "definition") => crate::iterators::definition::index(true),
                         ("iterators", "demo") => crate::iterators::demo::index(true),
                         ("iterators", "extend") => crate::iterators::extend::index(true),
                         ("iterators", "filter_map") => crate::iterators::filter_map::index(true),
-                        ("iterators", "find_position") => crate::iterators::find_position::index(true),
+                        ("iterators", "find_position") => {
+                            crate::iterators::find_position::index(true)
+                        }
                         ("iterators", "fold") => crate::iterators::fold::index(true),
-                        ("iterators", "functional_style") => crate::iterators::functional_style::index(true),
-                        ("iterators", "impl_iterator") => crate::iterators::impl_iterator::index(true),
-                        ("iterators", "iter_in_collections") => crate::iterators::iter_in_collections::index(true),
-                        ("iterators", "iterator_next") => crate::iterators::iterator_next::index(true),
-                        ("iterators", "mapping_and_filtering") => crate::iterators::mapping_and_filtering::index(true),
-                        ("iterators", "nonfunctional_style") => crate::iterators::nonfunctional_style::index(true),                        ("iterators", "partition") => crate::iterators::partition::index(true),
-                        ("iterators", "result_option_ok") => crate::iterators::result_option_ok::index(true),
+                        ("iterators", "functional_style") => {
+                            crate::iterators::functional_style::index(true)
+                        }
+                        ("iterators", "impl_iterator") => {
+                            crate::iterators::impl_iterator::index(true)
+                        }
+                        ("iterators", "iter_in_collections") => {
+                            crate::iterators::iter_in_collections::index(true)
+                        }
+                        ("iterators", "iterator_next") => {
+                            crate::iterators::iterator_next::index(true)
+                        }
+                        ("iterators", "mapping_and_filtering") => {
+                            crate::iterators::mapping_and_filtering::index(true)
+                        }
+                        ("iterators", "nonfunctional_style") => {
+                            crate::iterators::nonfunctional_style::index(true)
+                        }
+                        ("iterators", "partition") => crate::iterators::partition::index(true),
+                        ("iterators", "result_option_ok") => {
+                            crate::iterators::result_option_ok::index(true)
+                        }
                         ("iterators", "rev") => crate::iterators::rev::index(true),
-                        ("iterators", "scan_hash_table") => crate::iterators::scan_hash_table::index(true),
+                        ("iterators", "scan_hash_table") => {
+                            crate::iterators::scan_hash_table::index(true)
+                        }
                         ("iterators", "skip") => crate::iterators::skip::index(true),
                         ("iterators", "without_for") => crate::iterators::without_for::index(true),
                         ("lifetimes", "activity") => crate::lifetimes::activity::index(true),
-                        ("lifetimes", "anonymous_lifetime") => crate::lifetimes::anonymous_lifetime::index(true),
-                        ("lifetimes", "compare_activity") => crate::lifetimes::compare_activity::index(true),
+                        ("lifetimes", "anonymous_lifetime") => {
+                            crate::lifetimes::anonymous_lifetime::index(true)
+                        }
+                        ("lifetimes", "compare_activity") => {
+                            crate::lifetimes::compare_activity::index(true)
+                        }
                         ("lifetimes", "definition") => crate::lifetimes::definition::index(true),
                         ("lifetimes", "demo") => crate::lifetimes::demo::index(true),
                         ("lifetimes", "example") => crate::lifetimes::example::index(true),
-                        ("lifetimes", "multiple_lifetimes") => crate::lifetimes::multiple_lifetimes::index(true),
-                        ("lifetimes", "named_lifetime") => crate::lifetimes::named_lifetime::index(true),
+                        ("lifetimes", "multiple_lifetimes") => {
+                            crate::lifetimes::multiple_lifetimes::index(true)
+                        }
+                        ("lifetimes", "named_lifetime") => {
+                            crate::lifetimes::named_lifetime::index(true)
+                        }
                         ("loops", "definition") => crate::loops::definition::index(true),
-                        ("loops", "returning_values_from_loops") => crate::loops::returning_values_from_loops::index(true),
+                        ("loops", "returning_values_from_loops") => {
+                            crate::loops::returning_values_from_loops::index(true)
+                        }
                         ("machine_learning", "reading_csv_file") => {
                             let _ = crate::machine_learning::reading_csv_file::index(true);
                         }
@@ -1078,104 +1188,195 @@ impl App {
                         ("matches", "catch_all") => crate::matches::catch_all::index(true),
                         ("matches", "definition") => crate::matches::definition::index(true),
                         ("matches", "if_let") => crate::matches::if_let::index(true),
-                        ("matches", "match_control_flow") => crate::matches::match_control_flow::index(true),
+                        ("matches", "match_control_flow") => {
+                            crate::matches::match_control_flow::index(true)
+                        }
                         ("matches", "match_guard") => crate::matches::match_guard::index(true),
                         ("matches", "match_vector") => crate::matches::match_vector::index(true),
-                        ("matches", "multiple_placeholders") => crate::matches::multiple_placeholders::index(true),
+                        ("matches", "multiple_placeholders") => {
+                            crate::matches::multiple_placeholders::index(true)
+                        }
                         ("matches", "pattern_match") => crate::matches::pattern_match::index(true),
                         ("matches", "placeholder") => crate::matches::placeholder::index(true),
                         ("matches", "while_let") => crate::matches::while_let::index(true),
-                        ("messenger", "definition") => crate::messenger::definition::index(true),                        ("methods", "associated_functions") => crate::methods::associated_functions::index(true),
+                        ("messenger", "definition") => crate::messenger::definition::index(true),
+                        ("methods", "associated_functions") => {
+                            crate::methods::associated_functions::index(true)
+                        }
                         ("methods", "definition") => crate::methods::definition::index(true),
-                        ("methods", "multiple_impl_blocks") => crate::methods::multiple_impl_blocks::index(true),
+                        ("methods", "multiple_impl_blocks") => {
+                            crate::methods::multiple_impl_blocks::index(true)
+                        }
                         ("methods", "parameters") => crate::methods::parameters::index(true),
-                        ("modules", "inline_modules_activity") => crate::modules::inline_modules_activity::index(true),
-                        ("modules", "inline_modules_demo") => crate::modules::inline_modules_demo::index(true),
+                        ("modules", "inline_modules_activity") => {
+                            crate::modules::inline_modules_activity::index(true)
+                        }
+                        ("modules", "inline_modules_demo") => {
+                            crate::modules::inline_modules_demo::index(true)
+                        }
                         ("modules", "mod_basics") => crate::modules::mod_basics::index(true),
                         ("new_type", "activity") => crate::new_type::activity::index(true),
                         ("new_type", "definition") => crate::new_type::definition::index(true),
-                        ("new_type", "demo") => crate::new_type::demo::index(true),                        ("optionals", "activity") => crate::optionals::activity::index(true),
+                        ("new_type", "demo") => crate::new_type::demo::index(true),
+                        ("optionals", "activity") => crate::optionals::activity::index(true),
                         ("optionals", "definition") => crate::optionals::definition::index(true),
-                        ("optionals", "unwrap_or_else") => crate::optionals::unwrap_or_else::index(true),
+                        ("optionals", "unwrap_or_else") => {
+                            crate::optionals::unwrap_or_else::index(true)
+                        }
                         ("ownership", "borrowing") => crate::ownership::borrowing::index(true),
-                        ("ownership", "dereference_operator") => crate::ownership::dereference_operator::index(true),
+                        ("ownership", "dereference_operator") => {
+                            crate::ownership::dereference_operator::index(true)
+                        }
                         ("ownership", "functions") => crate::ownership::functions::index(true),
-                        ("ownership", "mutable_borrowing") => crate::ownership::mutable_borrowing::index(true),
-                        ("ownership", "mutable_references") => crate::ownership::mutable_references::index(true),
-                        ("ownership", "ownership_arrays") => crate::ownership::ownership_arrays::index(true),
-                        ("ownership", "references_borrowing") => crate::ownership::references_borrowing::index(true),
-                        ("ownership", "return_multiple_values") => crate::ownership::return_multiple_values::index(true),
-                        ("ownership", "return_values_and_scope") => crate::ownership::return_values_and_scope::index(true),
-                        ("ownership", "returning_ownership") => crate::ownership::returning_ownership::index(true),
-                        ("ownership", "string_clone_heap") => crate::ownership::string_clone_heap::index(true),
+                        ("ownership", "mutable_borrowing") => {
+                            crate::ownership::mutable_borrowing::index(true)
+                        }
+                        ("ownership", "mutable_references") => {
+                            crate::ownership::mutable_references::index(true)
+                        }
+                        ("ownership", "ownership_arrays") => {
+                            crate::ownership::ownership_arrays::index(true)
+                        }
+                        ("ownership", "references_borrowing") => {
+                            crate::ownership::references_borrowing::index(true)
+                        }
+                        ("ownership", "return_multiple_values") => {
+                            crate::ownership::return_multiple_values::index(true)
+                        }
+                        ("ownership", "return_values_and_scope") => {
+                            crate::ownership::return_values_and_scope::index(true)
+                        }
+                        ("ownership", "returning_ownership") => {
+                            crate::ownership::returning_ownership::index(true)
+                        }
+                        ("ownership", "string_clone_heap") => {
+                            crate::ownership::string_clone_heap::index(true)
+                        }
                         ("ownership", "string_type") => crate::ownership::string_type::index(true),
-                        ("references", "basic_reference") => crate::references::basic_reference::index(true),
+                        ("references", "basic_reference") => {
+                            crate::references::basic_reference::index(true)
+                        }
                         ("references", "definition") => crate::references::definition::index(true),
-                        ("references", "mut_reference") => crate::references::mut_reference::index(true),
-                        ("references", "ref_of_references") => crate::references::ref_of_references::index(true),
+                        ("references", "mut_reference") => {
+                            crate::references::mut_reference::index(true)
+                        }
+                        ("references", "ref_of_references") => {
+                            crate::references::ref_of_references::index(true)
+                        }
                         ("results", "activity") => crate::results::activity::index(true),
                         ("results", "definition") => crate::results::definition::index(true),
-                        ("results", "question_mark_operator") => crate::results::question_mark_operator::index(true),                        ("slices", "array_slices") => crate::slices::array_slices::index(true),
+                        ("results", "question_mark_operator") => {
+                            crate::results::question_mark_operator::index(true)
+                        }
+                        ("slices", "array_slices") => crate::slices::array_slices::index(true),
                         ("slices", "definition") => crate::slices::definition::index(true),
                         ("slices", "mutable_slice") => crate::slices::mutable_slice::index(true),
-                        ("slices", "reference_array") => crate::slices::reference_array::index(true),
-                        ("strings", "borrowed_string") => crate::strings::borrowed_string::index(true),
+                        ("slices", "reference_array") => {
+                            crate::slices::reference_array::index(true)
+                        }
+                        ("strings", "borrowed_string") => {
+                            crate::strings::borrowed_string::index(true)
+                        }
                         ("strings", "concatenation") => crate::strings::concatenation::index(true),
                         ("strings", "definition") => crate::strings::definition::index(true),
                         ("strings", "iterate") => crate::strings::iterate::index(true),
                         ("strings", "matches") => crate::strings::matches::index(true),
-                        ("strings", "string_functions") => crate::strings::string_functions::index(true),
-                        ("strings", "string_is_encoded") => crate::strings::string_is_encoded::index(true),
-                        ("strings", "string_literals") => crate::strings::string_literals::index(true),
-                        ("structs", "builder_pattern") => crate::structs::builder_pattern::index(true),
+                        ("strings", "string_functions") => {
+                            crate::strings::string_functions::index(true)
+                        }
+                        ("strings", "string_is_encoded") => {
+                            crate::strings::string_is_encoded::index(true)
+                        }
+                        ("strings", "string_literals") => {
+                            crate::strings::string_literals::index(true)
+                        }
+                        ("structs", "builder_pattern") => {
+                            crate::structs::builder_pattern::index(true)
+                        }
                         ("structs", "coffee") => crate::structs::coffee::index(true),
                         ("structs", "definition") => crate::structs::definition::index(true),
                         ("structs", "file") => crate::structs::file::index(true),
                         ("structs", "human") => crate::structs::human::index(true),
-                        ("structs", "integrate_struct_enum_match") => crate::structs::integrate_struct_enum_match::index(true),
+                        ("structs", "integrate_struct_enum_match") => {
+                            crate::structs::integrate_struct_enum_match::index(true)
+                        }
                         ("structs", "methods") => crate::structs::methods::index(true),
                         ("structs", "person") => crate::structs::person::index(true),
                         ("structs", "queue") => crate::structs::queue::index(true),
-                        ("structs", "struct_update_syntax") => crate::structs::struct_update_syntax::index(true),
+                        ("structs", "struct_update_syntax") => {
+                            crate::structs::struct_update_syntax::index(true)
+                        }
                         ("structs", "structs_owned") => crate::structs::structs_owned::index(true),
                         ("structs", "tuple_structs") => crate::structs::tuple_structs::index(true),
                         ("structs", "unit_struct") => crate::structs::unit_struct::index(true),
                         ("system_calls", "c_call") => crate::system_calls::c_call::index(true),
-                        ("system_calls", "raw_syscall") => crate::system_calls::raw_syscall::index(true),
+                        ("system_calls", "raw_syscall") => {
+                            crate::system_calls::raw_syscall::index(true)
+                        }
                         ("testing", "activity") => crate::testing::activity::index(true),
                         ("testing", "definition") => crate::testing::definition::index(true),
                         ("testing", "demo") => crate::testing::demo::index(true),
                         ("threads", "definition") => crate::threads::definition::index(true),
-                        ("threads", "message_passing_between_threads") => crate::threads::message_passing_between_threads::index(true),
-                        ("threads", "move_data_between_threads") => crate::threads::move_data_between_threads::index(true),
-                        ("threads", "multithreading") => crate::threads::multithreading::index(true),
+                        ("threads", "message_passing_between_threads") => {
+                            crate::threads::message_passing_between_threads::index(true)
+                        }
+                        ("threads", "move_data_between_threads") => {
+                            crate::threads::move_data_between_threads::index(true)
+                        }
+                        ("threads", "multithreading") => {
+                            crate::threads::multithreading::index(true)
+                        }
                         ("threads", "mutexes") => crate::threads::mutexes::index(true),
-                        ("threads", "preventing_race_condition") => crate::threads::preventing_race_condition::index(true),
-                        ("threads", "scoped_threads") => crate::threads::scoped_threads::index(true),
-                        ("threads", "sending_multiple_values") => crate::threads::sending_multiple_values::index(true),
-                        ("threads", "sharing_data_between_threads") => crate::threads::sharing_data_between_threads::index(true),
-                        ("threads", "threads_in_array") => crate::threads::threads_in_array::index(true),
+                        ("threads", "preventing_race_condition") => {
+                            crate::threads::preventing_race_condition::index(true)
+                        }
+                        ("threads", "scoped_threads") => {
+                            crate::threads::scoped_threads::index(true)
+                        }
+                        ("threads", "sending_multiple_values") => {
+                            crate::threads::sending_multiple_values::index(true)
+                        }
+                        ("threads", "sharing_data_between_threads") => {
+                            crate::threads::sharing_data_between_threads::index(true)
+                        }
+                        ("threads", "threads_in_array") => {
+                            crate::threads::threads_in_array::index(true)
+                        }
                         ("traits", "activity") => crate::traits::activity::index(true),
-                        ("traits", "activity_trait_objects") => crate::traits::activity_trait_objects::index(true),
+                        ("traits", "activity_trait_objects") => {
+                            crate::traits::activity_trait_objects::index(true)
+                        }
                         ("traits", "complex_trait") => crate::traits::complex_trait::index(true),
                         ("traits", "copy_trait") => crate::traits::copy_trait::index(true),
                         ("traits", "default_trait") => crate::traits::default_trait::index(true),
                         ("traits", "definition") => crate::traits::definition::index(true),
                         ("traits", "demo") => crate::traits::demo::index(true),
-                        ("traits", "demo_trait_objets") => crate::traits::demo_trait_objets::index(true),
+                        ("traits", "demo_trait_objets") => {
+                            crate::traits::demo_trait_objets::index(true)
+                        }
                         ("traits", "derives") => crate::traits::derives::index(true),
                         ("traits", "from_trait") => crate::traits::from_trait::index(true),
                         ("traits", "impl_display") => crate::traits::impl_display::index(true),
-                        ("traits", "media_aggregator") => crate::traits::media_aggregator::index(true),
-                        ("traits", "returning_traits_with_dyn") => crate::traits::returning_traits_with_dyn::index(true),
+                        ("traits", "media_aggregator") => {
+                            crate::traits::media_aggregator::index(true)
+                        }
+                        ("traits", "returning_traits_with_dyn") => {
+                            crate::traits::returning_traits_with_dyn::index(true)
+                        }
                         ("traits", "simple_trait") => crate::traits::simple_trait::index(true),
                         ("traits", "with_generics") => crate::traits::with_generics::index(true),
                         ("tuples", "definition") => crate::tuples::definition::index(true),
                         ("tuples", "single_tuple") => crate::tuples::single_tuple::index(true),
                         ("type_aliases", "demo") => crate::type_aliases::demo::index(true),
-                        ("type_aliases", "long_types") => crate::type_aliases::long_types::index(true),
-                        ("typestate_pattern", "activity") => crate::typestate_pattern::activity::index(true),
-                        ("typestate_pattern", "demo") => crate::typestate_pattern::demo::index(true),
+                        ("type_aliases", "long_types") => {
+                            crate::type_aliases::long_types::index(true)
+                        }
+                        ("typestate_pattern", "activity") => {
+                            crate::typestate_pattern::activity::index(true)
+                        }
+                        ("typestate_pattern", "demo") => {
+                            crate::typestate_pattern::demo::index(true)
+                        }
                         ("user_input", "activity") => crate::user_input::activity::index(true),
                         ("user_input", "demo") => crate::user_input::demo::index(true),
                         ("variables", "constants") => crate::variables::constants::index(true),
@@ -1184,9 +1385,13 @@ impl App {
                         ("vectors", "create_vector") => crate::vectors::create_vector::index(true),
                         ("vectors", "definition") => crate::vectors::definition::index(true),
                         ("vectors", "get_method") => crate::vectors::get_method::index(true),
-                        ("vectors", "reading_vector") => crate::vectors::reading_vector::index(true),
+                        ("vectors", "reading_vector") => {
+                            crate::vectors::reading_vector::index(true)
+                        }
                         ("vectors", "sort_vector") => crate::vectors::sort_vector::index(true),
-                        ("vectors", "vector_capacity") => crate::vectors::vector_capacity::index(true),
+                        ("vectors", "vector_capacity") => {
+                            crate::vectors::vector_capacity::index(true)
+                        }
                         ("while_loop", "definition") => crate::while_loop::definition::index(true),
                         ("while_loop", "while_let") => crate::while_loop::while_let::index(true),
                         _ => {
@@ -2293,7 +2498,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Conditional compilation and attributes".to_string(),
             category: "Advanced".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "definition".to_string(),
                     description: "Definition".to_string(),
                 },
@@ -2625,12 +2830,10 @@ fn get_all_modules() -> Vec<Module> {
             name: "external_crates".to_string(),
             description: "Using external dependencies from crates.io".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![
-                                Submodule {
-                    name: "demo".to_string(),
-                    description: "Demo".to_string(),
-                },
-            ],
+            submodules: vec![Submodule {
+                name: "demo".to_string(),
+                description: "Demo".to_string(),
+            }],
         },
         Module {
             name: "files".to_string(),
@@ -2680,7 +2883,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Generic types and functions".to_string(),
             category: "Intermediate".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "conveyor_belt".to_string(),
                     description: "Conveyor Belt".to_string(),
                 },
@@ -2755,7 +2958,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "HashMap data structure and operations".to_string(),
             category: "Data Structures".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "definition".to_string(),
                     description: "Definition".to_string(),
                 },
@@ -2810,7 +3013,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Iterator trait and lazy evaluation".to_string(),
             category: "Intermediate".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "definition".to_string(),
                     description: "Definition".to_string(),
                 },
@@ -2858,7 +3061,7 @@ fn get_all_modules() -> Vec<Module> {
                     name: "nonfunctional_style".to_string(),
                     description: "Nonfunctional Style".to_string(),
                 },
-                                Submodule {
+                Submodule {
                     name: "partition".to_string(),
                     description: "Partition".to_string(),
                 },
@@ -2895,7 +3098,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Lifetime annotations and borrow checker".to_string(),
             category: "Advanced".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "anonymous_lifetime".to_string(),
                     description: "Anonymous Lifetime".to_string(),
                 },
@@ -3027,12 +3230,10 @@ fn get_all_modules() -> Vec<Module> {
             name: "messenger".to_string(),
             description: "Messaging patterns and implementations".to_string(),
             category: "Intermediate".to_string(),
-            submodules: vec![
-                Submodule {
-                    name: "definition".to_string(),
-                    description: "Definition".to_string(),
-                },
-                            ],
+            submodules: vec![Submodule {
+                name: "definition".to_string(),
+                description: "Definition".to_string(),
+            }],
         },
         Module {
             name: "methods".to_string(),
@@ -3099,7 +3300,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Newtype pattern for type safety".to_string(),
             category: "Intermediate".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "definition".to_string(),
                     description: "Definition".to_string(),
                 },
@@ -3113,8 +3314,7 @@ fn get_all_modules() -> Vec<Module> {
             name: "numbers".to_string(),
             description: "Numeric types and operations".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![
-                                                            ],
+            submodules: vec![],
         },
         Module {
             name: "object_oriented".to_string(),
@@ -3139,7 +3339,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Option type for null safety".to_string(),
             category: "Basics".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "definition".to_string(),
                     description: "Definition".to_string(),
                 },
@@ -3268,7 +3468,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Result type for error handling".to_string(),
             category: "Intermediate".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "definition".to_string(),
                     description: "Definition".to_string(),
                 },
@@ -3295,7 +3495,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Slice types and references".to_string(),
             category: "Basics".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "array_slices".to_string(),
                     description: "Array Slices".to_string(),
                 },
@@ -3437,7 +3637,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Unit testing and integration tests".to_string(),
             category: "Intermediate".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "definition".to_string(),
                     description: "Test definitions and structure".to_string(),
                 },
@@ -3499,7 +3699,7 @@ fn get_all_modules() -> Vec<Module> {
             description: "Trait definitions and implementations".to_string(),
             category: "Intermediate".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "activity_trait_objects".to_string(),
                     description: "Activity Trait Objects".to_string(),
                 },
@@ -3551,7 +3751,7 @@ fn get_all_modules() -> Vec<Module> {
                     name: "simple_trait".to_string(),
                     description: "Simple Trait".to_string(),
                 },
-                                Submodule {
+                Submodule {
                     name: "with_generics".to_string(),
                     description: "With Generics".to_string(),
                 },
@@ -3638,19 +3838,17 @@ fn get_all_modules() -> Vec<Module> {
             name: "typestate_pattern".to_string(),
             description: "Compile-time state machine pattern".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![
-                                Submodule {
-                    name: "demo".to_string(),
-                    description: "Demo".to_string(),
-                },
-            ],
+            submodules: vec![Submodule {
+                name: "demo".to_string(),
+                description: "Demo".to_string(),
+            }],
         },
         Module {
             name: "unsafe_code".to_string(),
             description: "Unsafe Rust and raw pointers".to_string(),
             category: "Advanced".to_string(),
             submodules: vec![
-                                Submodule {
+                Submodule {
                     name: "definition".to_string(),
                     description: "Definition".to_string(),
                 },
@@ -3670,12 +3868,10 @@ fn get_all_modules() -> Vec<Module> {
             name: "user_input".to_string(),
             description: "Reading and processing user input".to_string(),
             category: "Basics".to_string(),
-            submodules: vec![
-                                Submodule {
-                    name: "demo".to_string(),
-                    description: "User input demonstration".to_string(),
-                },
-            ],
+            submodules: vec![Submodule {
+                name: "demo".to_string(),
+                description: "User input demonstration".to_string(),
+            }],
         },
         Module {
             name: "variables".to_string(),
@@ -3731,12 +3927,10 @@ fn get_all_modules() -> Vec<Module> {
             name: "webserver".to_string(),
             description: "HTTP web server implementation".to_string(),
             category: "Advanced".to_string(),
-            submodules: vec![
-                                Submodule {
-                    name: "demo".to_string(),
-                    description: "Demo".to_string(),
-                },
-            ],
+            submodules: vec![Submodule {
+                name: "demo".to_string(),
+                description: "Demo".to_string(),
+            }],
         },
         Module {
             name: "while_loop".to_string(),
