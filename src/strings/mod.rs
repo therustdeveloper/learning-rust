@@ -7,6 +7,7 @@ pub mod matches;
 pub mod string_functions;
 pub mod string_is_encoded;
 pub mod string_literals;
+pub mod substrings;
 
 pub fn index(show: bool) {
     if show {
@@ -33,5 +34,8 @@ pub fn index(show: bool) {
 
         // String Matches
         matches::index(false);
+
+        // Substrings
+        substrings::index(false);
     }
 }

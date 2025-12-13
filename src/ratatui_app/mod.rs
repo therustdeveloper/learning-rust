@@ -9,7 +9,7 @@ mod dashboard;
 pub fn index(show: bool) {
     if show {
         if let Err(e) = dashboard::run_app() {
-            eprintln!("Error running ratatui app: {}", e);
+            eprintln!("Error running Ratatui app: {}", e);
         }
     }
 }

@@ -1290,6 +1290,9 @@ impl App {
                         ("strings", "string_literals") => {
                             crate::strings::string_literals::index(true)
                         }
+                        ("strings", "substrings") => {
+                            crate::strings::substrings::index(true)
+                        }
                         ("structs", "builder_pattern") => {
                             crate::structs::builder_pattern::index(true)
                         }
@@ -3555,6 +3558,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "string_literals".to_string(),
                     description: "String Literals".to_string(),
+                },
+                Submodule {
+                    name: "substrings".to_string(),
+                    description: "Substrings".to_string(),
                 },
             ],
         },
