@@ -955,6 +955,8 @@ impl App {
                         ("api_mutex", "thread_parking") => {
                             crate::api_mutex::thread_parking::index(true)
                         }
+                        ("arrays", "definition") => crate::arrays::definition::index(true),
+                        ("arrays", "predictability") => crate::arrays::predictability::index(true),
                         ("basics", "arrays") => crate::basics::arrays::index(true),
                         ("basics", "booleans") => crate::basics::booleans::index(true),
                         ("basics", "borrowing") => crate::basics::borrowing::index(true),
@@ -2257,7 +2259,7 @@ fn get_all_modules() -> Vec<Module> {
             ],
         },
         Module {
-            name: "arrays".to_string(),
+            name: "algorithms".to_string(),
             description: "Fixed-size array operations and manipulations".to_string(),
             category: "Basics".to_string(),
             submodules: vec![
@@ -2288,6 +2290,21 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "selection_sort".to_string(),
                     description: "Selection Sort".to_string(),
+                },
+            ],
+        },
+        Module {
+            name: "arrays".to_string(),
+            description: "Fundamental Rust Arrays".to_string(),
+            category: "Basics".to_string(),
+            submodules: vec![
+                Submodule {
+                    name: "definition".to_string(),
+                    description: "Definition".to_string(),
+                },
+                Submodule {
+                    name: "predictability".to_string(),
+                    description: "Predictability".to_string(),
                 },
             ],
         },
