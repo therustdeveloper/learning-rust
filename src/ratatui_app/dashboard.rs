@@ -1053,14 +1053,14 @@ impl App {
                         }
                         ("enums", "result_enum") => crate::enums::result_enum::index(true),
                         ("errors", "activity_custom_errors") => {
-                            let _ = crate::errors::activity_custom_errors::index(true);
+                            crate::errors::activity_custom_errors::index(true);
                         }
                         ("errors", "closures") => crate::errors::closures::index(true),
                         ("errors", "custom_errors") => {
-                            let _ = crate::errors::custom_errors::index(true);
+                            crate::errors::custom_errors::index(true);
                         }
                         ("errors", "demo_custom_error") => {
-                            let _ = crate::errors::demo_custom_error::index(true);
+                            crate::errors::demo_custom_error::index(true);
                         }
                         ("errors", "error_handling") => crate::errors::error_handling::index(true),
                         ("errors", "error_propagation") => {

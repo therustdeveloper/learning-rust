@@ -28,6 +28,9 @@ pub fn index(show: bool) {
 
         // push a single character
         push_single_character();
+
+        // strings are dynamic
+        strings_are_dynamic(true);
     }
 } // drop(s3), drop(s2) and drop(s1) are called automatically
   // owners that have heap memory
@@ -52,4 +55,15 @@ fn push_single_character() {
     s.push('l');
 
     println!("value of s after push: {}", s);
+}
+
+fn strings_are_dynamic(show: bool) {
+    if show {
+        println!("--- Strings are Dynamic ---");
+
+        let mut user_greeting = String::from("Hello");
+        user_greeting.push_str(", welcome to Rust!");
+
+        println!("{}", user_greeting);
+    }
 }
