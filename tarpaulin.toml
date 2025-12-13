@@ -1,0 +1,23 @@
+[tarpaulin]
+# Only run coverage on your project code, not dependencies
+run-types = ["Lib", "Bins"]
+
+# Avoid instrumenting dependencies
+avoid-cfg-tarpaulin = true
+
+# Exclude files from coverage
+exclude-files = [
+    "target/*",
+    ".cargo/*",
+]
+
+# Exclude packages from instrumentation (polars has issues with tarpaulin)
+exclude = [
+    "polars*",
+]
+
+# Timeout in seconds for test execution
+timeout = "5m"
+
+# Number of jobs to run in parallel (helps with large dependency trees)
+jobs = 1
