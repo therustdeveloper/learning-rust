@@ -9,16 +9,30 @@ pub fn index(show: bool) {
         println!("tail: {}", tail);
 
         case_demo(false);
+
+        count_words_demo(true);
     }
 }
 
 fn case_demo(show: bool) {
     if show {
-        let sentence = "Rust is amaizing!";
+        let sentence = "Rust is amazing!";
 
         let transformed_sentence: String =
             sentence.chars().map(|c| c.to_ascii_uppercase()).collect();
 
         println!("Transformed: {}", transformed_sentence);
+    }
+}
+
+fn count_words_demo(show: bool) {
+    if show {
+        println!("--- Counting words in a sentence");
+
+        let sentence = "Rust is a programming language. Rust is powerful.";
+        let target_word = "Rust";
+        let count = sentence.matches(target_word).count();
+
+        println!("The word '{}' appears {} times", target_word, count);
     }
 }
