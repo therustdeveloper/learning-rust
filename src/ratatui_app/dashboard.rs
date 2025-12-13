@@ -1290,9 +1290,7 @@ impl App {
                         ("strings", "string_literals") => {
                             crate::strings::string_literals::index(true)
                         }
-                        ("strings", "substrings") => {
-                            crate::strings::substrings::index(true)
-                        }
+                        ("strings", "substrings") => crate::strings::substrings::index(true),
                         ("structs", "builder_pattern") => {
                             crate::structs::builder_pattern::index(true)
                         }
