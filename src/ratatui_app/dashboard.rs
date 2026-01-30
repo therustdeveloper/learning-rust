@@ -1216,6 +1216,9 @@ impl App {
                         ("modules", "inline_modules_demo") => {
                             crate::modules::inline_modules_demo::index(true)
                         }
+                        ("modules", "inventory_program") => {
+                            crate::modules::inventory_program::index(true)
+                        }
                         ("modules", "mod_basics") => crate::modules::mod_basics::index(true),
                         ("new_type", "activity") => crate::new_type::activity::index(true),
                         ("new_type", "definition") => crate::new_type::definition::index(true),
@@ -3292,6 +3295,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "mod_basics".to_string(),
                     description: "Mod Basics".to_string(),
+                },
+                Submodule {
+                    name: "inventory_program".to_string(),
+                    description: "Inventory Program".to_string(),
                 },
             ],
         },
