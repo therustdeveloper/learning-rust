@@ -11,6 +11,7 @@ pub fn index(show: bool) {
     if show {
         demo(show);
         person_info(show);
+        receive_tuple(show);
     }
 }
 
@@ -55,4 +56,17 @@ fn person_info(show: bool) {
         let (name, age, is_registered) = person;
         println!("Name: {}, Age: {}, Active: {}", name, age, is_registered);
     }
+}
+
+fn receive_tuple(show: bool) {
+    if show {
+        let (area, perimiter) = calculate_area_and_perimeter(7.7, 77.7);
+        println!("Area #{}, Perimeter: {}", area, perimiter);
+    }
+}
+
+fn calculate_area_and_perimeter(length: f64, width: f64) -> (f64, f64) {
+    let area = length * width;
+    let perimeter = 2.0 * (length * width);
+    (area, perimeter)
 }
