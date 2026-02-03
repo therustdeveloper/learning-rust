@@ -9,6 +9,13 @@ fn one_two_three() -> (i32, i32, i32) {
 
 pub fn index(show: bool) {
     if show {
+        demo(show);
+        person_info(show);
+    }
+}
+
+fn demo(show: bool) {
+    if show {
         println!("\n--- Definition");
 
         // Option 1
@@ -33,5 +40,12 @@ pub fn index(show: bool) {
 
         let (x, y, z) = tup;
         println!("x: {x}, y: {y}, z: {z}");
+    }
+}
+
+fn person_info(show: bool) {
+    if show {
+        let person: (String, u32, bool) = ("Alice".to_string(), 30, true);
+        println!("Name: {}, Age: {}, Active: {}", person.0, person.1, person.2);
     }
 }
