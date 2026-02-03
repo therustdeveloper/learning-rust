@@ -46,6 +46,13 @@ fn demo(show: bool) {
 fn person_info(show: bool) {
     if show {
         let person: (String, u32, bool) = ("Alice".to_string(), 30, true);
-        println!("Name: {}, Age: {}, Active: {}", person.0, person.1, person.2);
+        println!(
+            "Name: {}, Age: {}, Active: {}",
+            person.0, person.1, person.2
+        );
+
+        // pattern matching
+        let (name, age, is_registered) = person;
+        println!("Name: {}, Age: {}, Active: {}", name, age, is_registered);
     }
 }
