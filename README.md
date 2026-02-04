@@ -29,6 +29,7 @@ I am exploring development with Claude assistance.
 | Zero to Production in Rust                  |       3       |  ✳️  |      |
 | Rust Web Programming                        |       3       |  ✳️  |      |
 | Ultimate Rust for Systems Programming       |       3       |      |  ✴️  |
+| Kubernetes Operators with Rust              |       3       |      |      |
 | Rust Web Programming 3rd Edition            |       3       |      |      |
 | Programming Rust 2nd Edition                |       4       |      |      |
 | Command-Line Rust                           |       2       |      |      |
@@ -56,7 +57,7 @@ I am exploring development with Claude assistance.
 | Idiomatic Rust                              |       2       |      |      |
 | Code like a Prod in Rust                    |       2       |      |      |
 | The Rust Programming Hand Book              |       3       |      |      |
-| **Total**                                   | **86 Months** |      |      |
+| **Total**                                   | **89 Months** |      |      |
 
 ## Courses
 
