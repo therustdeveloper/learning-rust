@@ -5,9 +5,9 @@ pub fn index(show: bool) {
     if show {
         print_title("Compound Types");
 
-        tuple_type(false);
+        tuple_type(true);
 
-        array_type(false);
+        array_type(true);
     }
 }
 
