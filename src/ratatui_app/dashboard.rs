@@ -1179,9 +1179,8 @@ impl App {
                             crate::lifetimes::named_lifetime::index(true)
                         }
                         ("loops", "definition") => crate::loops::definition::index(true),
-                        ("loops", "returning_values_from_loops") => {
-                            crate::loops::returning_values_from_loops::index(true)
-                        }
+                        ("loops", "returning_values_from_loops") => crate::loops::returning_values_from_loops::index(true),
+                        ("loops", "while_loops") => crate::loops::while_loops::index(true),
                         ("machine_learning", "reading_csv_file") => {
                             let _ = crate::machine_learning::reading_csv_file::index(true);
                         }
@@ -3161,6 +3160,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "returning_values_from_loops".to_string(),
                     description: "Returning Values From Loops".to_string(),
+                },
+                Submodule {
+                    name: "while_loops".to_string(),
+                    description: "While Loops".to_string(),
                 },
             ],
         },
