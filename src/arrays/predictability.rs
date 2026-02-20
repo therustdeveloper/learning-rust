@@ -9,5 +9,18 @@ pub fn index(show: bool) {
         for temp in temperatures.iter() {
             println!("temp: {}", temp);
         }
+
+        let fruits: [&str; 7] = [
+            "apple",
+            "mango",
+            "pineapple",
+            "strawberries",
+            "watermelon",
+            "orange",
+            "banana",
+        ];
+        for fruit in fruits.iter() {
+            println!("fruit: {}", fruit);
+        }
     }
 }
