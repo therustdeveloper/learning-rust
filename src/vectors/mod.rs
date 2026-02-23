@@ -6,6 +6,7 @@ pub mod get_method;
 pub mod reading_vector;
 pub mod sort_vector;
 pub mod vector_capacity;
+pub mod vector_mutability;
 
 pub fn index(show: bool) {
     if show {
@@ -24,5 +25,7 @@ pub fn index(show: bool) {
         get_method::index(false);
 
         vector_capacity::index(false);
+
+        vector_mutability::index(false);
     }
 }
