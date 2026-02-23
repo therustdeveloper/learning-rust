@@ -957,6 +957,9 @@ impl App {
                         }
                         ("arrays", "definition") => crate::arrays::definition::index(true),
                         ("arrays", "predictability") => crate::arrays::predictability::index(true),
+                        ("arrays", "arrays_with_enums") => {
+                            crate::arrays::arrays_with_enums::index(true)
+                        }
                         ("basics", "arrays") => crate::basics::arrays::index(true),
                         ("basics", "booleans") => crate::basics::booleans::index(true),
                         ("basics", "borrowing") => crate::basics::borrowing::index(true),
@@ -2312,6 +2315,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "predictability".to_string(),
                     description: "Predictability".to_string(),
+                },
+                Submodule {
+                    name: "arrays_with_enums".to_string(),
+                    description: "Arrays with Enums".to_string(),
                 },
             ],
         },

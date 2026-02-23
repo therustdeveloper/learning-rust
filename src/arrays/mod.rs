@@ -1,4 +1,5 @@
 //! src/arrays/mod.rs
+pub mod arrays_with_enums;
 pub mod definition;
 pub mod predictability;
 
@@ -9,5 +10,8 @@ pub fn index(show: bool) {
 
         // Array Predictability
         predictability::index(true);
+
+        // Arrays with Enums
+        arrays_with_enums::index(true);
     }
 }
