@@ -1394,6 +1394,9 @@ impl App {
                         ("user_input", "demo") => crate::user_input::demo::index(true),
                         ("variables", "constants") => crate::variables::constants::index(true),
                         ("variables", "vars") => crate::variables::vars::index(true),
+                        ("variables", "copying_vars") => {
+                            crate::variables::copying_vars::index(true)
+                        }
                         ("vectors", "add_remove") => crate::vectors::add_remove::index(true),
                         ("vectors", "create_vector") => crate::vectors::create_vector::index(true),
                         ("vectors", "definition") => crate::vectors::definition::index(true),
@@ -3936,6 +3939,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "vars".to_string(),
                     description: "Vars".to_string(),
+                },
+                Submodule {
+                    name: "copying_vars".to_string(),
+                    description: "Copying Variables".to_string(),
                 },
             ],
         },

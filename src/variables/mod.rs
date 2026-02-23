@@ -1,5 +1,6 @@
 //! src/variables/mod.rs
 pub mod constants;
+pub mod copying_vars;
 pub mod vars;
 
 use crate::print_title;
@@ -10,5 +11,6 @@ pub fn index(show: bool) {
 
         vars::index(false);
         constants::index(false);
+        copying_vars::index(false);
     }
 }
