@@ -22,6 +22,20 @@ pub fn index(show: bool) {
             ]),
         );
 
+        // we also can get a single value with get associated function
+        match profile.get("name") {
+            Some(value) => match value {
+                CharacterValue::Name(name) => {
+                    println!("the name is: {}", name);
+                }
+                _ => panic!("name should be a string"),
+            },
+            None => {
+                println!("name is not present");
+            }
+        }
+
+        // how to get all the values of a HashMap
         for (key, value) in &profile {
             match value {
                 CharacterValue::Name(name) => println!("{}: {}", key, name),
@@ -29,5 +43,7 @@ pub fn index(show: bool) {
                 CharacterValue::Items(items) => println!("{}: {:?}", key, items),
             }
         }
+
+        println!("{:?}", &profile);
     }
 }
