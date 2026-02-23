@@ -12,6 +12,7 @@ Organizing the repo in my GitHub Organization.
 ## Debian Requirements
 
 - gcc 
+- make
 - libssl-dev
 - pkg-config
 - fd-find
