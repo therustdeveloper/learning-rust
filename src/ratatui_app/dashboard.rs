@@ -1397,6 +1397,7 @@ impl App {
                         ("variables", "copying_vars") => {
                             crate::variables::copying_vars::index(true)
                         }
+                        ("variables", "moving_vars") => crate::variables::moving_vars::index(true),
                         ("vectors", "add_remove") => crate::vectors::add_remove::index(true),
                         ("vectors", "create_vector") => crate::vectors::create_vector::index(true),
                         ("vectors", "definition") => crate::vectors::definition::index(true),
@@ -3943,6 +3944,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "copying_vars".to_string(),
                     description: "Copying Variables".to_string(),
+                },
+                Submodule {
+                    name: "moving_vars".to_string(),
+                    description: "Moviing Variables".to_string(),
                 },
             ],
         },
