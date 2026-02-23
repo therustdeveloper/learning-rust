@@ -1128,6 +1128,9 @@ impl App {
                         ("hashmaps", "hashmap_old_values") => {
                             crate::hashmaps::hashmap_old_values::index(true)
                         }
+                        ("hashmaps", "character_profile") => {
+                            crate::hashmaps::character_profile::index(true)
+                        }
                         ("iterators", "activity") => crate::iterators::activity::index(true),
                         ("iterators", "definition") => crate::iterators::definition::index(true),
                         ("iterators", "demo") => crate::iterators::demo::index(true),
@@ -3013,6 +3016,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "hashmap_old_values".to_string(),
                     description: "Hashmap Old Values".to_string(),
+                },
+                Submodule {
+                    name: "character_profile".to_string(),
+                    description: "Character Profile".to_string(),
                 },
             ],
         },

@@ -1,5 +1,6 @@
 //! src/hashmaps/mod.rs
 pub mod activity;
+pub mod character_profile;
 pub mod definition;
 pub mod furniture;
 pub mod hashmap_entry_method;
@@ -29,5 +30,8 @@ pub fn index(show: bool) {
 
         // HashMap Entry Method
         hashmap_entry_method::index(false);
+
+        // Character Profile
+        character_profile::index(false);
     }
 }
