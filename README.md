@@ -41,7 +41,7 @@ I am exploring development with Claude assistance.
 | Rust Web Programming                        |       3       |  ✳️  |      |
 | Ultimate Rust for Systems Programming       |       3       |      |  ✴️  |
 | Kubernetes Operators with Rust              |       3       |      |      |
-| Rust Web Programming 3rd Edition            |       3       |      |      |
+| Rust Web Programming 3rd Edition            |       3       |      |  ✴️  |
 | Programming Rust 2nd Edition                |       4       |      |      |
 | Command-Line Rust                           |       2       |      |      |
 | Rust Atomics and Locks                      |       3       |      |      |
