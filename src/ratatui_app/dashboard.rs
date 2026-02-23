@@ -1179,7 +1179,9 @@ impl App {
                             crate::lifetimes::named_lifetime::index(true)
                         }
                         ("loops", "definition") => crate::loops::definition::index(true),
-                        ("loops", "returning_values_from_loops") => crate::loops::returning_values_from_loops::index(true),
+                        ("loops", "returning_values_from_loops") => {
+                            crate::loops::returning_values_from_loops::index(true)
+                        }
                         ("loops", "while_loops") => crate::loops::while_loops::index(true),
                         ("machine_learning", "reading_csv_file") => {
                             let _ = crate::machine_learning::reading_csv_file::index(true);
@@ -1396,6 +1398,9 @@ impl App {
                         ("vectors", "sort_vector") => crate::vectors::sort_vector::index(true),
                         ("vectors", "vector_capacity") => {
                             crate::vectors::vector_capacity::index(true)
+                        }
+                        ("vectors", "vector_mutability") => {
+                            crate::vectors::vector_mutability::index(true)
                         }
                         ("while_loop", "definition") => crate::while_loop::definition::index(true),
                         ("while_loop", "while_let") => crate::while_loop::while_let::index(true),
@@ -3952,6 +3957,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "vector_capacity".to_string(),
                     description: "Vector Capacity".to_string(),
+                },
+                Submodule {
+                    name: "vector_mutability".to_string(),
+                    description: "Vector Mutability".to_string(),
                 },
             ],
         },
