@@ -27,6 +27,7 @@ pub mod deconstructing_float;
 pub mod destructuring_structs;
 pub mod doc;
 pub mod draw;
+pub mod effective_rust;
 pub mod enums;
 pub mod errors;
 pub mod exercises;

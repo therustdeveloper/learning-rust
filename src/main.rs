@@ -23,6 +23,7 @@ fn main() {
     common::destructuring_structs::index(false);
     common::doc::index(false);
     common::draw::index(false);
+    common::effective_rust::index(false);
     common::enums::index(false);
     common::errors::index(false);
     common::exercises::index(false);
