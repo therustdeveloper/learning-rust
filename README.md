@@ -11,7 +11,7 @@ Organizing the repo in my GitHub Organization.
 
 ## Debian Requirements
 
-- gcc 
+- gcc
 - make
 - libssl-dev
 - pkg-config
@@ -29,7 +29,7 @@ Adding code to `Ratatui` dashboard is very easy:
 
 ## Exploring Claude
 
-I am exploring development with Claude assistance. 
+I am exploring development with Claude assistance.
 
 ## Books
 
@@ -61,14 +61,18 @@ I am exploring development with Claude assistance.
 | Tonic for Rust-based gRPC                   |       2       |      |      |
 | Rust for Blockchain Application Development |       3       |      |      |
 | Hands-On Microservices with Rust            |       3       |      |      |
-| Rust for Network Programming and Automation |       3       |      |      | 
+| Rust for Network Programming and Automation |       3       |      |      |
 | Network Programming with Rust               |       3       |      |      |
 | Async Rust                                  |       2       |      |      |
 | Rust Web Development with Axum              |       3       |      |      |
 | Idiomatic Rust                              |       2       |      |      |
 | Code like a Prod in Rust                    |       2       |      |      |
 | The Rust Programming Hand Book              |       3       |      |      |
-| **Total**                                   | **89 Months** |      |      |
+| Refactoring to Rust                         |       3       |      |      |
+| Tokio and Async Rust at Scale               |       3       |      |      |
+| The Rust Programming Handbook               |       3       |      |      |
+| Rust for Network Programming and Automation |       3       |      |      |
+| **Total**                                   | **109 Months**|      |      |
 
 ## Courses
 
