@@ -25,6 +25,7 @@ pub mod shadowing;
 pub mod slices;
 pub mod type_casting;
 pub mod underscores;
+pub mod unicode;
 pub mod variables;
 
 pub fn index(show: bool) {
@@ -105,5 +106,8 @@ pub fn index(show: bool) {
 
         // Type Casting
         type_casting::index(false);
+
+        // unicode
+        unicode::index(false);
     }
 }
