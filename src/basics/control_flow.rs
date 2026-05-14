@@ -8,6 +8,8 @@ pub fn index(show: bool) {
         if_multiple_expressions(false);
 
         validate_season(false);
+
+        conditional_statements(false);
     }
 }
 
@@ -54,6 +56,18 @@ fn validate_season(show: bool) {
             println!("Leaves falling!");
         } else if season == "spring" {
             println!("Lots of rain!");
+        }
+    }
+}
+
+fn conditional_statements(show: bool) {
+    if show {
+        let num = 7;
+
+        if num % 2 == 0 {
+            println!("the number is even.");
+        } else {
+            println!("the number is odd.");
         }
     }
 }
