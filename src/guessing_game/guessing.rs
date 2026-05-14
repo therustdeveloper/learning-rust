@@ -1,5 +1,5 @@
 //! src/guessing_game/guessing.rs
-use rand::Rng;
+use rand::RngExt;
 use std::cmp::Ordering;
 use std::io;
 
@@ -7,7 +7,8 @@ pub fn index(show: bool) {
     if show {
         println!("Guess the number!");
 
-        let secret_number = rand::rng().random_range(1..=100);
+        let mut rng = rand::rng();
+        let secret_number = rng.random_range(1..=100);
 
         loop {
             println!("Please input your guess.");
