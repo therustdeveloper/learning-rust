@@ -3,7 +3,7 @@ name = "learning_rust"
 version = "0.2.0"
 edition = "2021"
 description = "Started on August 17 2022 with Rust"
-authors = ["William Munoz <william@rustdeveloper.rs>"]
+authors = ["William Munoz <william@rustdeveloper.io>"]
 repository = "https://github.com/rustnation/learning-rust"
 
 [lib]
