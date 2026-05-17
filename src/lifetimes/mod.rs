@@ -9,6 +9,7 @@ pub mod demo;
 pub mod example;
 pub mod multiple_lifetimes;
 pub mod named_lifetime;
+pub mod zero_copy;
 
 pub fn index(show: bool) {
     if show {

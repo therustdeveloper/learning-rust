@@ -1184,6 +1184,9 @@ impl App {
                         ("lifetimes", "named_lifetime") => {
                             crate::lifetimes::named_lifetime::index(true)
                         }
+                        ("lifetimes", "zero_copy") => {
+                            crate::lifetimes::zero_copy::index(true);
+                        }
                         ("loops", "definition") => crate::loops::definition::index(true),
                         ("loops", "returning_values_from_loops") => {
                             crate::loops::returning_values_from_loops::index(true)
@@ -3171,6 +3174,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "named_lifetime".to_string(),
                     description: "Named Lifetime".to_string(),
+                },
+                Submodule {
+                    name: "zero_copy".to_string(),
+                    description: "Zero Copy".to_string(),
                 },
             ],
         },
