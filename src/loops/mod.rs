@@ -1,5 +1,6 @@
 //! src/loops/mod.rs
 pub mod definition;
+pub mod for_loops;
 pub mod returning_values_from_loops;
 pub mod while_loops;
 
@@ -12,5 +13,7 @@ pub fn index(show: bool) {
         returning_values_from_loops::index(false);
 
         while_loops::index(false);
+
+        for_loops::index(false);
     }
 }
