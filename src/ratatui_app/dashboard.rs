@@ -1084,6 +1084,9 @@ impl App {
                         ("functions", "func_return_option") => {
                             crate::functions::func_return_option::index(true)
                         }
+                        ("functions", "nested_functions") => {
+                            crate::functions::nested_functions::index(true)
+                        }
                         ("generics", "activity") => crate::generics::activity::index(true),
                         ("generics", "conveyor_belt") => {
                             crate::generics::conveyor_belt::index(true)
@@ -2915,6 +2918,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "func_return_option".to_string(),
                     description: "Func Return Option".to_string(),
+                },
+                Submodule {
+                    name: "nested_functions".to_string(),
+                    description: "Nested Functions".to_string(),
                 },
             ],
         },
