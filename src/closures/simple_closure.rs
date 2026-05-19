@@ -7,5 +7,17 @@ pub fn index(show: bool) {
 
         my_closure(7);
         my_closure(7 + 7);
+
+        simple_example(false);
+    }
+}
+
+fn simple_example(show: bool) {
+    if show {
+        let multiply = |x: i32, y: i32| x * y;
+
+        let product = multiply(7, 7);
+
+        println!("Product: {}", product);
     }
 }
