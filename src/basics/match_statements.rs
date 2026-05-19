@@ -12,6 +12,8 @@ pub fn index(show: bool) {
         }
 
         match_with_variables(false);
+
+        match_expressions(false);
     }
 }
 
@@ -23,6 +25,18 @@ fn match_with_variables(show: bool) {
             x if x % 2 == 0 => println!("{x} is an even number"),
             x if x % 2 != 0 => println!("{x} is an odd number"),
             _ => unreachable!(),
+        }
+    }
+}
+
+fn match_expressions(show: bool) {
+    if show {
+        let day = "Wednesday";
+
+        match day {
+            "Monday" => println!("It's the start of the week"),
+            "Friday" => println!("Weekend is near!"),
+            _ => println!("It's just another day"),
         }
     }
 }
