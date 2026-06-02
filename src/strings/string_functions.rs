@@ -8,9 +8,11 @@ pub fn index(show: bool) {
         println!("head: {}", head);
         println!("tail: {}", tail);
 
-        case_demo(false);
+        case_demo(true);
 
         count_words_demo(true);
+
+        common_string_functions(true);
     }
 }
 
@@ -34,5 +36,25 @@ fn count_words_demo(show: bool) {
         let count = sentence.matches(target_word).count();
 
         println!("The word '{}' appears {} times", target_word, count);
+    }
+}
+
+fn common_string_functions(show: bool) {
+    if show {
+        println!("--- Common string functions");
+
+        let mut music_genres = "    Rock, Metal, Country, Rap    ";
+        println!("{}", music_genres.trim());
+        println!("{}", music_genres.trim_start());
+        println!("{}", music_genres.trim_end());
+
+        music_genres = music_genres.trim();
+        println!("{}", music_genres.to_uppercase());
+        println!("{}", music_genres.to_lowercase());
+
+        println!("{}", music_genres.replace("a", "@"));
+
+        let genres: Vec<&str> = music_genres.split(", ").collect();
+        println!("{:?}", genres);
     }
 }
