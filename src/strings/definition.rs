@@ -31,6 +31,9 @@ pub fn index(show: bool) {
 
         // strings are dynamic
         strings_are_dynamic(true);
+
+        // String::from
+        string_from(true);
     }
 } // drop(s3), drop(s2) and drop(s1) are called automatically
   // owners that have heap memory
@@ -65,5 +68,15 @@ fn strings_are_dynamic(show: bool) {
         user_greeting.push_str(", welcome to Rust!");
 
         println!("{}", user_greeting);
+    }
+}
+
+fn string_from(show: bool) {
+    if show {
+        let pirate = "Bloodhook";
+
+        let sailor = String::from(pirate);
+
+        println!("Sailor: {}", sailor);
     }
 }
