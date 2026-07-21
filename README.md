@@ -2,12 +2,10 @@
 
 Starting date with Rust: Aug 17, 2022
 
-Organizing the repo in my GitHub Organization.
-
 ## Operating Systems
 
 - Debian 13
-- macOS Thaoe 26.2
+- macOS Thaoe 26.5.2
 
 ## Debian Requirements
 
@@ -36,14 +34,14 @@ I am exploring development with Claude assistance.
 | Name                                        |    Months     | Read | Mark |
 |:--------------------------------------------|:-------------:|:----:|:----:|
 | The Rust Programming Language 2nd Edition   |       3       |  ✳️  |      |
-| The Rust Programming Language 3rd Edition   |       3       |      |  ✴️  |
+| The Rust Programming Language 3rd Edition   |       3       |      |      |
 | Rust Web Development                        |       3       |  ✳️  |      |
 | Zero to Production in Rust                  |       3       |  ✳️  |      |
 | Rust Web Programming                        |       3       |  ✳️  |      |
 | Ultimate Rust for Systems Programming       |       3       |      |      |
-| Kubernetes Operators with Rust              |       3       |      |  ✴️  |
+| Kubernetes Operators with Rust              |       3       |      |      |
 | Rust Web Programming 3rd Edition            |       3       |      |      |
-| Programming Rust 2nd Edition                |       4       |      |  ✴️  |
+| Programming Rust 2nd Edition                |       4       |      |      |
 | Command-Line Rust                           |       2       |      |      |
 | Rust Atomics and Locks                      |       3       |      |      |
 | Rust for Rustaceans                         |       3       |      |      |
@@ -71,7 +69,7 @@ I am exploring development with Claude assistance.
 | The Rust Programming Hand Book              |       3       |      |      |
 | Refactoring to Rust                         |       3       |      |      |
 | Tokio and Async Rust at Scale               |       3       |      |      |
-| The Rust Programming Handbook               |       3       |      |      |
+| The Rust Programming Handbook               |       3       |      |  *   |
 | Rust for Network Programming and Automation |       3       |      |      |
 | **Total**                                   | **109 Months**|      |      |
 
