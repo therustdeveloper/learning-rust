@@ -19,6 +19,7 @@ fn byte_literals() {
 }
 
 fn create_integer_values() {
+    println!("-- Create integer values");
     let a = 10;
     let b = Box::new(20);
     let c = Rc::new(Box::new(30));
