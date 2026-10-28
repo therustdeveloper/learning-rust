@@ -5,7 +5,7 @@ Starting date with Rust: Aug 17, 2022
 ## Operating Systems
 
 - Debian 13
-- macOS Thaoe 26.5.2
+- macOS Golden Gate 27.0.1
 
 ## Debian Requirements
 
@@ -34,7 +34,7 @@ I am exploring development with Claude assistance.
 | Name                                        |    Months     | Read | Mark |
 |:--------------------------------------------|:-------------:|:----:|:----:|
 | The Rust Programming Language 2nd Edition   |       3       |  ✳️  |      |
-| The Rust Programming Language 3rd Edition   |       3       |      |      |
+| The Rust Programming Language 3rd Edition   |       3       |      |  *   |
 | Rust Web Development                        |       3       |  ✳️  |      |
 | Zero to Production in Rust                  |       3       |  ✳️  |      |
 | Rust Web Programming                        |       3       |  ✳️  |      |
