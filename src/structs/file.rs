@@ -55,7 +55,7 @@ pub fn index(show: bool) {
         let text = String::from_utf8_lossy(&buffer);
 
         println!("{:?}", f3);
-        println!("{} is {} bytes long", &f3.name, f3_length);
+        println!("{} is {} bytes long", f3.name, f3_length);
         println!("{}", text);
     }
 }

@@ -978,7 +978,9 @@ impl App {
                         ("basics", "match_statements") => {
                             crate::basics::match_statements::index(true)
                         }
-                        ("basics", "numeric_operations") => crate::basics::numeric_operations::index(true),
+                        ("basics", "numeric_operations") => {
+                            crate::basics::numeric_operations::index(true)
+                        }
                         ("basics", "recursion") => crate::basics::recursion::index(true),
                         ("basics", "scalars") => crate::basics::scalars::index(true),
                         ("basics", "scopes") => crate::basics::scopes::index(true),
@@ -1921,7 +1923,7 @@ fn render_details_panel(f: &mut Frame, app: &App, area: Rect) {
             Line::from(vec![
                 Span::styled("Location: ", Style::default().fg(Color::DarkGray)),
                 Span::styled(
-                    format!("src/{}/", &module.name),
+                    format!("src/{}/", module.name),
                     Style::default()
                         .fg(Color::Cyan)
                         .add_modifier(Modifier::ITALIC),

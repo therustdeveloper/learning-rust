@@ -44,6 +44,6 @@ pub fn index(show: bool) {
             }
         }
 
-        println!("{:?}", &profile);
+        println!("{:?}", profile);
     }
 }
