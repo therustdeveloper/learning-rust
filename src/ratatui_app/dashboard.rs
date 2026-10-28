@@ -978,7 +978,7 @@ impl App {
                         ("basics", "match_statements") => {
                             crate::basics::match_statements::index(true)
                         }
-                        ("basics", "num_operations") => crate::basics::num_operations::index(true),
+                        ("basics", "numeric_operations") => crate::basics::numeric_operations::index(true),
                         ("basics", "recursion") => crate::basics::recursion::index(true),
                         ("basics", "scalars") => crate::basics::scalars::index(true),
                         ("basics", "scopes") => crate::basics::scopes::index(true),
@@ -2415,7 +2415,7 @@ fn get_all_modules() -> Vec<Module> {
                     description: "Match Statements".to_string(),
                 },
                 Submodule {
-                    name: "num_operations".to_string(),
+                    name: "numeric_operations".to_string(),
                     description: "Num Operations".to_string(),
                 },
                 Submodule {

@@ -17,7 +17,7 @@ pub mod if_let;
 pub mod integers;
 pub mod loops;
 pub mod match_statements;
-pub mod num_operations;
+pub mod numeric_operations;
 pub mod recursion;
 pub mod scalars;
 pub mod scopes;
@@ -48,7 +48,7 @@ pub fn index(show: bool) {
         floats::index(false);
 
         // Numeric Operations
-        num_operations::index(false);
+        numeric_operations::index(false);
 
         // Boolean Types
         booleans::index(false);

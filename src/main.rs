@@ -1,4 +1,4 @@
-//! src//home/william/workspace/rust/learning-rust/src/main.rs
+//! src/main.rs
 fn main() {
     local_function(false);
     common::add_millimeters_to_meters::index(false);

@@ -1,4 +1,4 @@
-//! src/basics/num_operations.rs
+//! src/basics/numeric_operations.rs
 pub fn index(show: bool) {
     if show {
         println!("--- Numeric Operations---");
