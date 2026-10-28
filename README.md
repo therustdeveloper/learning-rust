@@ -16,19 +16,6 @@ Starting Date: Aug 17, 2022
 - fd-find
 - zlib1g-dev
 
-## Ratatui
-
-Adding code to `Ratatui` dashboard is very easy:
-
-- Go to `ratatui_app/dashboard.rs`
-- Add a new entry the following functions:
-  - fun run_module(&mut self)
-  - fun run_submodule(&mut self)  
-
-## Exploring Claude
-
-I am exploring development with Claude assistance.
-
 ## Books
 
 | Name                                        |    Months     | Read | Mark |
