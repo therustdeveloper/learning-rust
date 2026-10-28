@@ -1,6 +1,6 @@
 # Learning Rust
 
-Starting date with Rust: Aug 17, 2022
+Starting Date: Aug 17, 2022
 
 ## Operating Systems
 
