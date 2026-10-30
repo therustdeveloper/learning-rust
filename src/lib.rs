@@ -12,6 +12,7 @@ pub mod arrays;
 pub mod automatic_clean;
 pub mod basics;
 pub mod bit_patterns;
+pub mod borrowing;
 pub mod boxes;
 pub mod channels;
 pub mod closures;

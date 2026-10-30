@@ -822,6 +822,7 @@ impl App {
                 "automatic_clean" => crate::automatic_clean::index(true),
                 "basics" => crate::basics::index(true),
                 "bit_patterns" => crate::bit_patterns::index(true),
+                "borrowing" => crate::borrowing::index(true),
                 "boxes" => crate::boxes::index(true),
                 "channels" => crate::channels::index(true),
                 "closures" => crate::closures::index(true),
@@ -989,6 +990,7 @@ impl App {
                         ("basics", "type_casting") => crate::basics::type_casting::index(true),
                         ("basics", "underscores") => crate::basics::underscores::index(true),
                         ("basics", "variables") => crate::basics::variables::index(true),
+                        ("borrowing", "definition") => crate::borrowing::definition::index(true),
                         ("boxes", "definition") => crate::boxes::definition::index(true),
                         ("boxes", "dereference") => crate::boxes::dereference::index(true),
                         ("closures", "closures_inside_methods") => {
@@ -2468,6 +2470,12 @@ fn get_all_modules() -> Vec<Module> {
                     description: "Vars".to_string(),
                 },
             ],
+        },
+        Module {
+            name: "borrowing".to_string(),
+            description: "Borrowing definition and use".to_string(),
+            category: "Basic".to_string(),
+            submodules: vec![],
         },
         Module {
             name: "boxes".to_string(),
