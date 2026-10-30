@@ -2,6 +2,12 @@ trait Printable {
     fn print(&self);
 }
 
+trait Drawable {
+    fn draw(&self) {
+        println!("Drawing the shape");
+    }
+}
+
 // Number Implementation
 struct Number {
     value: i32,
@@ -24,6 +30,9 @@ impl Printable for Circle {
     }
 }
 
+// Circle implements the default Drawable draw function
+impl Drawable for Circle {}
+
 // Rectangle Implementation
 struct Rectangle {
     width: f64,
@@ -34,6 +43,12 @@ impl Printable for Rectangle {
     fn print(&self) {
         println!("Rectangle Width: {}", self.width);
         println!("Rectangle Height: {}", self.height);
+    }
+}
+
+impl Drawable for Rectangle {
+    fn draw(&self) {
+        println!("Rectangle implements its own draw function");
     }
 }
 
@@ -48,6 +63,7 @@ pub fn index(show: bool) {
         // Circle Implementation
         let circle = Circle { radius: 7.0 };
         circle.print();
+        circle.draw();
 
         // Rectangle Implementation
         let rectangle = Rectangle {
