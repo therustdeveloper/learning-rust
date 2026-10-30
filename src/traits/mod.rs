@@ -12,6 +12,7 @@ pub mod derives;
 pub mod from_trait;
 pub mod impl_display;
 pub mod media_aggregator;
+pub mod printable;
 pub mod returning_traits_with_dyn;
 pub mod simple_trait;
 pub mod verifying_with_traits;
@@ -68,5 +69,8 @@ pub fn index(show: bool) {
 
         // Verifying with Traits
         verifying_with_traits::index(false);
+
+        // Printable Trait
+        printable::index(false);
     }
 }

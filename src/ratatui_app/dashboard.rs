@@ -1384,6 +1384,7 @@ impl App {
                         ("traits", "media_aggregator") => {
                             crate::traits::media_aggregator::index(true)
                         }
+                        ("traits", "printable") => crate::traits::printable::index(false),
                         ("traits", "returning_traits_with_dyn") => {
                             crate::traits::returning_traits_with_dyn::index(true)
                         }
@@ -3841,6 +3842,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "with_generics".to_string(),
                     description: "With Generics".to_string(),
+                },
+                Submodule {
+                    name: "printable".to_string(),
+                    description: "Printable Trait".to_string(),
                 },
             ],
         },
