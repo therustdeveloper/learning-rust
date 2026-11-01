@@ -11,32 +11,5 @@ pub mod hashmap_old_values;
 crate::tui_module! {
     description: "Storing key-value pairs with HashMap",
     category: DataStructures,
-}
-
-pub fn index(show: bool) {
-    if show {
-        // HashMap Definition
-        definition::index(false);
-
-        // HashMap Activity
-        activity::index(false);
-
-        // HashMap Furniture Activity
-        furniture::index(false);
-
-        // HashMap in for
-        hashmap_loop::index(false);
-
-        // HashMap Get Method
-        hashmap_get::index(false);
-
-        // HashMap Old Values
-        hashmap_old_values::index(false);
-
-        // HashMap Entry Method
-        hashmap_entry_method::index(false);
-
-        // Character Profile
-        character_profile::index(false);
-    }
+    sections_only,
 }

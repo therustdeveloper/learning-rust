@@ -10,29 +10,5 @@ pub mod selection_sort;
 crate::tui_module! {
     description: "Classic sorting algorithms",
     category: DataStructures,
-}
-
-pub fn index(show: bool) {
-    if show {
-        // Quick Sort
-        quick_sort::index(false);
-
-        // Bubble Sort
-        bubble_sort::index(false);
-
-        // Insertion Sort
-        insertion_sort::index(false);
-
-        // Selection Sort
-        selection_sort::index(false);
-
-        // Merge Sort
-        merge_sort::index(false);
-
-        // Cocktail Sort
-        cocktail_sort::index(false);
-
-        // Comb Sort
-        comb_sort::index(false);
-    }
+    sections_only,
 }

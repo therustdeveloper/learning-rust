@@ -165,8 +165,10 @@ impl App {
         };
         let (source, run) = match self.selected_section() {
             Some(section) => (section.name, section.run),
-            None if module.sections().is_empty() => (module.name(), module.run),
-            None => return,
+            None => match module.run {
+                Some(run) if module.sections().is_empty() => (module.name(), run),
+                _ => return,
+            },
         };
         self.output = Some(Output {
             source,

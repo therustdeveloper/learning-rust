@@ -11,26 +11,5 @@ pub mod vector_mutability;
 crate::tui_module! {
     description: "Storing lists of values with Vec<T>",
     category: DataStructures,
-}
-
-pub fn index(show: bool) {
-    if show {
-        println!("\n-- Vectors");
-
-        definition::index(true);
-
-        create_vector::index(false);
-
-        sort_vector::index(false);
-
-        add_remove::index(false);
-
-        reading_vector::index(false);
-
-        get_method::index(false);
-
-        vector_capacity::index(false);
-
-        vector_mutability::index(false);
-    }
+    sections_only,
 }

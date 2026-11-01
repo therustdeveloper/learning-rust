@@ -9,15 +9,5 @@ mod orders;
 crate::tui_module! {
     description: "Organizing code with modules",
     category: Intermediate,
-}
-
-pub fn index(show: bool) {
-    if show {
-        println!("\n-- Modules");
-
-        inline_modules_demo::index(false);
-        inline_modules_activity::index(false);
-        mod_basics::index(false);
-        inventory_program::index(false);
-    }
+    sections_only,
 }

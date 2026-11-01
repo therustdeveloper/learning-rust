@@ -1,6 +1,4 @@
 //! src/lifetimes/mod.rs
-use crate::print_title;
-
 pub mod activity;
 pub mod anonymous_lifetime;
 pub mod compare_activity;
@@ -14,26 +12,5 @@ pub mod zero_copy;
 crate::tui_module! {
     description: "Lifetimes and lifetime annotations",
     category: Intermediate,
-}
-
-pub fn index(show: bool) {
-    if show {
-        print_title("Lifetimes");
-
-        definition::index(false);
-
-        example::index(false);
-
-        demo::index(false);
-
-        activity::index(false);
-
-        compare_activity::index(false);
-
-        named_lifetime::index(false);
-
-        anonymous_lifetime::index(false);
-
-        multiple_lifetimes::index(false);
-    }
+    sections_only,
 }

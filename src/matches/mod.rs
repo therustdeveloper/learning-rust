@@ -13,30 +13,5 @@ pub mod while_let;
 crate::tui_module! {
     description: "Pattern matching with match, if let and while let",
     category: Basics,
-}
-
-pub fn index(show: bool) {
-    if show {
-        println!("\n-- Match Expression");
-
-        definition::index(false);
-
-        if_let::index(false);
-
-        match_guard::index(false);
-
-        catch_all::index(false);
-
-        placeholder::index(false);
-
-        multiple_placeholders::index(false);
-
-        match_vector::index(false);
-
-        while_let::index(false);
-
-        match_control_flow::index(false);
-
-        pattern_match::index(false);
-    }
+    sections_only,
 }

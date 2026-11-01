@@ -47,7 +47,8 @@ pub struct TuiModule {
     pub description: &'static str,
     pub category: Category,
     /// The module's own `index(true)`, run on Enter when it has no sections.
-    pub run: fn(),
+    /// `None` for `sections_only` modules, which have no `index` of their own.
+    pub run: Option<fn()>,
 }
 
 impl TuiModule {
@@ -89,15 +90,31 @@ pub fn modules() -> Vec<&'static TuiModule> {
 /// Sections are discovered by `build.rs`: every `pub mod <name>;` whose file
 /// defines `pub fn index(show: bool) {`. A module without sections runs its
 /// own `index(true)` on Enter.
+///
+/// A module made only of sections passes `sections_only` and needs no `index`:
+///
+/// ```ignore
+/// crate::tui_module! {
+///     description: "String, &str and string functions",
+///     category: Basics,
+///     sections_only,
+/// }
+/// ```
 #[macro_export]
 macro_rules! tui_module {
     (description: $description:literal, category: $category:ident $(,)?) => {
+        $crate::tui_module!(@submit $description, $category, Some(|| index(true)));
+    };
+    (description: $description:literal, category: $category:ident, sections_only $(,)?) => {
+        $crate::tui_module!(@submit $description, $category, None);
+    };
+    (@submit $description:literal, $category:ident, $run:expr) => {
         ::inventory::submit! {
             $crate::ratatui_app::TuiModule {
                 path: module_path!(),
                 description: $description,
                 category: $crate::ratatui_app::Category::$category,
-                run: || index(true),
+                run: $run,
             }
         }
     };
@@ -117,5 +134,16 @@ mod tests {
         let names: Vec<_> = arrays.sections().iter().map(|s| s.name).collect();
         assert_eq!(names, ["arrays_with_enums", "definition", "predictability"]);
         assert_eq!(arrays.category, Category::Basics);
+    }
+
+    #[test]
+    fn every_module_is_runnable() {
+        for module in modules() {
+            assert!(
+                module.run.is_some() || !module.sections().is_empty(),
+                "`{}` is sections_only but has no sections",
+                module.name()
+            );
+        }
     }
 }

@@ -6,16 +6,5 @@ pub mod unwrap_or_else;
 crate::tui_module! {
     description: "Working with Option<T>",
     category: Basics,
-}
-
-pub fn index(show: bool) {
-    if show {
-        println!("\n-- Optionals");
-
-        definition::index(false);
-
-        activity::index(false);
-
-        unwrap_or_else::index(false);
-    }
+    sections_only,
 }

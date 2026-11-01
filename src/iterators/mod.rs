@@ -22,48 +22,5 @@ pub mod without_for;
 crate::tui_module! {
     description: "Iterators, adapters and functional style",
     category: Intermediate,
-}
-
-pub fn index(show: bool) {
-    if show {
-        println!("\n-- Iterators");
-
-        definition::index(false);
-
-        demo::index(false);
-
-        activity::index(false);
-
-        partition::index(false);
-
-        iter_in_collections::index(false);
-
-        extend::index(false);
-
-        scan_hash_table::index(false);
-
-        nonfunctional_style::index(false);
-
-        functional_style::index(false);
-
-        without_for::index(false);
-
-        iterator_next::index(false);
-
-        impl_iterator::index(false);
-
-        mapping_and_filtering::index(false);
-
-        filter_map::index(false);
-
-        result_option_ok::index(false);
-
-        rev::index(false);
-
-        find_position::index(false);
-
-        fold::index(false);
-
-        skip::index(false);
-    }
+    sections_only,
 }

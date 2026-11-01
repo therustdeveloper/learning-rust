@@ -13,30 +13,5 @@ pub mod threads_in_array;
 crate::tui_module! {
     description: "Threads, shared data and race conditions",
     category: Concurrency,
-}
-
-pub fn index(show: bool) {
-    if show {
-        println!("\n-- Threads");
-
-        definition::index(false);
-
-        preventing_race_condition::index(false);
-
-        mutexes::index(false);
-
-        sharing_data_between_threads::index(false);
-
-        message_passing_between_threads::index(false);
-
-        move_data_between_threads::index(false);
-
-        threads_in_array::index(false);
-
-        scoped_threads::index(false);
-
-        sending_multiple_values::index(false);
-
-        multithreading::index(false);
-    }
+    sections_only,
 }
