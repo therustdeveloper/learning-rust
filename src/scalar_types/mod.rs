@@ -1,5 +1,6 @@
 //! src/scalar_types/mod.rs
 use crate::print_title;
+pub mod booleans;
 pub mod floats;
 pub mod integers;
 
