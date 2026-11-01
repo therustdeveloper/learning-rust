@@ -5,17 +5,17 @@ pub fn index(show: bool) {
     if show {
         print_title("Arrays");
 
-        demo(false);
+        demo(true);
 
-        months(false);
+        months(true);
 
-        type_size(false);
+        type_size(true);
 
-        initial_values(false);
+        initial_values(true);
 
-        basic_example(false);
+        basic_example(true);
 
-        array_index_position(false);
+        array_index_position(true);
     }
 }
 
