@@ -20,6 +20,10 @@ pub struct App {
     pub module_scroll: ScrollbarState,
     pub section_list: ListState,
     pub output: Option<Output>,
+    /// First visible line of the output panel; clamped by the renderer.
+    pub output_scroll: u16,
+    /// Whether ↑/↓ scroll the output panel instead of the submodule list (toggled with Tab).
+    pub output_focused: bool,
     pub should_quit: bool,
 }
 
@@ -32,6 +36,8 @@ impl App {
             module_list: ListState::default(),
             section_list: ListState::default(),
             output: None,
+            output_scroll: 0,
+            output_focused: false,
             should_quit: false,
         };
         app.select_module(0);
@@ -54,9 +60,30 @@ impl App {
             .is_some_and(|module| !module.sections().is_empty())
     }
 
+    /// Only submodule output is drawn in a scrollable panel.
+    pub fn can_focus_output(&self) -> bool {
+        self.output.is_some() && self.has_sections()
+    }
+
+    pub fn scrolls_output(&self) -> bool {
+        self.output_focused && self.can_focus_output()
+    }
+
+    fn clear_output(&mut self) {
+        self.output = None;
+        self.output_focused = false;
+    }
+
     pub fn on_key(&mut self, code: KeyCode) {
         match code {
             KeyCode::Char('q') | KeyCode::Esc => self.should_quit = true,
+            KeyCode::Tab if self.can_focus_output() => self.output_focused = !self.output_focused,
+            KeyCode::Down | KeyCode::Char('j') if self.scrolls_output() => {
+                self.output_scroll = self.output_scroll.saturating_add(1)
+            }
+            KeyCode::Up | KeyCode::Char('k') if self.scrolls_output() => {
+                self.output_scroll = self.output_scroll.saturating_sub(1)
+            }
             KeyCode::Down | KeyCode::Char('j') if self.has_sections() => self.step_section(1),
             KeyCode::Up | KeyCode::Char('k') if self.has_sections() => self.step_section(-1),
             KeyCode::Down | KeyCode::Char('j') | KeyCode::Right | KeyCode::Char('l') => {
@@ -68,7 +95,7 @@ impl App {
             KeyCode::Home => self.select_module(0),
             KeyCode::End => self.select_module(self.modules.len().saturating_sub(1)),
             KeyCode::Enter => self.run_selected(),
-            KeyCode::Char('c') | KeyCode::Backspace => self.output = None,
+            KeyCode::Char('c') | KeyCode::Backspace => self.clear_output(),
             _ => {}
         }
     }
@@ -81,7 +108,7 @@ impl App {
         self.module_scroll = self.module_scroll.position(index);
         self.section_list
             .select((!self.modules[index].sections().is_empty()).then_some(0));
-        self.output = None;
+        self.clear_output();
     }
 
     fn step_module(&mut self, delta: isize) {
@@ -112,6 +139,7 @@ impl App {
             source,
             text: capture_stdout(run),
         });
+        self.output_scroll = 0;
     }
 }
 

@@ -9,7 +9,8 @@ use ratatui::{
     style::{Color, Modifier, Style},
     text::{Line, Span, Text},
     widgets::{
-        Block, Borders, List, ListItem, Padding, Paragraph, Scrollbar, ScrollbarOrientation, Wrap,
+        Block, Borders, List, ListItem, Padding, Paragraph, Scrollbar, ScrollbarOrientation,
+        ScrollbarState, Wrap,
     },
     Frame,
 };
@@ -79,22 +80,37 @@ fn render_sections(f: &mut Frame, app: &mut App, area: Rect, module: &TuiModule)
 
     let items = numbered(sections.iter().map(|section| section.name), 2);
     let title = format!(" {} Submodules ({}) ", module.name(), sections.len());
+    let list_border = if app.output.is_some() && !app.output_focused {
+        Color::Cyan
+    } else {
+        Color::White
+    };
     let section_list = List::new(items)
-        .block(panel(title, Color::Cyan).padding(Padding::horizontal(1)))
+        .block(
+            panel(title, Color::Cyan)
+                .border_style(Style::default().fg(list_border))
+                .padding(Padding::horizontal(1)),
+        )
         .highlight_style(bold(Color::Black).bg(Color::Yellow))
         .highlight_symbol(">> ");
     f.render_stateful_widget(section_list, list, &mut app.section_list);
 
-    let (title, body) = match (&app.output, app.selected_section()) {
-        (Some(out), _) => (format!(" Output: {} ", out.source), out.text.clone()),
-        (None, Some(section)) => (
+    if let Some(out) = &app.output {
+        let title = format!(" Output: {} ", out.source);
+        let text = out.text.clone();
+        render_scrollable_output(f, app, output, title, &text);
+        return;
+    }
+
+    let (title, body) = match app.selected_section() {
+        Some(section) => (
             " Submodule Details ".to_string(),
             format!(
                 "Submodule: {}\n\nDescription: {}\n\nPress Enter to run this submodule",
                 section.name, section.description
             ),
         ),
-        (None, None) => (
+        None => (
             " Submodule Details ".to_string(),
             "Use ↑↓ arrows to navigate submodules\nPress Enter to run selected submodule"
                 .to_string(),
@@ -104,6 +120,61 @@ fn render_sections(f: &mut Frame, app: &mut App, area: Rect, module: &TuiModule)
         .block(panel(title, Color::Green).padding(Padding::uniform(1)))
         .wrap(Wrap { trim: false });
     f.render_widget(paragraph, output);
+}
+
+/// Output panel with a vertical scrollbar; Tab focuses it so ↑/↓ scroll long output.
+fn render_scrollable_output(f: &mut Frame, app: &mut App, area: Rect, title: String, text: &str) {
+    let border = if app.output_focused {
+        Color::Green
+    } else {
+        Color::White
+    };
+    let block = panel(title, Color::Green)
+        .border_style(Style::default().fg(border))
+        .padding(Padding::uniform(1));
+    let inner = block.inner(area);
+    let lines = hard_wrap(text, inner.width as usize);
+    let max_scroll = lines.len().saturating_sub(inner.height as usize) as u16;
+    app.output_scroll = app.output_scroll.min(max_scroll);
+
+    let paragraph = Paragraph::new(lines)
+        .block(block)
+        .scroll((app.output_scroll, 0));
+    f.render_widget(paragraph, area);
+
+    if max_scroll > 0 {
+        let mut state =
+            ScrollbarState::new(max_scroll as usize + 1).position(app.output_scroll as usize);
+        let scrollbar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+            .begin_symbol(Some("↑"))
+            .end_symbol(Some("↓"));
+        let track = area.inner(Margin {
+            vertical: 1,
+            horizontal: 0,
+        });
+        f.render_stateful_widget(scrollbar, track, &mut state);
+    }
+}
+
+/// Splits `text` into lines no wider than `width` columns, so the scroll range is exact.
+fn hard_wrap(text: &str, width: usize) -> Vec<Line<'static>> {
+    let width = width.max(1);
+    let mut lines = Vec::new();
+    for raw in text.lines() {
+        let mut current = String::new();
+        let mut used = 0;
+        for ch in raw.chars() {
+            let ch_width = Span::raw(ch.to_string()).width();
+            if used + ch_width > width && !current.is_empty() {
+                lines.push(Line::from(std::mem::take(&mut current)));
+                used = 0;
+            }
+            current.push(ch);
+            used += ch_width;
+        }
+        lines.push(Line::from(current));
+    }
+    lines
 }
 
 /// Module metadata, replaced by its output once it has been run.
@@ -159,7 +230,16 @@ fn module_summary(module: &TuiModule) -> Text<'static> {
 }
 
 fn render_footer(f: &mut Frame, app: &App, area: Rect) {
-    let mut keys = if app
+    let mut keys = if app.scrolls_output() {
+        vec![
+            (" ←/h ", Color::Cyan, "Prev Module  "),
+            ("→/l ", Color::Cyan, "Next Module  "),
+            ("↑/k ", Color::Green, "Scroll Up  "),
+            ("↓/j ", Color::Green, "Scroll Down  "),
+            ("Tab ", Color::Green, "Focus Submodules  "),
+            ("Enter ", Color::Green, "Run  "),
+        ]
+    } else if app
         .selected_module()
         .is_some_and(|m| !m.sections().is_empty())
     {
@@ -177,6 +257,9 @@ fn render_footer(f: &mut Frame, app: &App, area: Rect) {
             ("Enter ", Color::Green, "Run  "),
         ]
     };
+    if app.can_focus_output() && !app.output_focused {
+        keys.push(("Tab ", Color::Green, "Focus Output  "));
+    }
     if app.output.is_some() {
         keys.push(("c/⌫ ", Color::Magenta, "Clear  "));
     }
