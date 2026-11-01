@@ -8,6 +8,7 @@ pub mod string;
 pub mod string_functions;
 pub mod string_is_encoded;
 pub mod string_literals;
+pub mod strs;
 pub mod substrings;
 
 crate::tui_module! {
