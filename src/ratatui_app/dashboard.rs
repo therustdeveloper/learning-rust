@@ -1412,6 +1412,7 @@ impl App {
                         ("variables", "mutable_borrowing_vars") => {
                             crate::variables::mutable_borrowing_vars::index(true)
                         }
+                        ("variables", "mutable") => crate::variables::mutable::index(false),
                         ("variables", "moving_vars") => crate::variables::moving_vars::index(true),
                         ("vectors", "add_remove") => crate::vectors::add_remove::index(true),
                         ("vectors", "create_vector") => crate::vectors::create_vector::index(true),
@@ -3992,6 +3993,10 @@ fn get_all_modules() -> Vec<Module> {
                 Submodule {
                     name: "mutable_borrowing_vars".to_string(),
                     description: "Mutable Borrowing Variables".to_string(),
+                },
+                Submodule {
+                    name: "mutable".to_string(),
+                    description: "Mutable Variables".to_string(),
                 },
             ],
         },
