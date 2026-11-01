@@ -1,5 +1,4 @@
 //! src/slices/mod.rs
-use crate::print_title;
 pub mod activity;
 pub mod array_slices;
 pub mod definition;
@@ -9,16 +8,5 @@ pub mod reference_array;
 crate::tui_module! {
     description: "Array and string slices",
     category: Basics,
-}
-
-pub fn index(show: bool) {
-    if show {
-        print_title("Slices");
-
-        activity::slices_activity(false);
-        definition::index(false);
-        array_slices::index(false);
-        reference_array::index(false);
-        mutable_slice::index(false);
-    }
+    sections_only,
 }

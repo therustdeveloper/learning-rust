@@ -1,5 +1,4 @@
 //! src/traits/mod.rs
-use crate::print_title;
 pub mod activity;
 pub mod activity_trait_objects;
 pub mod complex_trait;
@@ -21,61 +20,5 @@ pub mod with_generics;
 crate::tui_module! {
     description: "Traits, trait objects and derives",
     category: Intermediate,
-}
-
-pub fn index(show: bool) {
-    if show {
-        print_title("Traits");
-
-        // Trait Demo
-        demo::index(false);
-
-        // Trait Activity
-        activity::index(false);
-
-        // Trait Definition
-        definition::index(false);
-
-        // Default Trait
-        default_trait::index(false);
-
-        // Trait using Derive Attribute
-        derives::index(false);
-
-        // Returning Traits with dyn
-        returning_traits_with_dyn::index(false);
-
-        // Media Aggregator
-        media_aggregator::index(false);
-
-        // Demo Trait Objects
-        demo_trait_objets::index(false);
-
-        // Activity Trait Objects
-        activity_trait_objects::index(false);
-
-        // From Trait
-        from_trait::index(false);
-
-        // With Generics
-        with_generics::index(false);
-
-        // Simple Trait Example
-        simple_trait::index(false);
-
-        // Implement Display Trait
-        impl_display::index(false);
-
-        // Implement Complex Trait
-        complex_trait::index(false);
-
-        // Copy Trait
-        copy_trait::index(false);
-
-        // Verifying with Traits
-        verifying_with_traits::index(false);
-
-        // Printable Trait
-        printable::index(false);
-    }
+    sections_only,
 }

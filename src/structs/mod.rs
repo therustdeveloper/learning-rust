@@ -16,34 +16,5 @@ pub mod unit_struct;
 crate::tui_module! {
     description: "Structs, tuple structs and the builder pattern",
     category: Basics,
-}
-
-pub fn index(show: bool) {
-    if show {
-        definition::index(false);
-
-        tuple_structs::index(false);
-
-        unit_struct::index(false);
-
-        human::index(false);
-
-        integrate_struct_enum_match::index(false);
-
-        structs_owned::index(false);
-
-        person::index(false);
-
-        queue::index(false);
-
-        file::index(false);
-
-        struct_update_syntax::index(false);
-
-        coffee::index(false);
-
-        methods::index(false);
-
-        builder_pattern::index(false);
-    }
+    sections_only,
 }

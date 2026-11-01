@@ -7,15 +7,5 @@ pub mod nested_functions;
 crate::tui_module! {
     description: "Functions, nested functions and return values",
     category: Basics,
-}
-
-pub fn index(show: bool) {
-    if show {
-        println!("-- Functions --");
-
-        definition::index(false);
-        blocks_in_functions::index(false);
-        func_return_option::index(false);
-        nested_functions::index(false);
-    }
+    sections_only,
 }

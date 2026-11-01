@@ -1,6 +1,4 @@
 //! src/basics/mod.rs
-use crate::print_title;
-
 pub mod arrays;
 pub mod booleans;
 pub mod borrowing;
@@ -31,88 +29,5 @@ pub mod variables;
 crate::tui_module! {
     description: "Fundamental Rust concepts and syntax",
     category: Basics,
-}
-
-pub fn index(show: bool) {
-    if show {
-        print_title("BASICS");
-
-        // Variables
-        variables::index(true);
-
-        // Constants
-        constants::index(false);
-
-        // Shadowing
-        shadowing::index(false);
-
-        // Scalar Types
-        scalars::index(false);
-
-        // Floating Points
-        floats::index(false);
-
-        // Numeric Operations
-        numeric_operations::index(false);
-
-        // Boolean Types
-        booleans::index(false);
-
-        // Character Types
-        characters::index(false);
-
-        // Tuple Types
-        compounds::index(false);
-
-        // Functions
-        functions::index(false);
-
-        // Control Flow
-        control_flow::index(false);
-
-        // Loops
-        loops::index(false);
-
-        // Slices
-        slices::index(false);
-
-        // Integers
-        integers::index(false);
-
-        // Arrays
-        arrays::index(false);
-
-        // Clone
-        clone::index(false);
-
-        // Borrowing
-        borrowing::index(false);
-
-        // Branches
-        branches::index(false);
-
-        // Using if in a let statement
-        if_let::index(false);
-
-        // Using underscores in numbers
-        underscores::index(false);
-
-        // Convert values from one to another
-        convert_values::index(false);
-
-        // Match Statement
-        match_statements::index(false);
-
-        // Recursion
-        recursion::index(false);
-
-        // Scopes
-        scopes::index(false);
-
-        // Type Casting
-        type_casting::index(false);
-
-        // unicode
-        unicode::index(false);
-    }
+    sections_only,
 }

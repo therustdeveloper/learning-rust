@@ -6,22 +6,8 @@ pub mod mutable;
 pub mod mutable_borrowing_vars;
 pub mod vars;
 
-use crate::print_title;
-
 crate::tui_module! {
     description: "Variables and mutability",
     category: Basics,
-}
-
-pub fn index(show: bool) {
-    if show {
-        print_title("Variables and Mutability");
-
-        vars::index(false);
-        constants::index(false);
-        copying_vars::index(false);
-        moving_vars::index(false);
-        mutable_borrowing_vars::index(false);
-        mutable::index(false);
-    }
+    sections_only,
 }

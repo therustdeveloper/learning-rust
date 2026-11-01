@@ -11,22 +11,5 @@ pub mod vars_outside_closure;
 crate::tui_module! {
     description: "Closures, captured variables and combinators",
     category: Intermediate,
-}
-
-pub fn index(show: bool) {
-    if show {
-        println!("\n-- Closures");
-
-        definition::index(false);
-
-        process_closure_thread::index(false);
-
-        demo::index(false);
-
-        map_combinator::index(true);
-
-        closures_inside_methods::index(false);
-
-        map_collect::index(false);
-    }
+    sections_only,
 }

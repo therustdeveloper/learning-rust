@@ -6,17 +6,5 @@ pub mod predictability;
 crate::tui_module! {
     description: "Fundamental Rust Arrays",
     category: Basics,
-}
-
-pub fn index(show: bool) {
-    if show {
-        // Array Definition
-        definition::index(true);
-
-        // Array Predictability
-        predictability::index(true);
-
-        // Arrays with Enums
-        arrays_with_enums::index(true);
-    }
+    sections_only,
 }

@@ -1,6 +1,4 @@
 //! src/generics/mod.rs
-use crate::print_title;
-
 pub mod activity;
 pub mod conveyor_belt;
 pub mod definition;
@@ -20,40 +18,5 @@ pub mod vehicle;
 crate::tui_module! {
     description: "Generic functions, structs, enums and implementations",
     category: Intermediate,
-}
-
-pub fn index(show: bool) {
-    if show {
-        print_title("Generics");
-
-        definition::index(false);
-
-        demo::index(false);
-
-        activity::index(false);
-
-        generic_structures::index(false);
-
-        conveyor_belt::index(false);
-
-        vehicle::index(false);
-
-        generic_functions::index(false);
-
-        generic_enums::index(false);
-
-        generic_structs::index(false);
-
-        question_operator::index(false);
-
-        generic_add::index(false);
-
-        generic_implementation::index(false);
-
-        generic_with_where::index(false);
-
-        introduction::index(false);
-
-        multiple_generics::index(false);
-    }
+    sections_only,
 }
