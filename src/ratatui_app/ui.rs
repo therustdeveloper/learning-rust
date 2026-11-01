@@ -240,3 +240,38 @@ fn category_color(category: Category) -> Color {
         Category::System => Color::Cyan,
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crossterm::event::KeyCode;
+    use ratatui::{backend::TestBackend, Terminal};
+
+    fn screen(app: &mut App) -> String {
+        let mut terminal = Terminal::new(TestBackend::new(160, 50)).unwrap();
+        terminal.draw(|f| draw(f, app)).unwrap();
+        let buffer = terminal.backend().buffer();
+        (0..buffer.area.height)
+            .map(|y| {
+                (0..buffer.area.width)
+                    .map(|x| buffer[(x, y)].symbol())
+                    .collect::<String>()
+                    + "\n"
+            })
+            .collect()
+    }
+
+    #[test]
+    fn basics_lists_its_sections() {
+        let mut app = App::new();
+        while app.selected_module().map(|m| m.name()) != Some("basics") {
+            app.on_key(KeyCode::Right);
+        }
+        app.on_key(KeyCode::Up);
+        let screen = screen(&mut app);
+
+        assert!(screen.contains("basics Submodules (25)"));
+        assert!(screen.contains("Submodule: variables"));
+        assert!(screen.contains("Description: Variables"));
+    }
+}

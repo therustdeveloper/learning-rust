@@ -28,6 +28,38 @@ pub mod underscores;
 pub mod unicode;
 pub mod variables;
 
+crate::tui_module! {
+    description: "Fundamental Rust concepts and syntax",
+    category: Basics,
+    sections: [
+        arrays => "Arrays",
+        booleans => "Booleans",
+        borrowing => "Borrowing",
+        branches => "Branches",
+        characters => "Characters",
+        clone => "Clone",
+        compounds => "Compounds",
+        constants => "Constants",
+        control_flow => "Control Flow",
+        convert_values => "Convert Values",
+        floats => "Floats",
+        functions => "Functions",
+        if_let => "If Let",
+        integers => "Integers",
+        loops => "Loops",
+        match_statements => "Match Statements",
+        numeric_operations => "Num Operations",
+        recursion => "Recursion",
+        scalars => "Scalars",
+        scopes => "Scopes",
+        shadowing => "Shadowing",
+        slices => "Slices",
+        type_casting => "Type Casting",
+        underscores => "Underscores",
+        variables => "Variables",
+    ],
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("BASICS");
