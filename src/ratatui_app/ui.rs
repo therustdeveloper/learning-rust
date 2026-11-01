@@ -27,7 +27,7 @@ pub fn draw(f: &mut Frame, app: &mut App) {
     render_header(f, header);
     render_module_list(f, app, list);
     match app.selected_module() {
-        Some(module) if !module.sections().is_empty() => render_sections(f, app, details, module),
+        Some(module) if !module.sections.is_empty() => render_sections(f, app, details, module),
         Some(module) => render_module_details(f, app, details, module),
         None => f.render_widget(
             Paragraph::new("No module selected").block(panel(" Details ", Color::Yellow)),
@@ -75,7 +75,7 @@ fn render_module_list(f: &mut Frame, app: &mut App, area: Rect) {
 fn render_sections(f: &mut Frame, app: &mut App, area: Rect, module: &TuiModule) {
     let [list, output] =
         Layout::vertical([Constraint::Percentage(40), Constraint::Percentage(60)]).areas(area);
-    let sections = module.sections();
+    let sections = module.sections;
 
     let items = numbered(sections.iter().map(|section| section.name), 2);
     let title = format!(" {} Submodules ({}) ", module.name(), sections.len());
@@ -161,7 +161,7 @@ fn module_summary(module: &TuiModule) -> Text<'static> {
 fn render_footer(f: &mut Frame, app: &App, area: Rect) {
     let mut keys = if app
         .selected_module()
-        .is_some_and(|m| !m.sections().is_empty())
+        .is_some_and(|m| !m.sections.is_empty())
     {
         vec![
             (" ←/h ", Color::Cyan, "Prev Module  "),
@@ -270,7 +270,7 @@ mod tests {
         app.on_key(KeyCode::Up);
         let screen = screen(&mut app);
 
-        assert!(screen.contains("basics Submodules (25)"));
+        assert!(screen.contains("basics Submodules (26)"));
         assert!(screen.contains("Submodule: variables"));
         assert!(screen.contains("Description: Variables"));
     }

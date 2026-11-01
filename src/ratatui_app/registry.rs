@@ -39,15 +39,6 @@ pub struct Section {
     pub run: fn(),
 }
 
-/// What happens when the user presses Enter on a module.
-#[derive(Debug)]
-pub enum Content {
-    /// Run the module's `index(true)` as a whole.
-    Run(fn()),
-    /// Pick one of several sections and run it.
-    Sections(&'static [Section]),
-}
-
 /// A learning module as shown in the dashboard.
 #[derive(Debug)]
 pub struct TuiModule {
@@ -55,20 +46,16 @@ pub struct TuiModule {
     pub path: &'static str,
     pub description: &'static str,
     pub category: Category,
-    pub content: Content,
+    /// The module's own `index(true)`, run on Enter when it has no sections.
+    pub run: fn(),
+    /// Child modules discovered by `build.rs`.
+    pub sections: &'static [Section],
 }
 
 impl TuiModule {
     /// The module directory name, e.g. `arrays`.
     pub fn name(&self) -> &'static str {
         self.path.rsplit("::").next().unwrap_or(self.path)
-    }
-
-    pub fn sections(&self) -> &'static [Section] {
-        match self.content {
-            Content::Sections(sections) => sections,
-            Content::Run(_) => &[],
-        }
     }
 }
 
@@ -83,59 +70,26 @@ pub fn modules() -> Vec<&'static TuiModule> {
 
 /// Registers the enclosing module in the dashboard.
 ///
-/// With sections, each entry names a child module whose `index(true)` runs on Enter:
-///
 /// ```ignore
 /// crate::tui_module! {
 ///     description: "Fundamental Rust Arrays",
 ///     category: Basics,
-///     sections: [
-///         definition => "Definition",
-///         predictability => "Predictability",
-///     ],
 /// }
 /// ```
 ///
-/// Without sections, the module's own `index(true)` runs on Enter:
-///
-/// ```ignore
-/// crate::tui_module! {
-///     description: "Hello world",
-///     category: Basics,
-/// }
-/// ```
+/// Sections are discovered by `build.rs`: every `pub mod <name>;` whose file
+/// defines `pub fn index(show: bool) {`. A module without sections runs its
+/// own `index(true)` on Enter.
 #[macro_export]
 macro_rules! tui_module {
-    (
-        description: $description:literal,
-        category: $category:ident,
-        sections: [ $( $section:ident => $label:literal ),+ $(,)? ] $(,)?
-    ) => {
-        $crate::tui_module!(@submit $description, $category,
-            $crate::ratatui_app::Content::Sections(&[
-                $( $crate::ratatui_app::Section {
-                    name: stringify!($section),
-                    description: $label,
-                    run: || $section::index(true),
-                } ),+
-            ])
-        );
-    };
-    (
-        description: $description:literal,
-        category: $category:ident $(,)?
-    ) => {
-        $crate::tui_module!(@submit $description, $category,
-            $crate::ratatui_app::Content::Run(|| index(true))
-        );
-    };
-    (@submit $description:literal, $category:ident, $content:expr) => {
+    (description: $description:literal, category: $category:ident $(,)?) => {
         ::inventory::submit! {
             $crate::ratatui_app::TuiModule {
                 path: module_path!(),
                 description: $description,
                 category: $crate::ratatui_app::Category::$category,
-                content: $content,
+                run: || index(true),
+                sections: include!(concat!(env!("OUT_DIR"), "/tui_sections/", file!())),
             }
         }
     };
@@ -146,14 +100,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn arrays_is_registered_with_its_sections() {
+    fn arrays_sections_are_discovered() {
         let arrays = modules()
             .into_iter()
             .find(|module| module.name() == "arrays")
             .expect("arrays should self-register");
 
-        let names: Vec<_> = arrays.sections().iter().map(|s| s.name).collect();
-        assert_eq!(names, ["definition", "predictability", "arrays_with_enums"]);
+        let names: Vec<_> = arrays.sections.iter().map(|s| s.name).collect();
+        assert_eq!(names, ["arrays_with_enums", "definition", "predictability"]);
         assert_eq!(arrays.category, Category::Basics);
     }
 }

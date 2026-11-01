@@ -10,7 +10,7 @@ mod dashboard;
 mod registry;
 mod ui;
 
-pub use registry::{Category, Content, Section, TuiModule};
+pub use registry::{Category, Section, TuiModule};
 
 /// Main entry point following the repository's index pattern
 pub fn index(show: bool) {
