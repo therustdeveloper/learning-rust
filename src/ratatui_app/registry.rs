@@ -48,8 +48,6 @@ pub struct TuiModule {
     pub category: Category,
     /// The module's own `index(true)`, run on Enter when it has no sections.
     pub run: fn(),
-    /// Child modules discovered by `build.rs`.
-    pub sections: &'static [Section],
 }
 
 impl TuiModule {
@@ -57,6 +55,17 @@ impl TuiModule {
     pub fn name(&self) -> &'static str {
         self.path.rsplit("::").next().unwrap_or(self.path)
     }
+
+    /// Child modules discovered by `build.rs`.
+    pub fn sections(&self) -> &'static [Section] {
+        discovered::sections(self.name())
+    }
+}
+
+mod discovered {
+    use super::Section;
+
+    include!(concat!(env!("OUT_DIR"), "/tui_sections.rs"));
 }
 
 inventory::collect!(TuiModule);
@@ -89,7 +98,6 @@ macro_rules! tui_module {
                 description: $description,
                 category: $crate::ratatui_app::Category::$category,
                 run: || index(true),
-                sections: include!(concat!(env!("OUT_DIR"), "/tui_sections/", file!())),
             }
         }
     };
@@ -106,7 +114,7 @@ mod tests {
             .find(|module| module.name() == "arrays")
             .expect("arrays should self-register");
 
-        let names: Vec<_> = arrays.sections.iter().map(|s| s.name).collect();
+        let names: Vec<_> = arrays.sections().iter().map(|s| s.name).collect();
         assert_eq!(names, ["arrays_with_enums", "definition", "predictability"]);
         assert_eq!(arrays.category, Category::Basics);
     }

@@ -45,13 +45,13 @@ impl App {
     }
 
     pub fn selected_section(&self) -> Option<&'static Section> {
-        let sections = self.selected_module()?.sections;
+        let sections = self.selected_module()?.sections();
         sections.get(self.section_list.selected()?)
     }
 
     fn has_sections(&self) -> bool {
         self.selected_module()
-            .is_some_and(|module| !module.sections.is_empty())
+            .is_some_and(|module| !module.sections().is_empty())
     }
 
     pub fn on_key(&mut self, code: KeyCode) {
@@ -80,7 +80,7 @@ impl App {
         self.module_list.select(Some(index));
         self.module_scroll = self.module_scroll.position(index);
         self.section_list
-            .select((!self.modules[index].sections.is_empty()).then_some(0));
+            .select((!self.modules[index].sections().is_empty()).then_some(0));
         self.output = None;
     }
 
@@ -94,7 +94,7 @@ impl App {
     fn step_section(&mut self, delta: isize) {
         let len = self
             .selected_module()
-            .map_or(0, |module| module.sections.len());
+            .map_or(0, |module| module.sections().len());
         let current = self.section_list.selected().unwrap_or(0);
         self.section_list.select(wrap(current, delta, len));
     }
@@ -105,7 +105,7 @@ impl App {
         };
         let (source, run) = match self.selected_section() {
             Some(section) => (section.name, section.run),
-            None if module.sections.is_empty() => (module.name(), module.run),
+            None if module.sections().is_empty() => (module.name(), module.run),
             None => return,
         };
         self.output = Some(Output {

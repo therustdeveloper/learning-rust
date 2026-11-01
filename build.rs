@@ -2,44 +2,64 @@
 //!
 //! Discovers TUI sections for `crate::tui_module!`.
 //!
-//! For every `src/<module>/mod.rs`, each `pub mod <name>;` whose file defines
-//! `pub fn index(show: bool) {` becomes a section. The result is written to
-//! `$OUT_DIR/tui_sections/src/<module>/mod.rs` as a `&[Section]` expression,
-//! which the macro pulls in with `include!`.
+//! For every `src/<module>/mod.rs` that invokes `crate::tui_module!`, each
+//! `pub mod <name>;` whose file defines `pub fn index(show: bool) {` becomes a
+//! section. Everything is written to a single `$OUT_DIR/tui_sections.rs`,
+//! included once by `src/ratatui_app/registry.rs`.
 
 use std::{env, fs, path::Path};
 
 const INDEX_SIGNATURE: &str = "pub fn index(show: bool) {";
+const REGISTRATION: &str = "crate::tui_module!";
 
 fn main() {
     println!("cargo:rerun-if-changed=src");
 
+    let mut modules: Vec<_> = fs::read_dir("src")
+        .expect("src/ is readable")
+        .flatten()
+        .map(|entry| entry.path())
+        .filter_map(|dir| {
+            let mod_rs = fs::read_to_string(dir.join("mod.rs")).ok()?;
+            let name = dir.file_name()?.to_str()?.to_string();
+            registers(&mod_rs).then(|| (name, sections(&dir, &mod_rs)))
+        })
+        .collect();
+    modules.sort();
+
+    let arms: String = modules
+        .iter()
+        .map(|(module, sections)| format!("        {module:?} => &[\n{sections}        ],\n"))
+        .collect();
+    let generated = format!(
+        "/// Sections discovered by build.rs for each registered module.\n\
+         pub fn sections(module: &str) -> &'static [Section] {{\n    \
+             match module {{\n{arms}        _ => &[],\n    }}\n}}\n"
+    );
+
     let out_dir = env::var("OUT_DIR").expect("OUT_DIR is set by cargo");
-    let src = Path::new("src");
+    fs::write(Path::new(&out_dir).join("tui_sections.rs"), generated).unwrap();
+}
 
-    for entry in fs::read_dir(src).expect("src/ is readable").flatten() {
-        let module_dir = entry.path();
-        let Ok(mod_rs) = fs::read_to_string(module_dir.join("mod.rs")) else {
-            continue;
-        };
+/// Whether `mod.rs` registers itself with the dashboard.
+fn registers(mod_rs: &str) -> bool {
+    mod_rs
+        .lines()
+        .any(|line| line.trim_start().starts_with(REGISTRATION))
+}
 
-        let sections: String = declared_modules(&mod_rs)
-            .filter(|name| has_index(&module_dir, name))
-            .map(|name| {
-                format!(
-                    "    crate::ratatui_app::Section {{ name: {name:?}, description: {:?}, run: || {name}::index(true) }},\n",
-                    title_case(name)
-                )
-            })
-            .collect();
-
-        let target = Path::new(&out_dir)
-            .join("tui_sections")
-            .join(&module_dir)
-            .join("mod.rs");
-        fs::create_dir_all(target.parent().unwrap()).unwrap();
-        fs::write(target, format!("&[\n{sections}]\n")).unwrap();
-    }
+/// `Section` literals for every child module following the `index` pattern.
+fn sections(module_dir: &Path, mod_rs: &str) -> String {
+    let module = module_dir.file_name().unwrap().to_str().unwrap();
+    declared_modules(mod_rs)
+        .filter(|name| has_index(module_dir, name))
+        .map(|name| {
+            format!(
+                "            Section {{ name: {name:?}, description: {:?}, run: || crate::{module}::{name}::index(true) }},\n",
+                title_case(name)
+            )
+        })
+        .collect()
 }
 
 /// Names from `pub mod <name>;` lines, in declaration order.
