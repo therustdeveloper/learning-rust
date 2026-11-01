@@ -28,6 +28,11 @@ pub mod underscores;
 pub mod unicode;
 pub mod variables;
 
+crate::tui_module! {
+    description: "Fundamental Rust concepts and syntax",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("BASICS");
