@@ -2476,7 +2476,10 @@ fn get_all_modules() -> Vec<Module> {
             name: "borrowing".to_string(),
             description: "Borrowing definition and use".to_string(),
             category: "Basic".to_string(),
-            submodules: vec![],
+            submodules: vec![Submodule {
+                name: "definition".to_string(),
+                description: "Definition".to_string(),
+            }],
         },
         Module {
             name: "boxes".to_string(),
