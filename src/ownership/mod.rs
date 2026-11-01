@@ -12,6 +12,11 @@ pub mod returning_ownership;
 pub mod string_clone_heap;
 pub mod string_type;
 
+crate::tui_module! {
+    description: "Ownership, borrowing and references",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         // String Type

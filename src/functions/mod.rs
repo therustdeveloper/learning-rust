@@ -4,6 +4,11 @@ pub mod definition;
 pub mod func_return_option;
 pub mod nested_functions;
 
+crate::tui_module! {
+    description: "Functions, nested functions and return values",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("-- Functions --");

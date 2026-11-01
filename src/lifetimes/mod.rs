@@ -11,6 +11,11 @@ pub mod multiple_lifetimes;
 pub mod named_lifetime;
 pub mod zero_copy;
 
+crate::tui_module! {
+    description: "Lifetimes and lifetime annotations",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Lifetimes");

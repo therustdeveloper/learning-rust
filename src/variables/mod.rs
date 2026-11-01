@@ -8,6 +8,11 @@ pub mod vars;
 
 use crate::print_title;
 
+crate::tui_module! {
+    description: "Variables and mutability",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Variables and Mutability");

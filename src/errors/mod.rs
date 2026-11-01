@@ -8,6 +8,11 @@ pub mod demo_custom_error;
 pub mod error_handling;
 pub mod error_propagation;
 
+crate::tui_module! {
+    description: "Error handling, propagation and custom errors",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Errors");

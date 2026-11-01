@@ -2,6 +2,11 @@
 pub mod hashmaps;
 pub mod vectors;
 
+crate::tui_module! {
+    description: "Common collections: vectors and hash maps",
+    category: DataStructures,
+}
+
 pub fn index(show: bool) {
     if show {
         //common::print_title("COLLECTIONS");

@@ -3,6 +3,11 @@ pub mod activity;
 pub mod definition;
 pub mod demo;
 
+crate::tui_module! {
+    description: "Writing and running tests",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("\n-- Tests");

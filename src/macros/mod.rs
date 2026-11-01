@@ -2,6 +2,11 @@
 pub mod create_vector;
 pub mod definition;
 
+crate::tui_module! {
+    description: "Declarative macros",
+    category: Advanced,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("--- Macros");

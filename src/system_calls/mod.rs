@@ -3,6 +3,11 @@ use crate::print_title;
 pub mod c_call;
 pub mod raw_syscall;
 
+crate::tui_module! {
+    description: "Making system calls",
+    category: System,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("System Calls");

@@ -9,6 +9,11 @@ pub mod string_is_encoded;
 pub mod string_literals;
 pub mod substrings;
 
+crate::tui_module! {
+    description: "String, &str and string functions",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         // String Definition

@@ -1,6 +1,11 @@
 const BIAS: i32 = 127;
 const RADIX: f32 = 2.0;
 
+crate::tui_module! {
+    description: "Deconstructing a floating-point number into its parts",
+    category: Advanced,
+}
+
 pub fn index(show: bool) {
     if show {
         let n: f32 = 42.42;

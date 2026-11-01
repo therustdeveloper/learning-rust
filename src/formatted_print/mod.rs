@@ -1,3 +1,8 @@
+crate::tui_module! {
+    description: "Formatted printing with println!",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         // replaced with the argument

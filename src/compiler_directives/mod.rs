@@ -1,6 +1,11 @@
 //! src/compiler_directives/mod.rs
 pub mod demo;
 
+crate::tui_module! {
+    description: "Compiler directives and attributes",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("-- Compiler Directives --");

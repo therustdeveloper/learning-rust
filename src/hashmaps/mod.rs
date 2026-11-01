@@ -8,6 +8,11 @@ pub mod hashmap_get;
 pub mod hashmap_loop;
 pub mod hashmap_old_values;
 
+crate::tui_module! {
+    description: "Storing key-value pairs with HashMap",
+    category: DataStructures,
+}
+
 pub fn index(show: bool) {
     if show {
         // HashMap Definition

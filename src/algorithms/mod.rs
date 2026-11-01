@@ -7,6 +7,11 @@ pub mod merge_sort;
 pub mod quick_sort;
 pub mod selection_sort;
 
+crate::tui_module! {
+    description: "Classic sorting algorithms",
+    category: DataStructures,
+}
+
 pub fn index(show: bool) {
     if show {
         // Quick Sort

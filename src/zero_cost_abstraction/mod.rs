@@ -1,5 +1,10 @@
 use std::thread;
 
+crate::tui_module! {
+    description: "Zero-cost abstractions",
+    category: Advanced,
+}
+
 pub fn index(show: bool) {
     if show {
         let numbers = filter_even_numbers_new(vec![1, 2, 3, 4, 5, 6, 7]);

@@ -10,6 +10,11 @@ pub mod sending_multiple_values;
 pub mod sharing_data_between_threads;
 pub mod threads_in_array;
 
+crate::tui_module! {
+    description: "Threads, shared data and race conditions",
+    category: Concurrency,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("\n-- Threads");

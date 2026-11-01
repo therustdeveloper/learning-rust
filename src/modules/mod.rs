@@ -6,6 +6,11 @@ pub mod inventory_program;
 pub mod mod_basics;
 mod orders;
 
+crate::tui_module! {
+    description: "Organizing code with modules",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("\n-- Modules");
