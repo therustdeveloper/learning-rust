@@ -2,7 +2,7 @@
 //!
 //! Rendering only: reads `App` state and draws it, never mutates navigation.
 
-use super::app::App;
+use super::app::{App, Focus};
 use super::registry::{Category, TuiModule};
 use ratatui::{
     layout::{Alignment, Constraint, Layout, Margin, Rect},
@@ -56,6 +56,7 @@ fn render_module_list(f: &mut Frame, app: &mut App, area: Rect) {
     let list = List::new(items)
         .block(
             panel(format!(" Modules ({}) ", app.modules.len()), Color::Yellow)
+                .border_style(focus_border(app, Focus::Modules))
                 .padding(Padding::horizontal(1)),
         )
         .highlight_style(bold(Color::White).bg(Color::DarkGray))
@@ -80,15 +81,10 @@ fn render_sections(f: &mut Frame, app: &mut App, area: Rect, module: &TuiModule)
 
     let items = numbered(sections.iter().map(|section| section.name), 2);
     let title = format!(" {} Submodules ({}) ", module.name(), sections.len());
-    let list_border = if app.output.is_some() && !app.output_focused {
-        Color::Cyan
-    } else {
-        Color::White
-    };
     let section_list = List::new(items)
         .block(
             panel(title, Color::Cyan)
-                .border_style(Style::default().fg(list_border))
+                .border_style(focus_border(app, Focus::Sections))
                 .padding(Padding::horizontal(1)),
         )
         .highlight_style(bold(Color::Black).bg(Color::Yellow))
@@ -98,7 +94,7 @@ fn render_sections(f: &mut Frame, app: &mut App, area: Rect, module: &TuiModule)
     if let Some(out) = &app.output {
         let title = format!(" Output: {} ", out.source);
         let text = out.text.clone();
-        render_scrollable_output(f, app, output, title, &text);
+        render_scrollable_output(f, app, output, title, Color::Green, &text);
         return;
     }
 
@@ -112,25 +108,31 @@ fn render_sections(f: &mut Frame, app: &mut App, area: Rect, module: &TuiModule)
         ),
         None => (
             " Submodule Details ".to_string(),
-            "Use ↑↓ arrows to navigate submodules\nPress Enter to run selected submodule"
+            "Use ↑/↓ or k/j to navigate submodules\nPress Enter to run selected submodule"
                 .to_string(),
         ),
     };
     let paragraph = Paragraph::new(body)
-        .block(panel(title, Color::Green).padding(Padding::uniform(1)))
+        .block(
+            panel(title, Color::Green)
+                .border_style(focus_border(app, Focus::Output))
+                .padding(Padding::uniform(1)),
+        )
         .wrap(Wrap { trim: false });
     f.render_widget(paragraph, output);
 }
 
-/// Output panel with a vertical scrollbar; Tab focuses it so ↑/↓ scroll long output.
-fn render_scrollable_output(f: &mut Frame, app: &mut App, area: Rect, title: String, text: &str) {
-    let border = if app.output_focused {
-        Color::Green
-    } else {
-        Color::White
-    };
-    let block = panel(title, Color::Green)
-        .border_style(Style::default().fg(border))
+/// Output panel with a vertical scrollbar; ↑/↓ scroll it while it has focus.
+fn render_scrollable_output(
+    f: &mut Frame,
+    app: &mut App,
+    area: Rect,
+    title: String,
+    title_color: Color,
+    text: &str,
+) {
+    let block = panel(title, title_color)
+        .border_style(focus_border(app, Focus::Output))
         .padding(Padding::uniform(1));
     let inner = block.inner(area);
     let lines = hard_wrap(text, inner.width as usize);
@@ -178,16 +180,19 @@ fn hard_wrap(text: &str, width: usize) -> Vec<Line<'static>> {
 }
 
 /// Module metadata, replaced by its output once it has been run.
-fn render_module_details(f: &mut Frame, app: &App, area: Rect, module: &TuiModule) {
-    let (title, content) = match &app.output {
-        Some(out) => (
-            format!(" Output: {} ", out.source),
-            Text::from(out.text.as_str()),
-        ),
-        None => (" Details ".to_string(), module_summary(module)),
-    };
-    let paragraph = Paragraph::new(content)
-        .block(panel(title, Color::Yellow).padding(Padding::uniform(1)))
+fn render_module_details(f: &mut Frame, app: &mut App, area: Rect, module: &TuiModule) {
+    if let Some(out) = &app.output {
+        let title = format!(" Output: {} ", out.source);
+        let text = out.text.clone();
+        render_scrollable_output(f, app, area, title, Color::Yellow, &text);
+        return;
+    }
+    let paragraph = Paragraph::new(module_summary(module))
+        .block(
+            panel(" Details ", Color::Yellow)
+                .border_style(focus_border(app, Focus::Output))
+                .padding(Padding::uniform(1)),
+        )
         .wrap(Wrap { trim: true });
     f.render_widget(paragraph, area);
 }
@@ -230,42 +235,27 @@ fn module_summary(module: &TuiModule) -> Text<'static> {
 }
 
 fn render_footer(f: &mut Frame, app: &App, area: Rect) {
-    let mut keys = if app.scrolls_output() {
-        vec![
-            (" ←/h ", Color::Cyan, "Prev Module  "),
-            ("→/l ", Color::Cyan, "Next Module  "),
+    let mut keys = vec![
+        (" Tab/→/l ", Color::Cyan, "Next Panel  "),
+        ("⇧Tab/←/h ", Color::Cyan, "Prev Panel  "),
+    ];
+    keys.extend(match app.focus {
+        Focus::Output => [
             ("↑/k ", Color::Green, "Scroll Up  "),
             ("↓/j ", Color::Green, "Scroll Down  "),
-            ("Tab ", Color::Green, "Focus Submodules  "),
-            ("Enter ", Color::Green, "Run  "),
-        ]
-    } else if app
-        .selected_module()
-        .is_some_and(|m| !m.sections().is_empty())
-    {
-        vec![
-            (" ←/h ", Color::Cyan, "Prev Module  "),
-            ("→/l ", Color::Cyan, "Next Module  "),
-            ("↑/k ", Color::Yellow, "Prev Sub  "),
-            ("↓/j ", Color::Yellow, "Next Sub  "),
-            ("Enter ", Color::Green, "Run  "),
-        ]
-    } else {
-        vec![
-            (" ↑/k ", Color::Cyan, "Up  "),
-            ("↓/j ", Color::Cyan, "Down  "),
-            ("Enter ", Color::Green, "Run  "),
-        ]
-    };
-    if app.can_focus_output() && !app.output_focused {
-        keys.push(("Tab ", Color::Green, "Focus Output  "));
-    }
+        ],
+        _ => [
+            ("↑/k ", Color::Yellow, "Up  "),
+            ("↓/j ", Color::Yellow, "Down  "),
+        ],
+    });
+    keys.push(("Enter ", Color::Green, "Run  "));
     if app.output.is_some() {
         keys.push(("c/⌫ ", Color::Magenta, "Clear  "));
     }
     keys.extend([
-        ("Home ", Color::Cyan, "First  "),
-        ("End ", Color::Cyan, "Last  "),
+        ("Home ", Color::Cyan, "Top  "),
+        ("End ", Color::Cyan, "Bottom  "),
         ("q/ESC ", Color::Red, "Quit"),
     ]);
 
@@ -282,6 +272,16 @@ fn render_footer(f: &mut Frame, app: &App, area: Rect) {
                 .padding(Padding::horizontal(1)),
         );
     f.render_widget(footer, area);
+}
+
+/// Green border on the focused panel, white on the others.
+fn focus_border(app: &App, panel: Focus) -> Style {
+    let color = if app.focus == panel {
+        Color::Green
+    } else {
+        Color::White
+    };
+    Style::default().fg(color)
 }
 
 /// Bordered panel with a bold, colored title.
@@ -348,8 +348,9 @@ mod tests {
     fn basics_lists_its_sections() {
         let mut app = App::new();
         while app.selected_module().map(|m| m.name()) != Some("basics") {
-            app.on_key(KeyCode::Right);
+            app.on_key(KeyCode::Down);
         }
+        app.on_key(KeyCode::Right);
         app.on_key(KeyCode::Up);
         let screen = screen(&mut app);
 
