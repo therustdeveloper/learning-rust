@@ -1,6 +1,7 @@
 //! src/compound_types/mod.rs
 use crate::print_title;
 pub mod arrays;
+pub mod slices;
 pub mod tuples;
 pub mod tuples_demo;
 
