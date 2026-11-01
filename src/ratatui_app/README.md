@@ -86,6 +86,7 @@ Rendering lives in `ui.rs`; this file never draws.
 
 - `App`: registered modules, list selections, scrollbar and last output.
 - `Output`: captured text plus the module or section that produced it.
+- `Focus`: which panel receives `↑`/`↓`.
 - `on_key()`: maps keys to actions (see Keys below).
 - `select_module()`: selects a module, its first section, clears output.
 - `run_selected()`: runs the selected section, or the module itself.
@@ -105,15 +106,19 @@ Only reads navigation state; never changes what is selected.
 - `render_footer()`: key hints for the current mode.
 - Helpers: `panel()`, `numbered()`, `bold()`, `category_color()`.
 - Test: renders to a `TestBackend` and checks the `basics` sections.
+- `app.rs` tests: panel cycling in both directions and per-panel movement.
 
 ## Keys
 
 Handled in `App::on_key()`.
-Up/Down move between sections when the module has them, else modules.
+Three panels, cycled like a circle: modules (left), submodules
+(right-top) and output (right-bottom). The focused panel has a green border.
+Modules without submodules have only two panels: modules and details.
 
-- `↑`/`k`, `↓`/`j`: previous/next section, or module.
-- `←`/`h`, `→`/`l`: previous/next module.
-- `Home`, `End`: first/last module.
+- `Tab`/`→`/`l`: next panel (modules → submodules → output → modules).
+- `Shift+Tab`/`←`/`h`: previous panel (modules → output → submodules → modules).
+- `↑`/`k`, `↓`/`j`: move in the focused panel; scroll it in the output.
+- `Home`, `End`: top/bottom of the focused panel.
 - `Enter`: run the selected section or module.
 - `c`/`Backspace`: clear the output.
 - `q`/`Esc`: quit.
