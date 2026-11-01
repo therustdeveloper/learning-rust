@@ -35,6 +35,11 @@ impl File {
 
 use crate::print_title;
 
+crate::tui_module! {
+    description: "Simulating files one step at a time",
+    category: System,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Open Files");

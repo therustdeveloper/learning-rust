@@ -4,6 +4,11 @@ pub mod definition;
 pub mod multiple_impl_blocks;
 pub mod parameters;
 
+crate::tui_module! {
+    description: "Methods, associated functions and impl blocks",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         // Methods Definition

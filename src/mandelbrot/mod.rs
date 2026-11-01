@@ -1,6 +1,11 @@
 //! src/mandelbrot/mod.rs
 use num::complex::Complex;
 
+crate::tui_module! {
+    description: "Rendering the Mandelbrot set",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("--- Mandelbrot");

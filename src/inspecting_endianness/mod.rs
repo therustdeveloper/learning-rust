@@ -1,6 +1,11 @@
 //! src/inspecting_endianness/mod.rs
 use crate::print_title;
 
+crate::tui_module! {
+    description: "Inspecting byte order (endianness)",
+    category: Advanced,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Inspecting Endianness");

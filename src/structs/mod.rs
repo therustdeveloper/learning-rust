@@ -13,6 +13,11 @@ pub mod structs_owned;
 pub mod tuple_structs;
 pub mod unit_struct;
 
+crate::tui_module! {
+    description: "Structs, tuple structs and the builder pattern",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         definition::index(false);

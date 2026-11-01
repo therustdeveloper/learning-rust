@@ -8,6 +8,11 @@ pub mod sort_vector;
 pub mod vector_capacity;
 pub mod vector_mutability;
 
+crate::tui_module! {
+    description: "Storing lists of values with Vec<T>",
+    category: DataStructures,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("\n-- Vectors");

@@ -2,6 +2,11 @@
 pub mod definition;
 pub mod while_let;
 
+crate::tui_module! {
+    description: "while and while let loops",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("\n-- While Loops");

@@ -10,6 +10,11 @@ pub mod pattern_match;
 pub mod placeholder;
 pub mod while_let;
 
+crate::tui_module! {
+    description: "Pattern matching with match, if let and while let",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("\n-- Match Expression");

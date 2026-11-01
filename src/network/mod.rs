@@ -8,6 +8,11 @@ use std::sync::{
 };
 use std::{thread, time::Duration};
 
+crate::tui_module! {
+    description: "Network programming with TCP",
+    category: System,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Network");

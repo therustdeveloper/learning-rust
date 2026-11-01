@@ -2,6 +2,11 @@ struct Resource {
     data: Vec<u8>,
 }
 
+crate::tui_module! {
+    description: "Automatic resource cleanup when values go out of scope",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         let resource = Resource {

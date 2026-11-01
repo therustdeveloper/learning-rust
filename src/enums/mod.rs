@@ -20,6 +20,11 @@ pub mod options;
 pub mod payment_method_type;
 pub mod result_enum;
 
+crate::tui_module! {
+    description: "Enums, data-carrying variants and matching",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Enums");

@@ -6,6 +6,11 @@ pub mod definition;
 pub mod mutable_slice;
 pub mod reference_array;
 
+crate::tui_module! {
+    description: "Array and string slices",
+    category: Basics,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Slices");

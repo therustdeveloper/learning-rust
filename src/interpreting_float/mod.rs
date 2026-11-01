@@ -1,4 +1,9 @@
 #![allow(unnecessary_transmutes)]
+crate::tui_module! {
+    description: "Interpreting float bits with transmute",
+    category: Advanced,
+}
+
 pub fn index(show: bool) {
     if show {
         let a: f32 = 42.42;

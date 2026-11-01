@@ -18,6 +18,11 @@ pub mod simple_trait;
 pub mod verifying_with_traits;
 pub mod with_generics;
 
+crate::tui_module! {
+    description: "Traits, trait objects and derives",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Traits");

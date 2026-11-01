@@ -4,6 +4,11 @@ pub mod message_passing;
 pub mod scoped_threads;
 pub mod sharing_state_concurrently;
 
+crate::tui_module! {
+    description: "Fearless concurrency: threads, message passing and shared state",
+    category: Concurrency,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("--- Concurrency");

@@ -17,6 +17,11 @@ pub mod multiple_generics;
 pub mod question_operator;
 pub mod vehicle;
 
+crate::tui_module! {
+    description: "Generic functions, structs, enums and implementations",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         print_title("Generics");

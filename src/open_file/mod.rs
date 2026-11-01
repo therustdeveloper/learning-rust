@@ -1,6 +1,11 @@
 use std::fs::File;
 use std::io::{Error, Read};
 
+crate::tui_module! {
+    description: "Opening and reading a file",
+    category: System,
+}
+
 pub fn index(show: bool) {
     if show {
         let filename = "mod.rs";

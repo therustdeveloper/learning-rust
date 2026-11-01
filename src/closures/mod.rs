@@ -8,6 +8,11 @@ pub mod process_closure_thread;
 pub mod simple_closure;
 pub mod vars_outside_closure;
 
+crate::tui_module! {
+    description: "Closures, captured variables and combinators",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("\n-- Closures");

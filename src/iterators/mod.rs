@@ -19,6 +19,11 @@ pub mod scan_hash_table;
 pub mod skip;
 pub mod without_for;
 
+crate::tui_module! {
+    description: "Iterators, adapters and functional style",
+    category: Intermediate,
+}
+
 pub fn index(show: bool) {
     if show {
         println!("\n-- Iterators");
