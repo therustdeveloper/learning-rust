@@ -2,6 +2,7 @@
 pub mod demo;
 pub mod for_iter;
 pub mod for_range;
+pub mod nesting_loops;
 pub mod simple;
 
 crate::tui_module! {
