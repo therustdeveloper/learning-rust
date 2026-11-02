@@ -1,6 +1,7 @@
 //! src/enums/mod.rs
 pub mod cards;
 pub mod catching_multiple_values;
+pub mod color;
 pub mod definition;
 pub mod demo;
 pub mod emulator;
