@@ -16,6 +16,8 @@ pub fn index(show: bool) {
         basic_example(true);
 
         array_index_position(true);
+
+        array_element_access(true);
     }
 }
 
@@ -94,6 +96,18 @@ fn array_index_position(show: bool) {
 
         for season in seasons {
             println!("season: {}", season);
+        }
+    }
+}
+
+fn array_element_access(show: bool) {
+    if show {
+        println!("-- Array Element Access --");
+
+        let a = [1, 2, 3, 4, 5];
+
+        for i in a.iter() {
+            println!("{i}");
         }
     }
 }
