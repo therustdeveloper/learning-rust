@@ -39,6 +39,7 @@ fn demo(show: bool) {
         let tup = (700, 7.0, 7);
         println!("{:?}", tup);
 
+        // Destructuring a tuple
         let (x, y, z) = tup;
         println!("x: {x}, y: {y}, z: {z}");
     }
