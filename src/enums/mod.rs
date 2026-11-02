@@ -5,6 +5,7 @@ pub mod color;
 pub mod definition;
 pub mod demo;
 pub mod emulator;
+pub mod enum_command;
 pub mod enum_multi_array;
 pub mod enum_with_data;
 pub mod enum_with_match;
