@@ -25,6 +25,19 @@ enum Messages {
     ChangeColor(i32, i32, i32),
 }
 
+impl Messages {
+    fn call(&self) {
+        match self {
+            Messages::Quit => println!("Quit Message"),
+            Messages::Move { x, y } => println!("Move to x: {}, y: {}", x, y),
+            Messages::Write(text) => println!("Write message: {}", text),
+            Messages::ChangeColor(r, g, b) => {
+                println!("Change color to red: {}, green: {}, blue: {}", r, g, b)
+            }
+        }
+    }
+}
+
 pub fn index(show: bool) {
     if show {
         println!("\n-- Enum with Match");
@@ -41,13 +54,13 @@ pub fn index(show: bool) {
         }
 
         let mut msg = Messages::Move { x: 10, y: 10 };
-        process_messages(msg);
+        msg.call();
         msg = Messages::Quit;
-        process_messages(msg);
+        msg.call();
         msg = Messages::ChangeColor(255, 255, 255);
-        process_messages(msg);
+        msg.call();
         msg = Messages::Write(String::from("Internal Error"));
-        process_messages(msg);
+        msg.call();
     }
 }
 
@@ -65,16 +78,5 @@ fn print_color(color: Color) {
         Color::Yellow => println!("yellow"),
         Color::Blue => println!("blue"),
         Color::Red => println!("red"),
-    }
-}
-
-fn process_messages(msg: Messages) {
-    match msg {
-        Messages::Quit => println!("Quit message"),
-        Messages::Move { x, y } => println!("Move to x: {}, y: {}", x, y),
-        Messages::Write(text) => println!("Write message: {}", text),
-        Messages::ChangeColor(r, g, b) => {
-            println!("Change color to red: {}, green: {}, blue: {}", r, g, b)
-        }
     }
 }
