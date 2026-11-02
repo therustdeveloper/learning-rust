@@ -1,9 +1,8 @@
 //! src/for_loops/demo.rs
-use crate::print_title;
 
-pub fn definition(show: bool) {
+pub fn index(show: bool) {
     if show {
-        print_title("For Loop Demo");
+        println!("For loop demo");
 
         let a = [10, 20, 30, 40, 50, 60, 70];
 
