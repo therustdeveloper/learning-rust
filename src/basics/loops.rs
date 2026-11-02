@@ -37,6 +37,11 @@ fn for_loop_elements() {
     for element in a {
         println!("the value is: {element}");
     }
+
+    // with iter()
+    for element in a.iter() {
+        println!("the value is: {element}");
+    }
 }
 
 fn countdown_loop_with_rev() {
