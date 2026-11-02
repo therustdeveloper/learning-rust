@@ -3,6 +3,7 @@ pub mod blocks_in_functions;
 pub mod definition;
 pub mod func_return_option;
 pub mod nested_functions;
+pub mod passing_by_value;
 
 crate::tui_module! {
     description: "Functions, nested functions and return values",
