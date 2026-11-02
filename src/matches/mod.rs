@@ -1,5 +1,6 @@
 //! src/matches/mod.rs
 pub mod catch_all;
+pub mod combining_patterns;
 pub mod definition;
 pub mod if_let;
 pub mod match_control_flow;
