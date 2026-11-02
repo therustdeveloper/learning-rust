@@ -5,6 +5,7 @@ pub mod if_let;
 pub mod match_control_flow;
 pub mod match_guard;
 pub mod match_vector;
+pub mod matching_literals;
 pub mod multiple_placeholders;
 pub mod pattern_match;
 pub mod placeholder;
