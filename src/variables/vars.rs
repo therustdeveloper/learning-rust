@@ -1,7 +1,11 @@
-//! src/variables/variables.rs
+//! src/variables/vars.rs
 pub fn index(show: bool) {
     if show {
-        println!("-- Variables --");
+        let mut x = 5;
+        println!("The value of x is: {x}");
+
+        x = 6;
+        println!("The value of x is: {x}");
 
         let apples = 50;
         println!("Number of apples {}", apples);
