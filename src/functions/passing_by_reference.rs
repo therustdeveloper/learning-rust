@@ -10,6 +10,6 @@ pub fn index(show: bool) {
     }
 }
 
-fn calculate_length(s: &String) -> usize {
+fn calculate_length(s: &str) -> usize {
     s.len()
 }
