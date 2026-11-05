@@ -1,0 +1,12 @@
+{
+  "name": "generate-gif-skill",
+  "private": true,
+  "type": "module",
+  "description": "Renders code-explainer scenes into LinkedIn-ready GIFs",
+  "scripts": {
+    "render": "node scripts/render.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.58.0"
+  }
+}

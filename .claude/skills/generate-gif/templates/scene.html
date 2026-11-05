@@ -1,0 +1,57 @@
+<!doctype html>
+<!--
+  Scene skeleton. Copy to gifs/.work/<slug>/scene.html and fill in every TODO.
+  assets/theme.css and assets/engine.js are injected by scripts/render.mjs, which
+  also builds the header, code window and legend around #stage.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  /* Layout of the stage only; look & feel comes from the theme's UI kit. */
+  #stage { --t: 260ms; }
+  /* TODO: positions/sizes for this scene's elements */
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- TODO: static markup (labels, panels). Dynamic elements are created in setup(). -->
+</div>
+
+<script>
+// TODO: small input that exercises every interesting branch.
+const INPUT = [];
+
+// Mirrors the Rust code line by line; one snapshot per moment worth showing.
+function trace(input) {
+  const steps = [];
+  const snap = (line, say, ms, state) => steps.push({ line, say, ms, ...structuredClone(state) });
+
+  // TODO: run the algorithm/function here, calling snap(...) at each key line.
+
+  return steps;
+}
+
+window.SCENE = {
+  title: 'TODO',
+  subtitle: 'TODO',
+  // brand: 'TODO',
+  file: 'TODO.rs',
+  code: `
+TODO: the trimmed Rust code (<= 13 lines, <= 54 chars per line)`,
+  legend: [
+    // { title: 'TODO', text: 'TODO' },
+  ],
+  steps: trace(INPUT),
+
+  // Build dynamic DOM once; keep references on `this`.
+  setup(stage) {
+  },
+
+  // Set the WHOLE visual state from `step` (idempotent). Move with transforms.
+  render(step, i) {
+  },
+};
+</script>
+</body>
+</html>

@@ -2,3 +2,5 @@
 .idea
 .DS_Store
 .local
+/gifs
+.claude/skills/generate-gif/node_modules
