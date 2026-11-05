@@ -6,4 +6,3 @@ crate::tui_module! {
     category: Intermediate,
     sections_only,
 }
-
