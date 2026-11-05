@@ -29,6 +29,7 @@ fn cocktail_sort<T: Ord>(arr: &mut [T]) {
         let mut swapped = false;
         for i in 0..last {
             if arr[i] > arr[i + 1] {
+                arr.swap(i, i + 1);
                 swapped = true;
             }
         }
@@ -38,7 +39,7 @@ fn cocktail_sort<T: Ord>(arr: &mut [T]) {
         }
 
         swapped = false;
-        for i in (0..last - 1).rev() {
+        for i in (0..last).rev() {
             if arr[i] > arr[i + 1] {
                 arr.swap(i, i + 1);
                 swapped = true;
