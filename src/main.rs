@@ -9,7 +9,6 @@ fn main() {
     common::hello_world::index(false);
     common::inspecting_endianness::index(false);
     common::interpreting_float::index(false);
-    common::machine_learning::index(false);
     common::mandelbrot::index(false);
     common::network::index(false);
     common::numbers::index(false);
