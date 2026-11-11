@@ -1,5 +1,6 @@
 //! src/machine_learning/mod.rs
 pub mod normalization;
+pub mod parallel_normalization;
 pub mod reading_csv_file;
 
 crate::tui_module! {

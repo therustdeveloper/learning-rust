@@ -26,4 +26,4 @@ ratatui = "0.30.2"
 crossterm = "0.29.0"
 gag = "1.0.0"
 inventory = "0.3.25"
-
+rayon = "1.12.0"
